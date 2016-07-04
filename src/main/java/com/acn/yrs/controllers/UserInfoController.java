@@ -2,18 +2,18 @@ package com.acn.yrs.controllers;
 
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acn.yrs.models.UserInfo;
+import com.acn.yrs.repository.UserInfoRepository;
 import com.acn.yrs.services.LoginService;
 import com.acn.yrs.utils.Helper;
 
@@ -26,6 +26,9 @@ public class UserInfoController {
 	@Autowired
 	LoginService loginService;
 
+	@Autowired
+	Helper helper;
+
 	@RequestMapping(value="/users", method = RequestMethod.GET, headers = "Accept=application/json")
 	public List<UserInfo> getUsers() {
 
@@ -35,16 +38,15 @@ public class UserInfoController {
 	@RequestMapping(value="/login", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Object login(@RequestBody UserInfo userInfo){
 
-		userInfo = loginService.login(userInfo);
-
-		if(userInfo==null){
-			return Helper.packHeader("User Info not found", HttpStatus.FORBIDDEN);
-		}
-
-		LOG.info("SessionId = " + userInfo.getTokenId());
-		return Helper.packHeaderWithTokenId(userInfo, userInfo.getTokenId(), HttpStatus.OK);
-
+		LOG.debug("userId" + userInfo.getUserId());
+		return loginService.login(userInfo);
 
 	}
 
+	@RequestMapping(value="/loadMain", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Object loadMain(@RequestHeader String userId, @RequestHeader String tokenId){
+
+		return helper.checkUser(userId, tokenId);
+
+	}
 }

@@ -6,20 +6,19 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
 public class Util extends Helper{
 
-	private StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-	public Util() {
+	private static StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 
+	static {
 		encryptor.setPassword(PASSWORD);                     // we HAVE TO set a password
-		//encryptor.setAlgorithm(ALGO);    // optionally set the algorithm
-
 	}
 
-	public String encode(String password){
+
+	public static String encode(String password){
 
 		return encryptor.encrypt(password);
 	}
 
-	public String decode(String encryptedPassword){
+	public static String decode(String encryptedPassword){
 
 		return encryptor.decrypt(encryptedPassword);
 
@@ -28,6 +27,20 @@ public class Util extends Helper{
 	public static String getUUid(){
 		UUID idOne = UUID.randomUUID();
 	    return idOne.toString();
+
+	}
+
+
+	public static void main(String[] args) {
+
+		String value = "value=ngOJgPMGz/MrLXta4gABlA==";
+		if (value.contains("="))
+		{
+			String[] attrArray = value.split("=");
+			for(String x:attrArray){
+				System.out.println(x);
+			}
+		}
 
 	}
 }

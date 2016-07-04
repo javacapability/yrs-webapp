@@ -6,5 +6,5 @@ import com.acn.yrs.models.UserInfo;
 
 public interface LoginService {
 
-	public UserInfo login(UserInfo userInfo);
+	public Object login(UserInfo userInfo);
 }

@@ -11,6 +11,17 @@ import javax.persistence.Table;
 @Table(name = "USERINFO")
 public class UserInfo{
 
+	public UserInfo(UserInfo userInfo){
+		this.setUserId(userInfo.getUserId());
+		this.setTokenId(userInfo.getTokenId());
+		this.setLastLogin(userInfo.getLastLogin());
+		this.setFullName(userInfo.getFullName());
+	}
+
+	public UserInfo(){
+
+	}
+
 	@Id
 	@Column(name = "id", nullable = false)
 	private Integer id;
@@ -19,7 +30,7 @@ public class UserInfo{
 	private String userId;
 
 	@Column(name = "nm", nullable = false)
-	private String nm;
+	private String fullName;
 
 	@Column(name = "usergroup", nullable = false)
 	private int userGroup;
@@ -39,6 +50,8 @@ public class UserInfo{
 	@Column(name = "birthday")
 	private Date birthday;
 
+	@Column(name = "lastlogin")
+	private Date lastLogin;
 	/**
 	 * @return the userId
 	 */
@@ -57,16 +70,16 @@ public class UserInfo{
 	/**
 	 * @return the nm
 	 */
-	public String getNm() {
-		return nm;
+	public String getFullName() {
+		return fullName;
 	}
 
 	/**
 	 * @param nm
 	 *            the nm to set
 	 */
-	public void setNm(String nm) {
-		this.nm = nm;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	/**
@@ -87,6 +100,7 @@ public class UserInfo{
 	/**
 	 * @return the password
 	 */
+
 	public String getPswd() {
 		return pswd;
 	}
@@ -160,8 +174,22 @@ public class UserInfo{
 	}
 	@Override
 	public String toString() {
-		return "UserInfo [userId=" + userId + ", name=" + nm
+		return "UserInfo [userId=" + userId + ", name=" + fullName
 				+ ", userGroup=" + userGroup + ", email="
 				+ email + ",birthday=" + birthday + "]";
+	}
+
+	/**
+	 * @return the lastLogin
+	 */
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	/**
+	 * @param lastLogin the lastLogin to set
+	 */
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 }
