@@ -5,7 +5,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.acn.yrs.models.SystemParameter;
 
-@RepositoryRestResource
+@RepositoryRestResource(path="syspars")
 public interface SystemParameterRepository extends PagingAndSortingRepository<SystemParameter, Integer> {
 
 }

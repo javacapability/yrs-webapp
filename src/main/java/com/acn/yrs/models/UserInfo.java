@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,8 +34,9 @@ public class UserInfo{
 	@Column(name = "nm", nullable = false)
 	private String fullName;
 
-	@Column(name = "usergroup", nullable = false)
-	private int userGroup;
+	@ManyToOne
+	@JoinColumn(name = "usergrpid")
+	private UserGroup userGroup;
 
 	@Column(name = "pswd")
 	private String pswd;
@@ -52,6 +55,9 @@ public class UserInfo{
 
 	@Column(name = "lastlogin")
 	private Date lastLogin;
+
+
+
 	/**
 	 * @return the userId
 	 */
@@ -82,20 +88,7 @@ public class UserInfo{
 		this.fullName = fullName;
 	}
 
-	/**
-	 * @return the userGroup
-	 */
-	public int getUserGroup() {
-		return userGroup;
-	}
 
-	/**
-	 * @param userGroup
-	 *            the userGroup to set
-	 */
-	public void setUserGroup(int userGroup) {
-		this.userGroup = userGroup;
-	}
 
 	/**
 	 * @return the password
@@ -191,5 +184,33 @@ public class UserInfo{
 	 */
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the userGroup
+	 */
+	public UserGroup getUserGroup() {
+		return userGroup;
+	}
+
+	/**
+	 * @param userGroup the userGroup to set
+	 */
+	public void setUserGroup(UserGroup userGroup) {
+		this.userGroup = userGroup;
 	}
 }
