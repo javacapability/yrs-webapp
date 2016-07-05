@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import com.acn.yrs.services.LoginService;
 import com.acn.yrs.utils.Helper;
 
 @RestController
-public class UserInfoController {
+public class UserInfoController extends BaseController{
 
 
 	Logger LOG = LoggerFactory.getLogger(UserInfoController.class);
@@ -34,17 +35,18 @@ public class UserInfoController {
 	}
 
 	@RequestMapping(value="/login", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Object login(@RequestBody UserInfo userInfo){
+	public ResponseEntity<Object> login(@RequestBody UserInfo userInfo){
 
 		LOG.debug("userId" + userInfo.getUserId());
-		return loginService.login(userInfo);
+		userInfo = loginService.login(userInfo);
+		return getResponse(userInfo, userInfo.getTokenId(), userInfo.getHttpStatus());
 
 	}
 
 	@RequestMapping(value="/loadMain", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Object loadMain(@RequestHeader String userId, @RequestHeader String tokenId){
+	public ResponseEntity<Object> loadMain(@RequestHeader String userId, @RequestHeader String tokenId){
 
-		return helper.checkUser(userId, tokenId);
+		return checkUser(userId, tokenId);
 
 	}
 }

@@ -9,9 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.http.HttpStatus;
+
 @Entity
 @Table(name = "USERINFO")
-public class UserInfo{
+public class UserInfo extends BaseObject{
 
 	public UserInfo(UserInfo userInfo){
 		this.setUserId(userInfo.getUserId());
@@ -21,6 +23,13 @@ public class UserInfo{
 	}
 
 	public UserInfo(){
+
+	}
+
+	public UserInfo(HttpStatus httpStatus, String errorCd, String errorMsg) {
+		setHttpStatus(httpStatus);
+		setErrorCd(errorCd);
+		setErrorMsg(errorMsg);
 
 	}
 
@@ -55,6 +64,7 @@ public class UserInfo{
 
 	@Column(name = "lastlogin")
 	private Date lastLogin;
+
 
 
 
@@ -213,4 +223,6 @@ public class UserInfo{
 	public void setUserGroup(UserGroup userGroup) {
 		this.userGroup = userGroup;
 	}
+
+
 }
