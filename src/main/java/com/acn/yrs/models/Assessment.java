@@ -2,7 +2,9 @@ package com.acn.yrs.models;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,12 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="ASSESSMENT")
-public class Assessment {
+public class Assessment extends ResponseObject{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +28,9 @@ public class Assessment {
 	@OneToOne
 	@JoinColumn(name = "clientid")
 	private ClientInfo clientInfo;
+
+	@Column(name = "accountnumber")
+	private String accountNumber;
 
 	@ManyToOne
 	@JoinColumn(name = "assessmentstatus")
@@ -191,4 +197,40 @@ public class Assessment {
 		this.reactivationDate = reactivationDate;
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @return the accountNumber
+	 */
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	/**
+	 * @param accountNumber the accountNumber to set
+	 */
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	@OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL)
+	private List<Questionnaire> survey;
+
+	/**
+	 * @return the survey
+	 */
+	public List<Questionnaire> getSurvey() {
+		return survey;
+	}
+
+	/**
+	 * @param survey the survey to set
+	 */
+	public void setSurvey(List<Questionnaire> survey) {
+		this.survey = survey;
+	}
 }

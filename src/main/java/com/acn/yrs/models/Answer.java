@@ -25,6 +25,9 @@ public class Answer {
 	@Column(name = "answernumber", nullable = false)
 	private Integer answerNumber;
 
+	@Column(name = "answertxt", nullable = false)
+	private String answerTxt;
+
 	@Column(name = "weight", nullable = false)
 	private Integer weight;
 
@@ -82,6 +85,20 @@ public class Answer {
 	 */
 	public void setWeight(Integer weight) {
 		this.weight = weight;
+	}
+
+	/**
+	 * @return the answerTxt
+	 */
+	public String getAnswerTxt() {
+		return answerTxt;
+	}
+
+	/**
+	 * @param answerTxt the answerTxt to set
+	 */
+	public void setAnswerTxt(String answerTxt) {
+		this.answerTxt = answerTxt;
 	}
 
 

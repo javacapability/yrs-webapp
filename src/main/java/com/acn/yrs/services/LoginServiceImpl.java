@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.UserInfo;
 import com.acn.yrs.repository.UserInfoRepository;
 import com.acn.yrs.utils.Helper;
@@ -16,7 +17,7 @@ import com.acn.yrs.utils.Util;
 
 @Service("loginService")
 @Transactional
-public class LoginServiceImpl implements LoginService {
+public class LoginServiceImpl  extends BaseConstants implements LoginService{
 
 	@Autowired
 	UserInfoRepository userInfoRepository;
@@ -36,8 +37,10 @@ public class LoginServiceImpl implements LoginService {
 			if(userInfoDB!=null){
 				if(!userInfo.getPswd().equals(Util.decode(userInfoDB.getPswd()))){
 					LOG.info("Invalid Password");
-					userInfoRepository.save(userInfoDB);
-					return new UserInfo(HttpStatus.FORBIDDEN, "1", "User Info is invalid");
+					//
+					//
+					//userInfoRepository.save(userInfoDB);
+					return new UserInfo(HttpStatus.FORBIDDEN, HASERROR, USERINFO_INVALID);
 
 				}else{
 					LOG.info("Login Successful");
@@ -49,7 +52,7 @@ public class LoginServiceImpl implements LoginService {
 			}
 		}else{
 			LOG.info("UserId not found in Database");
-			return new UserInfo(HttpStatus.FORBIDDEN, "1", "User Info not found");
+			return new UserInfo(HttpStatus.FORBIDDEN, HASERROR, USERINFO_NOTFOUND);
 		}
 		return userInfo;
 	}

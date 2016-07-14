@@ -4,16 +4,23 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.core.style.ToStringCreator;
 import org.springframework.http.HttpStatus;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "USERINFO")
-public class UserInfo extends BaseObject{
+public class UserInfo extends ResponseObject{
 
 	public UserInfo(UserInfo userInfo){
 		this.setUserId(userInfo.getUserId());
@@ -27,13 +34,11 @@ public class UserInfo extends BaseObject{
 	}
 
 	public UserInfo(HttpStatus httpStatus, String errorCd, String errorMsg) {
-		setHttpStatus(httpStatus);
-		setErrorCd(errorCd);
-		setErrorMsg(errorMsg);
-
+		super(httpStatus, errorCd, errorMsg);
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
 	private Integer id;
 
@@ -103,7 +108,7 @@ public class UserInfo extends BaseObject{
 	/**
 	 * @return the password
 	 */
-
+//	@JsonIgnore
 	public String getPswd() {
 		return pswd;
 	}
@@ -175,12 +180,7 @@ public class UserInfo extends BaseObject{
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	@Override
-	public String toString() {
-		return "UserInfo [userId=" + userId + ", name=" + fullName
-				+ ", userGroup=" + userGroup + ", email="
-				+ email + ",birthday=" + birthday + "]";
-	}
+
 
 	/**
 	 * @return the lastLogin
@@ -225,4 +225,8 @@ public class UserInfo extends BaseObject{
 	}
 
 
+	public String toString(){
+
+		return "";
+	}
 }

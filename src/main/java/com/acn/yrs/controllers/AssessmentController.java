@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acn.yrs.models.Assessment;
+import com.acn.yrs.models.BaseConstants;
+import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.models.SearchObject;
 import com.acn.yrs.services.AssessmentService;
-import com.google.gson.Gson;
 
 @RestController
 public class AssessmentController extends BaseController{
@@ -28,28 +29,48 @@ public class AssessmentController extends BaseController{
 
 	@RequestMapping(value="/getAssessmentList", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<Object> getAssessmentList(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
-
-		//checkUser(userId, tokenId);
 		try {
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
 			LOG.info("userId: " + userId);
 			LOG.info("tokenId: " + tokenId);
 			LOG.info("listType: " + searchObject.getListType());
 			LOG.info("clientSearch: " + searchObject.getFilter());
 			List<Assessment> assessmentList = null;
-
+			String filter = "%" + searchObject.getFilter() + "%";
 			if("active".equalsIgnoreCase(searchObject.getListType())){
-				assessmentList = assessmentService.getActiveAssessmentList(userId, searchObject.getFilter());
+				assessmentList = assessmentService.getActiveAssessmentList(userId, filter);
 			}else{
-				assessmentList = assessmentService.getArchivedAssessmentList(userId, searchObject.getFilter());
+				assessmentList = assessmentService.getArchivedAssessmentList(userId, filter);
 			}
-
 			return getResponse(assessmentList, tokenId, HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return getResponse("Error", tokenId, HttpStatus.SERVICE_UNAVAILABLE);
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
 		}
-
-
 	}
+
+	@RequestMapping(value="/getAssessment", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> getAssessment(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
+		try {
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+			int assessmentId = searchObject.getId();
+			LOG.info("assessmentId: " + assessmentId);
+			Assessment assessment = assessmentService.getAssessmentFilterByAdvisorUserId(assessmentId, userId);
+
+			return getResponse(assessment, tokenId, HttpStatus.OK);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+	}
+
 }

@@ -2,17 +2,25 @@ package com.acn.yrs.models;
 
 import org.springframework.http.HttpStatus;
 
-public class BaseObject {
+public class ResponseObject extends Object{
 
 	private String errorCd;
 	private String errorMsg;
 	private HttpStatus httpStatus;
 
-	public BaseObject(){
+	public ResponseObject(){
 
 	}
 
-	public BaseObject(String errorCd, String errorMsg){
+
+	public ResponseObject(HttpStatus httpStatus, String errorCd, String errorMsg) {
+		setHttpStatus(httpStatus);
+		setErrorCd(errorCd);
+		setErrorMsg(errorMsg);
+
+	}
+
+	public ResponseObject(String errorCd, String errorMsg){
 		setErrorCd(errorCd);
 		setErrorMsg(errorMsg);
 	}
@@ -54,4 +62,8 @@ public class BaseObject {
 	public void setHttpStatus(HttpStatus httpStatus) {
 		this.httpStatus = httpStatus;
 	}
+
+
+
+
 }

@@ -2,8 +2,12 @@ package com.acn.yrs.models;
 
 public class SearchObject {
 
+	private int id;
 	private String listType;
 	private String filter;
+
+
+
 	/**
 	 * @return the listType
 	 */
@@ -27,6 +31,18 @@ public class SearchObject {
 	 */
 	public void setFilter(String filter) {
 		this.filter = filter;
+	}
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.acn.yrs.models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -44,6 +48,10 @@ public class Question {
 
 	@Column(name = "falseweight", nullable = false)
 	private Integer falseWeight;
+
+
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+	private List<Answer> answers;
 
 	/**
 	 * @return the id
@@ -169,6 +177,20 @@ public class Question {
 	 */
 	public void setFalseWeight(Integer falseWeight) {
 		this.falseWeight = falseWeight;
+	}
+
+	/**
+	 * @return the answers
+	 */
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	/**
+	 * @param answers the answers to set
+	 */
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
 	}
 
 }

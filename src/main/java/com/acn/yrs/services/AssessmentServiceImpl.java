@@ -23,9 +23,9 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Override
 	public List<Assessment> getActiveAssessmentList(String userId, String filter) {
 		AssessmentStatus assessmentStatus = assessmentStatusRepository.findOne(1);
-		List<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatus(assessmentStatus);
+		List<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter);
 		assessmentStatus = assessmentStatusRepository.findOne(2);
-		activeAssessmentList.addAll(assessmentRepository.findAssessmentByAssessmentStatus(assessmentStatus));
+		activeAssessmentList.addAll(assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter));
 		return activeAssessmentList;
 	}
 
@@ -34,8 +34,17 @@ public class AssessmentServiceImpl implements AssessmentService {
 			String filter) {
 		AssessmentStatus assessmentStatus = new AssessmentStatus();
 		assessmentStatus.setId(3);
-		List<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatus(assessmentStatus);
+		List<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter);
 		return activeAssessmentList;
 	}
 
+	@Override
+	public Assessment getAssessment(int assessmentId) {
+		return assessmentRepository.findOne(assessmentId);
+	}
+
+	@Override
+	public Assessment getAssessmentFilterByAdvisorUserId(int assessmentId, String advisorUserId) {
+		return assessmentRepository.findAssessmentByIdAndClientInfoUserInfoUserIdIgnoreCase(assessmentId, advisorUserId);
+	}
 }
