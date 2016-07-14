@@ -84,5 +84,21 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 	public void setHelper(Helper helper) {
 		this.helper = helper;
 	}
+    
+	
+	// ***********************************************gene
+		@Override
+		public void logout(String userid) {
+			// TODO Auto-generated method stub
+			LOG.info("Logout Service()");
+
+			UserInfo userInfo = userInfoRepository.findUserInfoByUserId(userid);
+			if (userInfo != null) {
+				userInfo.setTokenId(null);
+				userInfoRepository.save(userInfo);
+			}
+
+		}
+		// *****************************************************gene
 
 }

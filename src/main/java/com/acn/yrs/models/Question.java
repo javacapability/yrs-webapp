@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,8 +50,9 @@ public class Question {
 	@Column(name = "falseweight", nullable = false)
 	private Integer falseWeight;
 
-
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    //modified this part
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "questionid")
 	private List<Answer> answers;
 
 	/**
