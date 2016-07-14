@@ -56,7 +56,7 @@ public class SysParamController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/syspar/all", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/syspar/all", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<Object> getAll(@RequestHeader String userId,
 			@RequestHeader String tokenId) {
 

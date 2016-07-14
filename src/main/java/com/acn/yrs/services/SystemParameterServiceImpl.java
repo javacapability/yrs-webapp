@@ -21,7 +21,8 @@ public class SystemParameterServiceImpl implements SystemParameterService{
 	
 	@Override
 	public List<SystemParameter> findAllByIsActive(int isActive) {
-	     return null;
+		List<SystemParameter> list = sysParamRepository.findAllByActive(1);
+	     return list;
 	}
 
 	@Override
@@ -35,8 +36,10 @@ public class SystemParameterServiceImpl implements SystemParameterService{
 
 	@Override
 	public List<SystemParameter> update(SysParamWrapper systemParamList) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<SystemParameter> list = systemParamList.getParamList();
+		sysParamRepository.save(list);
+		return list;
 	}
 
 	
