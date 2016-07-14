@@ -12,5 +12,6 @@ public interface QuestionsRepository extends PagingAndSortingRepository<Question
 
 
 	List<Question> findAllByIsActive(int isActive);
+    Question findByQuestion(String question);
 
 }
