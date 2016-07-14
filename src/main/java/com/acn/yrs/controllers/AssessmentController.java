@@ -33,6 +33,7 @@ public class AssessmentController extends BaseController{
 			ResponseEntity<Object> obj = checkUser(userId, tokenId);
 			if(obj!=null){
 				return obj;
+
 			}
 			LOG.info("userId: " + userId);
 			LOG.info("tokenId: " + tokenId);
