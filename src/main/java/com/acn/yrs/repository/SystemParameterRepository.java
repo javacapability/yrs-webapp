@@ -7,5 +7,5 @@ import com.acn.yrs.models.SystemParameter;
 
 @RepositoryRestResource(path="syspars")
 public interface SystemParameterRepository extends PagingAndSortingRepository<SystemParameter, Integer> {
-
+         
 }
