@@ -53,10 +53,10 @@ public class UserInfo extends ResponseObject{
 	private UserGroup userGroup;
 
 	@Column(name = "pswd")
-	private String pswd;
+	protected String pswd;
 
 	@Column(name = "tokenid")
-	private String tokenId;
+	protected String tokenId;
 
 	@Column(name = "email")
 	private String email;

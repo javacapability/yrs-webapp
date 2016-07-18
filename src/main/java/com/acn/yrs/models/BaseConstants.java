@@ -10,6 +10,10 @@ public class BaseConstants {
 	public static final String USERINFO_NOTFOUND = "User Info not found";
 	public static final String USERINFO_INVALID = "User Info is invalid";
 	public static final String NORECORDFOUND = "No Records Found";
+
+	public static final int ASSESSMENTPENDING = 1;
+	public static final int ASSESSMENTRECOGIVEN = 2;
+	public static final int ASSESSMENTARCHIVED = 3;
 	public BaseConstants() {
 		super();
 	}

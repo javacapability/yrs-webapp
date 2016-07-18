@@ -3,6 +3,8 @@ package com.acn.yrs.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.acn.yrs.models.Assessment;
 import com.acn.yrs.models.Questionnaire;
+import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.models.SearchObject;
 import com.acn.yrs.services.AssessmentService;
 import com.acn.yrs.services.QuestionnaireService;
@@ -74,6 +77,31 @@ public class AssessmentController extends BaseController{
 
 			return getResponse(assessment, tokenId, HttpStatus.OK);
 
+		}catch(NoResultException e){
+			//e.printStackTrace();
+			return getResponse("Assessment Not Found",tokenId, HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+	}
+	@RequestMapping(value="/archiveAssessment", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> archiveAssessment(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
+		try {
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+			int assessmentId = searchObject.getId();
+			LOG.info("assessmentId: " + assessmentId);
+			assessmentService.archiveAssessment(assessmentId);
+
+			return getResponse(new ResponseObject(), tokenId, HttpStatus.OK);
+		}catch(NoResultException e){
+			//e.printStackTrace();
+			return getResponse("Assessment Not Found",tokenId, HttpStatus.NOT_FOUND);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,4 +109,26 @@ public class AssessmentController extends BaseController{
 		}
 	}
 
+	@RequestMapping(value="/reactivateAssessment", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> reactivateAssessment(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
+		try {
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+			int assessmentId = searchObject.getId();
+			LOG.info("assessmentId: " + assessmentId);
+			assessmentService.reactivateAssessment(assessmentId);
+
+			return getResponse(new ResponseObject(), tokenId, HttpStatus.OK);
+		}catch(NoResultException e){
+			//e.printStackTrace();
+			return getResponse("Assessment Not Found",tokenId, HttpStatus.NOT_FOUND);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+	}
 }

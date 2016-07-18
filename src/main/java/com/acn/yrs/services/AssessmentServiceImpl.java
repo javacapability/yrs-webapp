@@ -1,7 +1,8 @@
 package com.acn.yrs.services;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import javax.persistence.NoResultException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,12 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.acn.yrs.models.Assessment;
 import com.acn.yrs.models.AssessmentStatus;
+import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.repository.AssessmentRepository;
 import com.acn.yrs.repository.AssessmentStatusRepository;
 
 @Service("assessmentService")
 @Transactional
-public class AssessmentServiceImpl implements AssessmentService {
+public class AssessmentServiceImpl extends BaseConstants implements AssessmentService {
 
 	@Autowired
 	AssessmentRepository assessmentRepository;
@@ -24,10 +26,10 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Override
 	public ArrayList<Assessment> getActiveAssessmentList(String userId, String filter) {
 		AssessmentStatus assessmentStatus = new AssessmentStatus();
-		assessmentStatus.setId(1);
+		assessmentStatus.setId(ASSESSMENTPENDING);
 		ArrayList<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter);
 		assessmentStatus = new AssessmentStatus();
-		assessmentStatus.setId(2);
+		assessmentStatus.setId(ASSESSMENTRECOGIVEN);
 		activeAssessmentList.addAll(assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter));
 		return activeAssessmentList;
 	}
@@ -36,7 +38,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 	public ArrayList<Assessment> getArchivedAssessmentList(String userId,
 			String filter) {
 		AssessmentStatus assessmentStatus = new AssessmentStatus();
-		assessmentStatus.setId(3);
+		assessmentStatus.setId(ASSESSMENTARCHIVED);
 		ArrayList<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter);
 		return activeAssessmentList;
 	}
@@ -49,5 +51,21 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Override
 	public Assessment getAssessmentFilterByAdvisorUserId(int assessmentId, String advisorUserId) {
 		return assessmentRepository.findAssessmentByIdAndClientInfoUserInfoUserIdIgnoreCase(assessmentId, advisorUserId);
+	}
+
+	@Override
+	public Assessment archiveAssessment(int assessmentId) throws NoResultException {
+		Assessment assessment = assessmentRepository.findOne(assessmentId);
+		if(assessment==null) throw new NoResultException();
+		assessment.setAssessmentStatus(assessmentStatusRepository.findOne(ASSESSMENTARCHIVED));
+		return assessment;
+	}
+
+	@Override
+	public Assessment reactivateAssessment(int assessmentId) throws NoResultException {
+		Assessment assessment = assessmentRepository.findOne(assessmentId);
+		if(assessment==null) throw new NoResultException();
+		assessment.setAssessmentStatus(assessmentStatusRepository.findOne(ASSESSMENTPENDING));
+		return assessment;
 	}
 }

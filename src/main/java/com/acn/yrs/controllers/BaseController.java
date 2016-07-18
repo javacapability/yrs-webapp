@@ -61,12 +61,16 @@ public class BaseController extends BaseConstants {
 		}else if(object instanceof List){
 			if(((List) object).size()<=0){
 				object = new ResponseObject();
+				status = HttpStatus.NOT_FOUND;
+				((ResponseObject) object).setHttpStatus(status);
 				((ResponseObject) object).setErrorCd(HASERROR);
 				((ResponseObject) object).setErrorMsg(NORECORDFOUND);
 			}
 		}
 		if(object==null){
 			object = new ResponseObject();
+			status = HttpStatus.NOT_FOUND;
+			((ResponseObject) object).setHttpStatus(status);
 			((ResponseObject) object).setErrorCd(HASERROR);
 			((ResponseObject) object).setErrorMsg(NORECORDFOUND);
 		}
@@ -74,6 +78,9 @@ public class BaseController extends BaseConstants {
 		httpHeaders.set("Access-Control-Allow-Methods", "POST, GET");
 		httpHeaders.set("Access-Control-Allow-Headers", "x-requested-with");
 
+		//this will hide fields with protected modifier from the JSON response
+		//can hide unwanted data
+		//can prevent cyclic dependencies
 		Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.PROTECTED).create();
 		object = object!=null?gson.toJson(object):object;
 		return new ResponseEntity<Object>(object, httpHeaders , status);
