@@ -22,16 +22,18 @@ public class Questionnaire {
 	@Column(name="id")
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "assessmentid")
-	private Assessment assessment;
 
-	@OneToOne
+	@Column(name = "assessmentid")
+	protected int assessmentId;
+
+	@ManyToOne
 	@JoinColumn(name = "questionid")
 	private Question question;
 
-	//@OneToOne(mappedBy = "questionnaire", cascade = CascadeType.ALL)
-	//private ClientAnswer clientAnswer;
+	@ManyToOne
+	@JoinColumn(name = "answerid", nullable=true)
+	private Answer answer;
+
 
 	@Column(name = "answertxt")
 	private String answerTxt;
@@ -50,19 +52,6 @@ public class Questionnaire {
 		this.id = id;
 	}
 
-	/**
-	 * @return the assessment
-	 */
-	public Assessment getAssessment() {
-		return assessment;
-	}
-
-	/**
-	 * @param assessment the assessment to set
-	 */
-	public void setAssessment(Assessment assessment) {
-		this.assessment = assessment;
-	}
 
 	/**
 	 * @return the question
@@ -93,4 +82,34 @@ public class Questionnaire {
 	public void setAnswerTxt(String answerTxt) {
 		this.answerTxt = answerTxt;
 	}
+
+	/**
+	 * @return the assessment
+	 */
+	public int getAssessmentId() {
+		return assessmentId;
+	}
+
+	/**
+	 * @param assessment the assessment to set
+	 */
+	public void setAssessmentId(int assessmentId) {
+		this.assessmentId = assessmentId;
+	}
+
+	/**
+	 * @return the answer
+	 */
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	/**
+	 * @param answer the answer to set
+	 */
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
+
+
 }

@@ -32,7 +32,7 @@ public class Question {
 	private String questionTxt;
 
 	@Column(name = "isactive", nullable = false)
-	private Integer isActive;
+	protected Integer isActive;
 
 	@ManyToOne
 	@JoinColumn(name = "answertypeid")

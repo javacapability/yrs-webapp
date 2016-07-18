@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "ANSWERS")
 public class Answer {
@@ -16,18 +18,22 @@ public class Answer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
+	@Expose
 	private Integer id;
 
 	@ManyToOne
 	@JoinColumn(name = "questionid")
-	private Question question;
+	protected Question question;
 
+	@Expose
 	@Column(name = "answernumber", nullable = false)
 	private Integer answerNumber;
 
+	@Expose
 	@Column(name = "answertxt", nullable = false)
 	private String answerTxt;
 
+	@Expose
 	@Column(name = "weight", nullable = false)
 	private Integer weight;
 

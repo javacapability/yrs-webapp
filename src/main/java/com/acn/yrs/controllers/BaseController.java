@@ -1,5 +1,6 @@
 package com.acn.yrs.controllers;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.models.UserInfo;
 import com.acn.yrs.repository.UserInfoRepository;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @RestController
 public class BaseController extends BaseConstants {
@@ -72,7 +74,8 @@ public class BaseController extends BaseConstants {
 		httpHeaders.set("Access-Control-Allow-Methods", "POST, GET");
 		httpHeaders.set("Access-Control-Allow-Headers", "x-requested-with");
 
-		object = object!=null?new Gson().toJson(object):object;
+		Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.PROTECTED).create();
+		object = object!=null?gson.toJson(object):object;
 		return new ResponseEntity<Object>(object, httpHeaders , status);
 	}
 

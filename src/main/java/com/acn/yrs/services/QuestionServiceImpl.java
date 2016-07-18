@@ -45,7 +45,7 @@ public class QuestionServiceImpl extends BaseConstants implements QuestionServic
 	public Question create(Question questionInfo) {
 
 				LOG.info("Create Question Service()");
-				Question questionDB = questionsRepository.findByQuestion(questionInfo.getQuestionTxt());
+				Question questionDB = questionsRepository.findByQuestionTxt(questionInfo.getQuestionTxt());
 				if (questionDB == null) {
 					questionsRepository.save(questionInfo);
 				}

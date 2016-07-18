@@ -1,6 +1,7 @@
 package com.acn.yrs.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acn.yrs.models.Assessment;
+import com.acn.yrs.models.Questionnaire;
 import com.acn.yrs.models.SearchObject;
 import com.acn.yrs.services.AssessmentService;
+import com.acn.yrs.services.QuestionnaireService;
 
 @RestController
 public class AssessmentController extends BaseController{
@@ -24,6 +27,9 @@ public class AssessmentController extends BaseController{
 
 	@Autowired
 	AssessmentService assessmentService;
+
+	@Autowired
+	QuestionnaireService questionnaireService;
 
 	@RequestMapping(value="/getAssessmentList", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<Object> getAssessmentList(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
@@ -61,6 +67,10 @@ public class AssessmentController extends BaseController{
 			int assessmentId = searchObject.getId();
 			LOG.info("assessmentId: " + assessmentId);
 			Assessment assessment = assessmentService.getAssessmentFilterByAdvisorUserId(assessmentId, userId);
+			if(assessment!=null){
+				List<Questionnaire> survey = questionnaireService.findQuestionnaireByAssessmentId(assessmentId);
+				assessment.setSurvey(survey);
+			}
 
 			return getResponse(assessment, tokenId, HttpStatus.OK);
 
