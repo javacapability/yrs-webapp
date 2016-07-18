@@ -38,14 +38,14 @@ public class QuestionServiceImpl extends BaseConstants implements QuestionServic
 	public void setQuestionsRepository(QuestionsRepository questionsRepository) {
 		this.questionsRepository = questionsRepository;
 	}
-	
+
 	Logger LOG = LoggerFactory.getLogger(QuestionServiceImpl.class);
 
 	@Override
 	public Question create(Question questionInfo) {
-		
+
 				LOG.info("Create Question Service()");
-				Question questionDB = questionsRepository.findByQuestion(questionInfo.getQuestion());
+				Question questionDB = questionsRepository.findByQuestion(questionInfo.getQuestionTxt());
 				if (questionDB == null) {
 					questionsRepository.save(questionInfo);
 				}
@@ -56,10 +56,10 @@ public class QuestionServiceImpl extends BaseConstants implements QuestionServic
 	public Question update(Question questionInfo) {
 		LOG.info("Update Question Service()");
 		Question questionDB = questionsRepository.findOne(questionInfo.getId());
-		
+
 		if(questionDB != null){
 
-			questionDB.setQuestion(questionInfo.getQuestion());
+			questionDB.setQuestionTxt(questionInfo.getQuestionTxt());
 			questionDB.setAnswerTypes(questionInfo.getAnswerTypes());
 			questionDB.setFalseWeight(questionInfo.getFalseWeight());
 			questionDB.setIsActive(questionInfo.getIsActive());
@@ -70,7 +70,7 @@ public class QuestionServiceImpl extends BaseConstants implements QuestionServic
 			questionDB.setAnswers(questionInfo.getAnswers());
 		    questionsRepository.save(questionDB);
 		}
-		 
+
 		return questionDB;
 	}
 

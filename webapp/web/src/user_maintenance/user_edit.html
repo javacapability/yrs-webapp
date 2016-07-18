@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+    <div layout="column" style="max-width: 90%; width: 800px">
+        <div><h2>{{users.editModeTitle}} User</h2></div>
+        <div>
+            <form>
+                <div layout="column">
+                    <md-input-container class="md-block">
+                        <label>User ID</label>
+                        <input ng-model="users.editUser.userId" ng-disabled="users.editMode === 'edit'">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Name</label>
+                        <input ng-model="users.editUser.fullName">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Email</label>
+                        <input ng-model="users.editUser.email">
+                    </md-input-container>
+                    <div layout="row">
+                    <md-datepicker class="md-block"
+                        ng-model="users.editUser.birthday" md-placeholder="Enter Birthday">
+                    </md-datepicker>
+                    </div>
+                    <md-input-container class="md-block">
+                        <label>Password</label>
+                        <input type="password" ng-model="user.editUser.pswd"/>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Re-type Password</label>
+                        <input type="password" ng-model="user.confirmPswd"/>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>User Group</label>
+                        <md-select ng-model="users.editUser.userGroup.groupName" ng-disabled="users.editMode === 'edit'">
+                            <md-option ng-repeat="group in users.userGroups" value="{{group}}">
+                                {{group}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-align="center center">
+                    <md-button class="md-raised md-primary" ng-click="users.back()">Back</md-button>
+                    <span layout="row" ng-if="users.editMode === 'edit'">
+                        <md-button class="md-raised md-primary" ng-click="users.delete()">Delete User</md-button>
+                        <md-button class="md-raised md-primary" ng-click="users.update()">Update User</md-button>
+                    </span>
+                    <span layout="row" ng-if="users.editMode === 'new'">
+                        <md-button class="md-raised md-primary" ng-click="users.reset()">Reset</md-button>
+                        <md-button class="md-raised md-primary" ng-click="users.save()">Save User</md-button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

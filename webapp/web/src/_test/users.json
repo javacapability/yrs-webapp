@@ -1,0 +1,38 @@
+[
+    {
+        "id":"01",
+        "userId": "User1",
+        "fullName": "John Snow",
+        "pswd": "nothing",
+        "email": "",
+        "birthday": "",
+        "lastlogin": "",
+        "userGroup": {
+            "groupName": "Admin"
+        }
+    },
+    {
+        "id":"02",
+        "userId": "User2",
+        "fullName": "Dohn Joe",
+        "pswd": "joe123",
+        "email": "",
+        "birthday": "",
+        "lastlogin": "",
+        "userGroup": {
+            "groupName": "Admin"
+        }
+    },
+    {
+        "id":"03",
+        "userId": "User3",
+        "fullName": "Marlou",
+        "pswd": "pogi",
+        "email": "",
+        "birthday": "",
+        "lastlogin": "",
+        "userGroup": {
+            "groupName": "Admin"
+        }
+    }
+]

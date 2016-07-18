@@ -1,5 +1,6 @@
 package com.acn.yrs.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +22,22 @@ public class AssessmentServiceImpl implements AssessmentService {
 	AssessmentStatusRepository assessmentStatusRepository;
 
 	@Override
-	public List<Assessment> getActiveAssessmentList(String userId, String filter) {
-		AssessmentStatus assessmentStatus = assessmentStatusRepository.findOne(1);
-		List<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter);
-		assessmentStatus = assessmentStatusRepository.findOne(2);
+	public ArrayList<Assessment> getActiveAssessmentList(String userId, String filter) {
+		AssessmentStatus assessmentStatus = new AssessmentStatus();
+		assessmentStatus.setId(1);
+		ArrayList<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter);
+		assessmentStatus = new AssessmentStatus();
+		assessmentStatus.setId(2);
 		activeAssessmentList.addAll(assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter));
 		return activeAssessmentList;
 	}
 
 	@Override
-	public List<Assessment> getArchivedAssessmentList(String userId,
+	public ArrayList<Assessment> getArchivedAssessmentList(String userId,
 			String filter) {
 		AssessmentStatus assessmentStatus = new AssessmentStatus();
 		assessmentStatus.setId(3);
-		List<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter);
+		ArrayList<Assessment> activeAssessmentList = assessmentRepository.findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(assessmentStatus, userId, filter);
 		return activeAssessmentList;
 	}
 

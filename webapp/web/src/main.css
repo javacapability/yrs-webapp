@@ -1,0 +1,23 @@
+.mainTitle {
+    vertical-align: auto;
+    text-align: left;
+    width: 100%;
+}
+
+.mainTitle h1 {
+    font-size: 70px;
+    font-weight: normal;
+    color: greenyellow;
+    margin: 0px;
+}
+
+.mainTitle h2 {
+    font-size: 40px;
+    font-weight: lighter;
+    color: gainsboro;
+    margin: 0px;
+}
+
+.tabletitle {
+    font-weight: bold;
+}

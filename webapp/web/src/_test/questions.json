@@ -1,0 +1,58 @@
+[{
+        "id": "QUES001",
+        "question": [{
+                "id": "QUES001",
+                "priorityNumber": "1",
+                "question": "Question Test Multiple?",
+                "isActive": "true",
+                "answerTypes": {
+                    "answerType": "1"
+                },
+                "yesWeight": "",
+                "noWeight": "",
+                "trueWeight": "",
+                "falseWeight": ""
+            }],
+        "answer": [{
+                "id": "Q1ANS1",
+                "question": [{
+                        "id": "QUES001"
+                    }],
+                "answerNumber": "1",
+                "weight": "1"
+            },
+            {
+                "id": "Q1ANS2",
+                "question": [{
+                        "id": "QUES001"
+                    }],
+                "answerNumber": "2",
+                "weight": "2"
+            }, {
+                "id": "Q1ANS3",
+                "question": [{
+                        "id": "QUES001"
+                    }],
+                "answerNumber": "3",
+                "weight": "3"
+            }],
+        "answerTxt": ""
+    },
+    {
+        "id": "QUES002",
+        "question": [{
+                "id": "QUES002",
+                "priorityNumber": "2",
+                "question": "Question Test True or False?",
+                "isActive": "true",
+                "answerTypes": {
+                    "answerType": "3"
+                },
+                "yesWeight": "",
+                "noWeight": "",
+                "trueWeight": "1",
+                "falseWeight": "2"
+            }],
+        "answer": [{}],
+        "answerTxt": ""
+    }]

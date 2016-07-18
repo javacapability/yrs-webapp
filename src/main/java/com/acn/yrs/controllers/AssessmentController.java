@@ -1,6 +1,6 @@
 package com.acn.yrs.controllers;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acn.yrs.models.Assessment;
-import com.acn.yrs.models.BaseConstants;
-import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.models.SearchObject;
 import com.acn.yrs.services.AssessmentService;
 
@@ -38,7 +36,7 @@ public class AssessmentController extends BaseController{
 			LOG.info("tokenId: " + tokenId);
 			LOG.info("listType: " + searchObject.getListType());
 			LOG.info("clientSearch: " + searchObject.getFilter());
-			List<Assessment> assessmentList = null;
+			ArrayList<Assessment> assessmentList = null;
 			String filter = "%" + searchObject.getFilter() + "%";
 			if("active".equalsIgnoreCase(searchObject.getListType())){
 				assessmentList = assessmentService.getActiveAssessmentList(userId, filter);

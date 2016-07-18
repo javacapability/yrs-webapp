@@ -1,0 +1,12 @@
+[    {
+        "id":"01",
+        "userId": "User1",
+        "fullName": "John Snow",
+        "pswd": "nothing",
+        "email": "",
+        "birthday": "",
+        "lastlogin": "",
+        "userGroup": {
+            "groupName": "Admin"
+        }
+    }]

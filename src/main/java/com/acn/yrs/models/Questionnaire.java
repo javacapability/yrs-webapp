@@ -1,5 +1,6 @@
 package com.acn.yrs.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,13 +26,12 @@ public class Questionnaire {
 	@JoinColumn(name = "assessmentid")
 	private Assessment assessment;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "questionid")
 	private Question question;
 
-	@ManyToOne
-	@JoinColumn(name = "answerid")
-	private Answer answer;
+	//@OneToOne(mappedBy = "questionnaire", cascade = CascadeType.ALL)
+	//private ClientAnswer clientAnswer;
 
 	@Column(name = "answertxt")
 	private String answerTxt;
@@ -76,19 +78,7 @@ public class Questionnaire {
 		this.question = question;
 	}
 
-	/**
-	 * @return the answer
-	 */
-	public Answer getAnswer() {
-		return answer;
-	}
 
-	/**
-	 * @param answer the answer to set
-	 */
-	public void setAnswer(Answer answer) {
-		this.answer = answer;
-	}
 
 	/**
 	 * @return the answerTxt

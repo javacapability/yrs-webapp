@@ -28,8 +28,8 @@ public class Question {
 	@Column(name = "prioritynumber", nullable = false)
 	private Integer priorityNumber;
 
-	@Column(name = "question", nullable = false)
-	private String question;
+	@Column(name = "questiontxt", nullable = false)
+	private String questionTxt;
 
 	@Column(name = "isactive", nullable = false)
 	private Integer isActive;
@@ -86,15 +86,15 @@ public class Question {
 	/**
 	 * @return the question
 	 */
-	public String getQuestion() {
-		return question;
+	public String getQuestionTxt() {
+		return questionTxt;
 	}
 
 	/**
 	 * @param question the question to set
 	 */
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setQuestionTxt(String questionTxt) {
+		this.questionTxt = questionTxt;
 	}
 
 	/**
