@@ -31,7 +31,7 @@ public class Util extends Helper{
 	}
 
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
 		String value = "value=ngOJgPMGz/MrLXta4gABlA==";
 		if (value.contains("="))
@@ -42,5 +42,5 @@ public class Util extends Helper{
 			}
 		}
 
-	}
+	}*/
 }
