@@ -53,6 +53,9 @@ public class Assessment extends ResponseObject{
 	@Column(name = "lastmodificationdate")
 	private Date lastModificationDate;
 
+	@Column(name = "archiveddate")
+	private Date archivedDate;
+
 	@Column(name = "reactivationdate")
 	private Date reactivationDate;
 
@@ -232,5 +235,19 @@ public class Assessment extends ResponseObject{
 	 */
 	public void setSurvey(List<Questionnaire> survey) {
 		this.survey = survey;
+	}
+
+	/**
+	 * @return the archivedDate
+	 */
+	public Date getArchivedDate() {
+		return archivedDate;
+	}
+
+	/**
+	 * @param archivedDate the archivedDate to set
+	 */
+	public void setArchivedDate(Date archivedDate) {
+		this.archivedDate = archivedDate;
 	}
 }

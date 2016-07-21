@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acn.yrs.models.Assessment;
+import com.acn.yrs.models.Question;
 import com.acn.yrs.models.Questionnaire;
 import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.models.SearchObject;
 import com.acn.yrs.services.AssessmentService;
+import com.acn.yrs.services.QuestionService;
 import com.acn.yrs.services.QuestionnaireService;
 
 @RestController
@@ -33,6 +35,9 @@ public class AssessmentController extends BaseController{
 
 	@Autowired
 	QuestionnaireService questionnaireService;
+
+	@Autowired
+	QuestionService questionService;
 
 	@RequestMapping(value="/getAssessmentList", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<Object> getAssessmentList(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
@@ -131,4 +136,35 @@ public class AssessmentController extends BaseController{
 			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
 		}
 	}
+
+	@RequestMapping(value="/createNewAssessment", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<Object> createNewAssessment(@RequestHeader String userId, @RequestHeader String tokenId) {
+		try{
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+			ResponseObject response = new ResponseObject();
+
+			List<Question> questionList = questionService.getQuestionList();
+			if(questionList.size()>0)
+			{
+				response.setErrorCd(HASNOERROR);
+				response.setQuestions(questionList);
+			}else{
+				throw new NoResultException();
+			}
+
+			return getResponse(response,tokenId, HttpStatus.OK);
+		}catch(NoResultException e){
+			//e.printStackTrace();
+			return getResponse("No Questions Found",tokenId, HttpStatus.NOT_FOUND);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.acn.yrs.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.persistence.NoResultException;
 
@@ -58,6 +59,7 @@ public class AssessmentServiceImpl extends BaseConstants implements AssessmentSe
 		Assessment assessment = assessmentRepository.findOne(assessmentId);
 		if(assessment==null) throw new NoResultException();
 		assessment.setAssessmentStatus(assessmentStatusRepository.findOne(ASSESSMENTARCHIVED));
+		assessment.setArchivedDate(new Date());
 		return assessment;
 	}
 
@@ -66,6 +68,8 @@ public class AssessmentServiceImpl extends BaseConstants implements AssessmentSe
 		Assessment assessment = assessmentRepository.findOne(assessmentId);
 		if(assessment==null) throw new NoResultException();
 		assessment.setAssessmentStatus(assessmentStatusRepository.findOne(ASSESSMENTPENDING));
+		assessment.setArchivedDate(null);
+		assessment.setReactivationDate(new Date());
 		return assessment;
 	}
 }
