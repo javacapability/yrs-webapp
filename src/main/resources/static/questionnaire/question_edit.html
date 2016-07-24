@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+    <div layout="column" style="max-width: 90%; width: 800px">
+        <div><h2>{{questions.editModeTitle}} Question</h2></div>
+        <div>
+            <form>
+                <div layout="column">
+                    <md-input-container class="md-block">
+                        <label>Question ID</label>
+                        <input ng-model="questions.editQuestion.id" disabled>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Question</label>
+                        <textarea ng-model="questions.editQuestion.questionTxt" md-maxlength="300" rows="3"></textarea>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Question Group</label>
+                        <md-select ng-model="questions.editQuestion.answerTypes.id">
+                            <md-option ng-repeat="type in questions.answerTypes" value="{{type.value}}">
+                                {{type.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <div ng-if="questions.editQuestion.answerTypes.id == 1" layout="column" class="md-whiteframe-z2">
+                        <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
+                            <div flex="10">#</div>
+                            <div flex="65">Answer</div>
+                            <div flex="20">Weight</div>
+                            <div flex="5">&nbsp;</div>
+                        </md-content>
+                        <md-divider></md-divider>
+                        <md-list-item ng-click="''" ng-repeat="answer in questions.editQuestion.answers" class="noright" flex>
+                            <div flex="10">{{answer.answerNumber}}</div>
+                            <div flex="65">
+                                <md-input-container class="md-block">
+                                    <input ng-model="answer.answerTxt">
+                                </md-input-container>
+                            </div>
+                            <div flex="20">
+                                <md-input-container class="md-block">
+                                    <input ng-model="answer.weight">
+                                </md-input-container>
+                            </div>
+                            <div flex="5">
+                                <span ng-if="$last">
+                                    <md-button class="md-icon-button md-primary" aria-label="Add" ng-click="questions.delAnswer()">
+                                        <i class="material-icons">remove</i>
+                                    </md-button>
+                                </span>
+                            </div>
+                        </md-list-item>
+                        <div>
+                            <md-button class="md-icon-button md-primary" aria-label="Delete" ng-click="questions.addNewAnswer()">
+                                <i class="material-icons">add</i>
+                            </md-button>
+                        </div>
+                    </div>
+                    <div ng-if="questions.editQuestion.answerTypes.id == 2" layout="column" class="md-whiteframe-z2">
+                        <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
+                            <div flex="10">#</div>
+                            <div flex="70">Answer</div>
+                            <div flex="20">Weight</div>
+                        </md-content>
+                        <md-divider></md-divider>
+                        <md-list-item ng-click="''" class="noright" flex>
+                            <div flex="10">1</div>
+                            <div flex="70">
+                                <md-input-container class="md-block">
+                                    <input value="Yes" disabled>
+                                </md-input-container>
+                            </div>
+                            <div flex="20">
+                                <md-input-container class="md-block">
+                                    <input ng-model="questions.editQuestion.yesWeight">
+                                </md-input-container>
+                            </div>
+                        </md-list-item>
+                        <md-list-item ng-click="''" class="noright" flex>
+                            <div flex="10">2</div>
+                            <div flex="70">
+                                <md-input-container class="md-block">
+                                    <input value="No" disabled>
+                                </md-input-container>
+                            </div>
+                            <div flex="20">
+                                <md-input-container class="md-block">
+                                    <input ng-model="questions.editQuestion.noWeight">
+                                </md-input-container>
+                            </div>
+                        </md-list-item>
+                    </div>
+                    <div ng-if="questions.editQuestion.answerTypes.id == 3" layout="column" class="md-whiteframe-z2">
+                        <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
+                            <div flex="10">#</div>
+                            <div flex="70">Answer</div>
+                            <div flex="20">Weight</div>
+                        </md-content>
+                        <md-divider></md-divider>
+                        <md-list-item ng-click="''" class="noright" flex>
+                            <div flex="10">1</div>
+                            <div flex="70">
+                                <md-input-container class="md-block">
+                                    <input value="True" disabled>
+                                </md-input-container>
+                            </div>
+                            <div flex="20">
+                                <md-input-container class="md-block">
+                                    <input ng-model="questions.editQuestion.trueWeight">
+                                </md-input-container>
+                            </div>
+                        </md-list-item>
+                        <md-list-item ng-click="''" class="noright" flex>
+                            <div flex="10">2</div>
+                            <div flex="70">
+                                <md-input-container class="md-block">
+                                    <input value="False" disabled>
+                                </md-input-container>
+                            </div>
+                            <div flex="20">
+                                <md-input-container class="md-block">
+                                    <input ng-model="questions.editQuestion.falseWeight">
+                                </md-input-container>
+                            </div>
+                        </md-list-item>
+                    </div>
+                    <div ng-if="questions.editQuestion.answerTypes.id == 4" layout="column" class="md-whiteframe-z2">
+                        <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
+                            <div flex="10">#</div>
+                            <div flex="70">Answer</div>
+                            <div flex="20">Weight</div>
+                        </md-content>
+                        <md-divider></md-divider>
+                        <md-list-item ng-click="''" class="noright" flex>
+                            <div flex="10">&nbsp;</div>
+                            <div flex="90">
+                                <md-input-container class="md-block">
+                                    <input value="n/a" disabled>
+                                </md-input-container>
+                            </div>
+                        </md-list-item>
+                    </div>
+                </div>
+                <br>
+                <div layout="row" layout-align="center center">
+                    <md-button class="md-raised md-primary" ng-click="questions.back()">Back</md-button>
+                    <span layout="row" ng-if="questions.editMode === 'edit'">
+                        <md-button class="md-raised md-primary" ng-click="questions.delete()">Delete Question</md-button>
+                        <md-button class="md-raised md-primary" ng-click="questions.update()">Update Question</md-button>
+                    </span>
+                    <span layout="row" ng-if="questions.editMode === 'new'">
+                        <md-button class="md-raised md-primary" ng-click="questions.reset()">Reset</md-button>
+                        <md-button class="md-raised md-primary" ng-click="questions.save()">Save Question</md-button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

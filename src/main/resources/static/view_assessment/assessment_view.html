@@ -1,0 +1,43 @@
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+    <div layout="column" style="max-width: 90%; width: 800px">
+        <div layout="row" flex>
+            <div layout="column" flex="70">
+                <md-input-container class="md-block">
+                    <label>Account Name</label>
+                    <input ng-model="assessments.assessmentView.accountNumber" disabled>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Name of Profiled Client</label>
+                    <input ng-model="assessments.assessmentView.clientInfo.clientName" disabled>
+                </md-input-container>
+            </div>
+            <div flex="30">
+                {{assessments.assessmentView.clientInfo.photo}}
+            </div>
+        </div>
+        <div layout="row" flex>
+            <md-input-container class="md-block" flex="40">
+                <label>Birthday</label>
+                <input ng-model="assessments.assessmentView.clientInfo.birthday" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="60">
+                <label>Job Title, Field of Work</label>
+                <input ng-model="assessments.assessmentView.clientInfo.jobTitleFieldWork" disabled>
+            </md-input-container>
+        </div>
+        <md-input-container class="md-block" flex="60">
+            <label>Educational Attainment</label>
+            <input ng-model="assessments.assessmentView.clientInfo.eduAttainment" disabled>
+        </md-input-container>
+        <md-divider></md-divider>
+        <!--Questionnaire here-->
+        <div ng-repeat="currentSurvey in assessments.assessmentView.survey">
+
+        </div>
+        <br>
+        <div layout="row" layout-align="center center">
+            <md-button class="md-raised md-primary" ng-click="assessments.back()">Back to Assessment List</md-button>
+        </div>
+        {{assessments.assessmentView}}
+    </div>
+</div>
