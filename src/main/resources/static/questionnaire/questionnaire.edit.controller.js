@@ -17,11 +17,22 @@
             {value: 2, name: 'Yes or No'},
             {value: 3, name: 'True or False'},
             {value: 4, name: 'Freetext'}];
-        
+
+        var defaultQuestion = {
+            'priorityNumber':null,
+            'questionTxt':'',
+            'answerTypes':{'id':1},
+            'yesWeight':0,
+            'noWeight':0,
+            'trueWeight':0,
+            'falseWeight':0,
+            'isActive':1,
+            'answers':[]};
+
         console.log('test - ' + $stateParams.editMode);
         questions.editMode = $stateParams.editMode;
         
-        questions.editQuestion = {};
+        questions.editQuestion = defaultQuestion;
         
         if (questions.editMode === 'edit'){
             var questionId = $stateParams.id;
@@ -39,7 +50,7 @@
         };
         
         questions.reset = function(){
-            questions.editQuestion = {};
+            questions.editQuestion = defaultQuestion;
         };
         
         questions.save = function(){
