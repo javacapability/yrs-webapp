@@ -167,4 +167,43 @@ public class AssessmentController extends BaseController{
 		}
 	}
 
+	@RequestMapping(value="/saveNewAssessment", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> saveNewAssessment(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody Assessment assessment) {
+		try{
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+			ResponseObject response = new ResponseObject();
+
+			response = validateAssessment(assessment);
+			if(response.getErrorCd().equals(HASERROR)){
+				return getResponse(response.getErrorMsg(),HttpStatus.NOT_ACCEPTABLE);
+			}
+
+
+
+
+			return getResponse(response,tokenId, HttpStatus.OK);
+		}catch(NoResultException e){
+			//e.printStackTrace();
+			return getResponse("No Questions Found",tokenId, HttpStatus.NOT_FOUND);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+	}
+
+	private ResponseObject validateAssessment(Assessment assessment) {
+		ResponseObject response = new ResponseObject();
+		if(assessment==null){
+			response.setErrorCd(HASERROR);
+			response.setErrorMsg(ASSESSMENT_ERROR_PAYLOAD_NULL);
+		}else{
+
+		}
+		return response;
+	}
 }

@@ -11,6 +11,7 @@ public class ResponseObject extends Object{
 	private HttpStatus httpStatus;
 
 	private List<Question> questions;
+	private Assessment assessment;
 
 	public ResponseObject(){
 
@@ -81,6 +82,22 @@ public class ResponseObject extends Object{
 	 */
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+
+
+	/**
+	 * @return the assessment
+	 */
+	public Assessment getAssessment() {
+		return assessment;
+	}
+
+
+	/**
+	 * @param assessment the assessment to set
+	 */
+	public void setAssessment(Assessment assessment) {
+		this.assessment = assessment;
 	}
 
 

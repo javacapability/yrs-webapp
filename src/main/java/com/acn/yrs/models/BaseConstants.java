@@ -14,6 +14,9 @@ public class BaseConstants {
 	public static final int ASSESSMENTPENDING = 1;
 	public static final int ASSESSMENTRECOGIVEN = 2;
 	public static final int ASSESSMENTARCHIVED = 3;
+
+	public static final String ASSESSMENT_ERROR_PAYLOAD_NULL = "Assessment payload is null";
+
 	public BaseConstants() {
 		super();
 	}
