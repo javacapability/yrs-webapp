@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "LIABILITIES")
-public class Liability {
+public class Liability extends ResponseObject{
 
 
 	@Id

@@ -13,7 +13,7 @@ import com.google.gson.annotations.Expose;
 
 @Entity
 @Table(name = "ANSWERS")
-public class Answer {
+public class Answer extends ResponseObject{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

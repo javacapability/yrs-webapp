@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "USERGRP")
-public class UserGroup {
+public class UserGroup extends ResponseObject{
 
 
 	@Id

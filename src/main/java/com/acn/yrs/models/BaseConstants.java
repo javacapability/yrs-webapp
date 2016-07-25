@@ -14,6 +14,11 @@ public class BaseConstants {
 	public static final int ASSESSMENTPENDING = 1;
 	public static final int ASSESSMENTRECOGIVEN = 2;
 	public static final int ASSESSMENTARCHIVED = 3;
+	
+	public static final int UPDATE_ACTION = 2;
+	public static final int SAVE_ACTION = 1;
+	public static final int DELETE_ACTION = 3;
+	
 	public BaseConstants() {
 		super();
 	}

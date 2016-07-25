@@ -64,6 +64,17 @@ public class ResponseObject extends Object{
 	}
 
 
+    //audit Logs
+	public AuditLog auditLog = new AuditLog();
+	
+	 public void preSaveOrUpdate(){
+		   auditLog.setOldTxnDtls(this.toString());
+	 }
+	 
+	 public void postSaveOrUpdate(){
+		 auditLog.setNewTxnDtls(this.toString());
+	 }
+   
 
 
 }

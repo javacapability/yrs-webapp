@@ -172,8 +172,14 @@ public class AuditLog {
 	 * @param oldTxnDtls the oldTxnDtls to set
 	 */
 	public void setOldTxnDtls(String oldTxnDtls) {
-		this.oldTxnDtls = oldTxnDtls;
+		if(oldTxnDtls == "" || oldTxnDtls == null ){
+			this.oldTxnDtls = "";
+		} else {
+			this.oldTxnDtls = oldTxnDtls;
+		}
+		
 	}
+
 
 	/**
 	 * @return the newTxnDtls
@@ -186,6 +192,12 @@ public class AuditLog {
 	 * @param newTxnDtls the newTxnDtls to set
 	 */
 	public void setNewTxnDtls(String newTxnDtls) {
-		this.newTxnDtls = newTxnDtls;
+		if(newTxnDtls == "" || newTxnDtls == null ){
+			this.newTxnDtls = "";
+		} else {
+			this.newTxnDtls = newTxnDtls;
+		}
+		
 	}
+
 }
