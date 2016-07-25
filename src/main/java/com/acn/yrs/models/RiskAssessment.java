@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "RISKASSESSMENTS")
-public class RiskAssessment {
+public class RiskAssessment extends ResponseObject{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

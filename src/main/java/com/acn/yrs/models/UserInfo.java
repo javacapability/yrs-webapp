@@ -227,6 +227,14 @@ public class UserInfo extends ResponseObject{
 
 	public String toString(){
 
-		return "";
+	    StringBuffer sb = new StringBuffer();
+	    sb.append("UserInfo = [ ");
+	    sb.append(" email: " +this.email);
+	    sb.append(" birthday: " +this.birthday);
+	    sb.append(" fullName: " +this.fullName);
+	    sb.append("]");
+	    
+	    return sb.toString();
 	}
+
 }

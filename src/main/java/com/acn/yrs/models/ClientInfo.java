@@ -18,7 +18,7 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "CLIENTINFO")
-public class ClientInfo {
+public class ClientInfo extends ResponseObject{
 
 
 	@Id

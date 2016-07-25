@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "QUESTIONS")
-public class Question {
+public class Question extends ResponseObject{
 
 
 	@Id
@@ -193,6 +193,23 @@ public class Question {
 	 */
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
+	}
+    
+
+	@Override
+	public String toString() {
+		
+		   StringBuffer sb = new StringBuffer();
+		    sb.append("Question = [ ");
+		    sb.append(" priorityNumber: " +this.priorityNumber);
+		    sb.append(" questionTxt: " +this.questionTxt);
+		    sb.append(" yesWeight: " +this.yesWeight);
+		    sb.append(" noWeight: " +this.noWeight);
+		    sb.append(" trueWeight: " +this.trueWeight);
+		    sb.append(" falseWeight: " +this.falseWeight);
+		    sb.append("]");
+		    
+		    return sb.toString();
 	}
 
 }

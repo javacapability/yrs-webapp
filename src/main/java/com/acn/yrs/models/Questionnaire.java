@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="QUESTIONNAIRE")
-public class Questionnaire {
+public class Questionnaire extends ResponseObject{
 
 
 	@Id

@@ -14,10 +14,14 @@ import com.acn.yrs.repository.QuestionsRepository;
 
 @Service("questionService")
 @Transactional
-public class QuestionServiceImpl extends BaseConstants implements QuestionService {
+public class QuestionServiceImpl extends BaseConstants implements
+		QuestionService {
 
 	@Autowired
 	QuestionsRepository questionsRepository;
+
+	@Autowired
+	AuditLogService auditLogService;
 
 	@Override
 	public List<Question> getQuestionList() {
@@ -33,7 +37,8 @@ public class QuestionServiceImpl extends BaseConstants implements QuestionServic
 	}
 
 	/**
-	 * @param questionsRepository the questionsRepository to set
+	 * @param questionsRepository
+	 *            the questionsRepository to set
 	 */
 	public void setQuestionsRepository(QuestionsRepository questionsRepository) {
 		this.questionsRepository = questionsRepository;
@@ -44,12 +49,16 @@ public class QuestionServiceImpl extends BaseConstants implements QuestionServic
 	@Override
 	public Question create(Question questionInfo) {
 
-				LOG.info("Create Question Service()");
-				Question questionDB = questionsRepository.findByQuestionTxt(questionInfo.getQuestionTxt());
-				if (questionDB == null) {
-					questionsRepository.save(questionInfo);
-				}
-				return questionInfo;
+		LOG.info("Create Question Service()");
+		Question questionDB = questionsRepository
+				.findByQuestionTxt(questionInfo.getQuestionTxt());
+		if (questionDB == null) {
+			questionsRepository.save(questionInfo);
+			questionInfo.postSaveOrUpdate();
+			auditLogService.saveTransaction(questionInfo.auditLog,
+					BaseConstants.SAVE_ACTION);
+		}
+		return questionInfo;
 	}
 
 	@Override
@@ -57,7 +66,9 @@ public class QuestionServiceImpl extends BaseConstants implements QuestionServic
 		LOG.info("Update Question Service()");
 		Question questionDB = questionsRepository.findOne(questionInfo.getId());
 
-		if(questionDB != null){
+		questionDB.preSaveOrUpdate();
+
+		if (questionDB != null) {
 
 			questionDB.setQuestionTxt(questionInfo.getQuestionTxt());
 			questionDB.setAnswerTypes(questionInfo.getAnswerTypes());
@@ -68,7 +79,12 @@ public class QuestionServiceImpl extends BaseConstants implements QuestionServic
 			questionDB.setTrueWeight(questionInfo.getTrueWeight());
 			questionDB.setYesWeight(questionInfo.getYesWeight());
 			questionDB.setAnswers(questionInfo.getAnswers());
-		    questionsRepository.save(questionDB);
+			questionsRepository.save(questionDB);
+
+			questionDB.postSaveOrUpdate();
+
+			auditLogService.saveTransaction(questionDB.auditLog,
+					BaseConstants.UPDATE_ACTION);
 		}
 
 		return questionDB;
@@ -78,10 +94,11 @@ public class QuestionServiceImpl extends BaseConstants implements QuestionServic
 	public void delete(int questionId) {
 		LOG.info("Delete User Service()");
 		Question questionDB = questionsRepository.findOne(questionId);
+		questionDB.preSaveOrUpdate();
 		if (questionDB != null) {
 			questionsRepository.delete(questionDB);
 		}
+		auditLogService.saveTransaction(questionDB.auditLog, BaseConstants.DELETE_ACTION);
 	}
-
 
 }
