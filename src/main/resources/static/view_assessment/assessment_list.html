@@ -1,0 +1,49 @@
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+    <div layout="column" style="max-width: 90%; width: 800px">
+        <form layout="column" ng-submit="$event.preventDefault()" flex>
+            <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="ctrl.selectedItemChange(item)" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.display" md-min-length="0"
+                             placeholder="Search Assessment" flex>
+                <md-item-template>
+                    <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
+                </md-item-template>
+                <md-not-found>
+                    No results found
+                </md-not-found>
+            </md-autocomplete>
+            <div layout="row">
+                <div flex="50">
+                    <md-input-container class="md-block">
+                        <label>User Group</label>
+                        <md-select ng-model="assessments.filterType">
+                            <md-option ng-repeat="type in assessments.searchTypes" value="{{type.value}}">
+                                {{type.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    </div>
+                <div flex="50"></div>
+            </div>
+        </form>
+        <br>
+        <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
+            <div flex="20">Asessment Date</div>
+            <div flex="40">Client</div>
+            <div flex="30">Status</div>
+            <div flex="10">View</div>
+        </md-content>
+        <md-divider></md-divider>
+        <md-list-item ng-repeat="assessment in assessments.assessmentList" ng-click="''" class="noright" flex>
+            <div flex="20">{{ assessment.assessmentDate }}</div>
+            <div flex="40">{{ assessment.clientInfo.clientName}}</div>
+            <div flex="30">{{ assessments.getAssessmentStatus(assessment.assessmentStatus.id) }}</div>
+            <div flex="10" layout="row">
+                <md-button class="md-icon-button md-accent" aria-label="View" ng-click="assessments.viewAssessment(assessment.id)">
+                    <i class="material-icons">forward</i>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </md-list-item>
+        <br>
+        <div>&nbsp;</div>
+    </div>
+</div>
