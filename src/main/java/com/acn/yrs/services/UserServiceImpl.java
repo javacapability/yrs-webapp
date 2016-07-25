@@ -1,6 +1,7 @@
 package com.acn.yrs.services;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,5 +104,11 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		auditLogService.saveTransaction(userInfoDB.auditLog,BaseConstants.DELETE_ACTION);
+	}
+
+	@Override
+	public List<UserInfo> getAllUsers() {
+		// TODO Auto-generated method stub
+		return userInfoRepository.findAll();
 	}
 }

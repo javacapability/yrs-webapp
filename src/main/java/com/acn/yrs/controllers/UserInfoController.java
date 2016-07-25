@@ -36,7 +36,7 @@ public class UserInfoController extends BaseController{
 	@RequestMapping(value="/users", method = RequestMethod.GET, headers = "Accept=application/json")
 	public List<UserInfo> getUsers() {
 
-		return null;
+		return userService.getAllUsers();
 	}
 
 	@RequestMapping(value="/login", method = RequestMethod.POST, headers = "Accept=application/json")

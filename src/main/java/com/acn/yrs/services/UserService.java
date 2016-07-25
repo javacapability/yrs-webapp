@@ -1,5 +1,7 @@
 package com.acn.yrs.services;
 
+import java.util.List;
+
 import com.acn.yrs.models.UserInfo;
 
 public interface UserService {
@@ -8,4 +10,6 @@ public interface UserService {
 	public UserInfo update(UserInfo userInfo);
 
 	public void delete(String userId);
+	
+	public List<UserInfo> getAllUsers();
 }
