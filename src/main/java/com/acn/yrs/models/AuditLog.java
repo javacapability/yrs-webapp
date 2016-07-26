@@ -25,7 +25,7 @@ public class AuditLog {
 	private Date dateTime;
 
 	@ManyToOne
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "userid")
 	private UserInfo userInfo;
 
 	@Column(name = "app")
@@ -177,7 +177,7 @@ public class AuditLog {
 		} else {
 			this.oldTxnDtls = oldTxnDtls;
 		}
-		
+
 	}
 
 
@@ -197,7 +197,7 @@ public class AuditLog {
 		} else {
 			this.newTxnDtls = newTxnDtls;
 		}
-		
+
 	}
 
 }

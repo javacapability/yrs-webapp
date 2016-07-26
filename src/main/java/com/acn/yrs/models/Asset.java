@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "ASSETS")
 public class Asset extends ResponseObject{
@@ -19,11 +21,12 @@ public class Asset extends ResponseObject{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
+	@Expose
 	private Integer id;
 
 	@ManyToOne
 	@JoinColumn(name = "assessmentid")
-	private Assessment assessment;
+	protected Assessment assessment;
 
 	@ManyToOne
 	@JoinColumn(name = "assettype")

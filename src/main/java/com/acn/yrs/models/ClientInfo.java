@@ -47,10 +47,10 @@ public class ClientInfo extends ResponseObject{
 	private UserInfo userInfo;
 
 	@Column(name = "photo")
-	private File photo;
+	private String photo;
 
 	@Column(name = "signature")
-	private File signature;
+	private String signature;
 
 	/**
 	 * @return the id
@@ -153,28 +153,28 @@ public class ClientInfo extends ResponseObject{
 	/**
 	 * @return the photo
 	 */
-	public File getPhoto() {
+	public String getPhoto() {
 		return photo;
 	}
 
 	/**
 	 * @param photo the photo to set
 	 */
-	public void setPhoto(File photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 
 	/**
 	 * @return the signature
 	 */
-	public File getSignature() {
+	public String getSignature() {
 		return signature;
 	}
 
 	/**
 	 * @param signature the signature to set
 	 */
-	public void setSignature(File signature) {
+	public void setSignature(String signature) {
 		this.signature = signature;
 	}
 }

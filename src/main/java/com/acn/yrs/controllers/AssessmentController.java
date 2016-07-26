@@ -1,6 +1,7 @@
 package com.acn.yrs.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -17,13 +18,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acn.yrs.models.Assessment;
+import com.acn.yrs.models.AssessmentStatus;
+import com.acn.yrs.models.AssessmentWrapper;
+import com.acn.yrs.models.ClientInfo;
 import com.acn.yrs.models.Question;
 import com.acn.yrs.models.Questionnaire;
 import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.models.SearchObject;
 import com.acn.yrs.services.AssessmentService;
+import com.acn.yrs.services.ClientInfoService;
 import com.acn.yrs.services.QuestionService;
 import com.acn.yrs.services.QuestionnaireService;
+import com.acn.yrs.services.UserService;
 
 @RestController
 public class AssessmentController extends BaseController{
@@ -32,12 +38,14 @@ public class AssessmentController extends BaseController{
 
 	@Autowired
 	AssessmentService assessmentService;
-
 	@Autowired
 	QuestionnaireService questionnaireService;
-
 	@Autowired
 	QuestionService questionService;
+	@Autowired
+	ClientInfoService clientInfoService;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping(value="/getAssessmentList", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<Object> getAssessmentList(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
@@ -168,25 +176,44 @@ public class AssessmentController extends BaseController{
 	}
 
 	@RequestMapping(value="/saveNewAssessment", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseEntity<Object> saveNewAssessment(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody Assessment assessment) {
+	public ResponseEntity<Object> saveNewAssessment(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody AssessmentWrapper assessmentWrapper) {
 		try{
 			ResponseEntity<Object> obj = checkUser(userId, tokenId);
 			if(obj!=null){
 				return obj;
 			}
 			ResponseObject response = new ResponseObject();
+			Assessment assessment = new Assessment();
+			assessment.setAccountNumber(assessmentWrapper.getAccountNumber());
+
+			ClientInfo clientInfo = new ClientInfo();
+			clientInfo.setClientName(assessmentWrapper.getClientName());
+			clientInfo.setBirthday(new Date(assessmentWrapper.getBirthday()));
+			clientInfo.setJobTitleFieldWork(assessmentWrapper.getJobTitleFieldWork());
+			clientInfo.setEduAttainment(assessmentWrapper.getEduAttainment());
+			clientInfo.setUserInfo(userService.findUserInfoByUserId(userId));
+			clientInfo.setSignature(assessmentWrapper.getSignature());
+			clientInfo.setPhoto(assessmentWrapper.getPhoto());
+
+			clientInfo = clientInfoService.checkAndSaveClientInfo(clientInfo);
+			if(clientInfo.getErrorCd().equals(HASERROR)){
+				return getResponse(clientInfo.getErrorMsg(),HttpStatus.NOT_ACCEPTABLE);
+			}
+
+			assessment.setClientInfo(clientInfo);
+			assessment.setAssets(assessmentWrapper.getAssets());
+			assessment.setLiabilities(assessmentWrapper.getLiabilities());
+			assessment.setSurvey(assessmentWrapper.getSurvey());
+			assessment.setAssessmentStatus(new AssessmentStatus(ASSESSMENTPENDING));
 
 			response = validateAssessment(assessment);
 			if(response.getErrorCd().equals(HASERROR)){
 				return getResponse(response.getErrorMsg(),HttpStatus.NOT_ACCEPTABLE);
 			}
 
-
-
-
 			return getResponse(response,tokenId, HttpStatus.OK);
 		}catch(NoResultException e){
-			//e.printStackTrace();
+			e.printStackTrace();
 			return getResponse("No Questions Found",tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
@@ -196,14 +223,18 @@ public class AssessmentController extends BaseController{
 		}
 	}
 
-	private ResponseObject validateAssessment(Assessment assessment) {
-		ResponseObject response = new ResponseObject();
+	private Assessment validateAssessment(Assessment assessment) {
 		if(assessment==null){
-			response.setErrorCd(HASERROR);
-			response.setErrorMsg(ASSESSMENT_ERROR_PAYLOAD_NULL);
+			assessment = new Assessment();
+			assessment.setErrorCd(HASERROR);
+			assessment.setErrorMsg(ASSESSMENT_ERROR_PAYLOAD_NULL);
 		}else{
+			assessment.setErrorCd(HASNOERROR);
+			assessment = assessmentService.saveAssessment(assessment);
+
+			//save survey
 
 		}
-		return response;
+		return assessment;
 	}
 }

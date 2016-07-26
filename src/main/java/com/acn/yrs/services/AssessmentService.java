@@ -15,4 +15,5 @@ public interface AssessmentService {
 	Assessment getAssessmentFilterByAdvisorUserId(int assessmentId, String advisorUserId);
 	Assessment archiveAssessment(int assessmentId) throws NoResultException;
 	Assessment reactivateAssessment(int assessmentId) throws NoResultException;
+	Assessment saveAssessment(Assessment assessment);
 }

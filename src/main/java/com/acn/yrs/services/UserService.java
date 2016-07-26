@@ -10,6 +10,10 @@ public interface UserService {
 	public UserInfo update(UserInfo userInfo);
 
 	public void delete(String userId);
-	
+
 	public List<UserInfo> getAllUsers();
+
+	public Integer getIdbyUserId(String userId);
+
+	public UserInfo findUserInfoByUserId(String userId);
 }

@@ -19,6 +19,14 @@ public class AssessmentStatus extends ResponseObject{
 	@Column(name = "assessmentstatus", nullable = false)
 	private String assessmentstatus;
 
+	public AssessmentStatus() {
+	}
+
+	public AssessmentStatus(int assessmentStatus) {
+		// TODO Auto-generated constructor stub
+		this.id = new Integer(assessmentStatus);
+	}
+
 	/**
 	 * @return the id
 	 */

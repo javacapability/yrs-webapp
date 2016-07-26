@@ -5,7 +5,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.acn.yrs.models.Liability;
 
-@RepositoryRestResource(path="liabilities")
+@RepositoryRestResource(path="liabilities", exported=false)
 public interface LiabilitiesRepository extends PagingAndSortingRepository<Liability, Integer>{
 
 

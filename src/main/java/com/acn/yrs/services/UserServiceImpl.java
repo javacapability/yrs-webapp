@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 			userInfo.setPswd(Util.encode(userInfo.getPswd()));
 			userInfoRepository.save(userInfo);
 			userInfo.postSaveOrUpdate();
-			auditLogService.saveTransaction(userInfo.auditLog,
+			auditLogService.saveTransaction(userInfo.getAuditLog(),
 					BaseConstants.SAVE_ACTION);
 		}
 		return userInfo;
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
 			userInfoRepository.save(userInfoDB);
 			userInfoDB.postSaveOrUpdate();
-			auditLogService.saveTransaction(userInfoDB.auditLog,
+			auditLogService.saveTransaction(userInfoDB.getAuditLog(),
 					BaseConstants.UPDATE_ACTION);
 		}
 		return userInfoDB;
@@ -95,15 +95,15 @@ public class UserServiceImpl implements UserService {
 
 		LOG.info("Delete User Service()");
 		UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userId);
-		
+
 		userInfoDB.preSaveOrUpdate();
-		
-		
+
+
 		if (userInfoDB != null) {
 			userInfoRepository.delete(userInfoDB);
 		}
-		
-		auditLogService.saveTransaction(userInfoDB.auditLog,BaseConstants.DELETE_ACTION);
+
+		auditLogService.saveTransaction(userInfoDB.getAuditLog(),BaseConstants.DELETE_ACTION);
 	}
 
 	@Override
@@ -111,4 +111,15 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userInfoRepository.findAll();
 	}
+
+	@Override
+	public Integer getIdbyUserId(String userId){
+		return userInfoRepository.getIdByUserId(userId);
+	}
+
+	@Override
+	public UserInfo findUserInfoByUserId(String userId){
+		return userInfoRepository.findUserInfoByUserId(userId);
+	}
 }
+

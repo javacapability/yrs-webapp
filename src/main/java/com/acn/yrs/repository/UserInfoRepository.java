@@ -13,4 +13,6 @@ public interface UserInfoRepository extends PagingAndSortingRepository<UserInfo,
 	public List<UserInfo> findAll();
 
 	public UserInfo findUserInfoByUserId(String userId);
+
+	public Integer getIdByUserId(String userId);
 }

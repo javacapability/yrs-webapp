@@ -5,7 +5,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.acn.yrs.models.Asset;
 
-@RepositoryRestResource(path="assets")
+@RepositoryRestResource(path="assets", exported=false)
 public interface AssetsRepository extends PagingAndSortingRepository<Asset, Integer>{
 
 }

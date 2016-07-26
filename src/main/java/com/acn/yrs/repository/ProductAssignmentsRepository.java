@@ -5,7 +5,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.acn.yrs.models.ProductAssignment;
 
-@RepositoryRestResource(path="productassignments")
+@RepositoryRestResource(path="productassignments", exported=false)
 public interface ProductAssignmentsRepository extends PagingAndSortingRepository<ProductAssignment, Integer>{
 
 

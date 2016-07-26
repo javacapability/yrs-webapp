@@ -5,7 +5,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.acn.yrs.models.Portfolio;
 
-@RepositoryRestResource(path="portfolios")
+@RepositoryRestResource(path="portfolios", exported=false)
 public interface PortfoliosRepository extends PagingAndSortingRepository<Portfolio, Integer>{
 
 

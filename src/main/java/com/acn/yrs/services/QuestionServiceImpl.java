@@ -55,7 +55,7 @@ public class QuestionServiceImpl extends BaseConstants implements
 		if (questionDB == null) {
 			questionsRepository.save(questionInfo);
 			questionInfo.postSaveOrUpdate();
-			auditLogService.saveTransaction(questionInfo.auditLog,
+			auditLogService.saveTransaction(questionInfo.getAuditLog(),
 					BaseConstants.SAVE_ACTION);
 		}
 		return questionInfo;
@@ -83,7 +83,7 @@ public class QuestionServiceImpl extends BaseConstants implements
 
 			questionDB.postSaveOrUpdate();
 
-			auditLogService.saveTransaction(questionDB.auditLog,
+			auditLogService.saveTransaction(questionDB.getAuditLog(),
 					BaseConstants.UPDATE_ACTION);
 		}
 
@@ -98,7 +98,7 @@ public class QuestionServiceImpl extends BaseConstants implements
 		if (questionDB != null) {
 			questionsRepository.delete(questionDB);
 		}
-		auditLogService.saveTransaction(questionDB.auditLog, BaseConstants.DELETE_ACTION);
+		auditLogService.saveTransaction(questionDB.getAuditLog(), BaseConstants.DELETE_ACTION);
 	}
 
 }

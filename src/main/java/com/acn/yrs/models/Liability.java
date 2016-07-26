@@ -23,7 +23,7 @@ public class Liability extends ResponseObject{
 
 	@ManyToOne
 	@JoinColumn(name = "assessmentid")
-	private Assessment assessment;
+	protected Assessment assessment;
 
 	@ManyToOne
 	@JoinColumn(name = "liabilitytype")

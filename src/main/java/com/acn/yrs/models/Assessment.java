@@ -4,13 +4,16 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -58,6 +61,21 @@ public class Assessment extends ResponseObject{
 
 	@Column(name = "reactivationdate")
 	private Date reactivationDate;
+
+	//modified this part
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "assessmentid")
+	private List<Asset> assets;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "assessmentid")
+	private List<Liability> liabilities;
+
+	//@OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL)
+	//@Transient
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "assessmentid")
+	private List<Questionnaire> survey;
 
 	/**
 	 * @return the id
@@ -219,9 +237,7 @@ public class Assessment extends ResponseObject{
 		this.accountNumber = accountNumber;
 	}
 
-	//@OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL)
-	@Transient
-	private List<Questionnaire> survey;
+
 
 	/**
 	 * @return the survey
@@ -249,5 +265,33 @@ public class Assessment extends ResponseObject{
 	 */
 	public void setArchivedDate(Date archivedDate) {
 		this.archivedDate = archivedDate;
+	}
+
+	/**
+	 * @return the assets
+	 */
+	public List<Asset> getAssets() {
+		return assets;
+	}
+
+	/**
+	 * @param assets the assets to set
+	 */
+	public void setAssets(List<Asset> assets) {
+		this.assets = assets;
+	}
+
+	/**
+	 * @return the liabilities
+	 */
+	public List<Liability> getLiabilities() {
+		return liabilities;
+	}
+
+	/**
+	 * @param liabilities the liabilities to set
+	 */
+	public void setLiabilities(List<Liability> liabilities) {
+		this.liabilities = liabilities;
 	}
 }

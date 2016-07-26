@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-public class ResponseObject extends Object{
+public class ResponseObject{
 
-	private String errorCd;
-	private String errorMsg;
-	private HttpStatus httpStatus;
+	protected String errorCd="0";
+	protected String errorMsg;
+	protected HttpStatus httpStatus;
 
-	private List<Question> questions;
-	private Assessment assessment;
+	protected List<Question> questions;
+	protected Assessment assessment;
 
 	public ResponseObject(){
 
@@ -105,7 +105,7 @@ public class ResponseObject extends Object{
 
 
     //audit Logs
-	public AuditLog auditLog = new AuditLog();
+	protected AuditLog auditLog = new AuditLog();
 
 	 public void preSaveOrUpdate(){
 		   auditLog.setOldTxnDtls(this.toString());
@@ -114,6 +114,22 @@ public class ResponseObject extends Object{
 	 public void postSaveOrUpdate(){
 		 auditLog.setNewTxnDtls(this.toString());
 	 }
+
+
+	/**
+	 * @return the auditLog
+	 */
+	public AuditLog getAuditLog() {
+		return auditLog;
+	}
+
+
+	/**
+	 * @param auditLog the auditLog to set
+	 */
+	public void setAuditLog(AuditLog auditLog) {
+		this.auditLog = auditLog;
+	}
 
 
 

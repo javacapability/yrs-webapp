@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.acn.yrs.models.Question;
 
-@RepositoryRestResource(path="questions")
+@RepositoryRestResource(path="questions", exported=false)
 public interface QuestionsRepository extends PagingAndSortingRepository<Question, Integer>{
 
 

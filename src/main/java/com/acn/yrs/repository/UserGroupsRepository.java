@@ -5,7 +5,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.acn.yrs.models.UserGroup;
 
-@RepositoryRestResource(path="usergroups")
+@RepositoryRestResource(path="usergroups", exported=false)
 public interface UserGroupsRepository extends PagingAndSortingRepository<UserGroup, Integer>{
 
 

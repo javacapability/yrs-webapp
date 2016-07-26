@@ -16,6 +16,7 @@ public class BaseConstants {
 	public static final int ASSESSMENTARCHIVED = 3;
 
 	public static final String ASSESSMENT_ERROR_PAYLOAD_NULL = "Assessment payload is null";
+	public static final String CLIENT_INFO_EXISTS = "Client already exists";
 
 	public static final int UPDATE_ACTION = 2;
 	public static final int SAVE_ACTION = 1;
