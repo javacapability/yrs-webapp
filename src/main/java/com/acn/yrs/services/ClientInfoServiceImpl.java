@@ -8,6 +8,7 @@ import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.ClientInfo;
 import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.repository.ClientInfosRepository;
+import com.acn.yrs.utils.Util;
 
 @Service("clientInfoService")
 @Transactional
@@ -28,7 +29,10 @@ public class ClientInfoServiceImpl extends BaseConstants implements ClientInfoSe
 			clientInfoDB.setErrorCd(HASERROR);
 			clientInfoDB.setErrorMsg(CLIENT_INFO_EXISTS);
 		}else{
-
+			if(Util.getAge(clientInfo.getBirthday())<18){
+				clientInfoDB.setErrorCd(HASERROR);
+				clientInfoDB.setErrorMsg(CLIENT_INFO_UNDERAGE);
+			}
 			clientInfoDB = clientInfosRepository.save(clientInfo);
 			clientInfoDB.setErrorCd(HASNOERROR);
 		}

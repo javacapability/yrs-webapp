@@ -2,8 +2,10 @@ package com.acn.yrs.models;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +26,7 @@ public class Asset extends ResponseObject{
 	@Expose
 	private Integer id;
 
+	//@ManyToOne
 	@ManyToOne
 	@JoinColumn(name = "assessmentid")
 	protected Assessment assessment;

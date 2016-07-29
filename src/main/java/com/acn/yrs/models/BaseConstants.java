@@ -1,5 +1,7 @@
 package com.acn.yrs.models;
 
+import org.springframework.http.HttpStatus;
+
 public class BaseConstants {
 
 	public static final String HASERROR = "1";
@@ -15,8 +17,12 @@ public class BaseConstants {
 	public static final int ASSESSMENTRECOGIVEN = 2;
 	public static final int ASSESSMENTARCHIVED = 3;
 
+	public static final String ASSESSMENTNOTFOUND = "Assessment not found";
 	public static final String ASSESSMENT_ERROR_PAYLOAD_NULL = "Assessment payload is null";
 	public static final String CLIENT_INFO_EXISTS = "Client already exists";
+	public static final String CLIENT_INFO_UNDERAGE = "Client should be 18 years old and above";
+
+	public static final String NO_QUESTIONS_FOUND="No Questions Found";
 
 	public static final int UPDATE_ACTION = 2;
 	public static final int SAVE_ACTION = 1;

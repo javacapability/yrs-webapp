@@ -1,5 +1,6 @@
 package com.acn.yrs.utils;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -30,6 +31,13 @@ public class Util extends Helper{
 
 	}
 
+	public static int getAge(Date birthday) {
+		long ageInMillis = new Date().getTime() - birthday.getTime();
+
+		Date age = new Date(ageInMillis);
+
+		return age.getYear();
+	}
 
 	/*public static void main(String[] args) {
 

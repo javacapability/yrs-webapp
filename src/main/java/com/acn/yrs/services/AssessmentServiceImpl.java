@@ -76,23 +76,41 @@ public class AssessmentServiceImpl extends BaseConstants implements AssessmentSe
 
 	@Override
 	public Assessment saveAssessment(Assessment assessment) {
-		// TODO Auto-generated method stub
-		BigDecimal totalAssets = new BigDecimal(0);
-		List<Asset> assets = assessment.getAssets();
-		for(Asset asset:assets){
-			totalAssets = totalAssets.add(asset.getAssetamount());
-		}
-		assessment.setTotalAssets(totalAssets);
 
-		BigDecimal totalLiabilities = new BigDecimal(0);
-		List<Liability> liabilities = assessment.getLiabilities();
-		for(Liability liability:liabilities){
-			totalLiabilities = totalLiabilities.add(liability.getLiabilityamount());
-		}
-		assessment.setTotalLiabilities(totalLiabilities);
+		getTotalAssetAndLiabilities(assessment);
 		assessment.setAssessmentDate(new Date());
 		assessment.setLastModificationDate(new Date());
 
 		return assessmentRepository.save(assessment);
+	}
+
+	@Override
+	public Assessment updateAssessment(Assessment assessment) {
+		// TODO Auto-generated method stub
+		getTotalAssetAndLiabilities(assessment);
+		assessment.setLastModificationDate(new Date());
+
+		return assessmentRepository.save(assessment);
+	}
+
+	private void getTotalAssetAndLiabilities(Assessment assessment) {
+		BigDecimal totalAssets = new BigDecimal(0);
+
+		List<Asset> assets = assessment.getAssets();
+		if(assets!=null){
+			for(Asset asset:assets){
+				totalAssets = totalAssets.add(asset.getAssetamount());
+			}
+			assessment.setTotalAssets(totalAssets);
+		}
+
+		BigDecimal totalLiabilities = new BigDecimal(0);
+		List<Liability> liabilities = assessment.getLiabilities();
+		if(liabilities!=null){
+			for(Liability liability:liabilities){
+				totalLiabilities = totalLiabilities.add(liability.getLiabilityamount());
+			}
+			assessment.setTotalLiabilities(totalLiabilities);
+		}
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class AssessmentWrapper extends ResponseObject {
 
+	private int id;;
 	private String accountNumber;
 	private String clientName;
 	private String birthday;
@@ -16,6 +17,18 @@ public class AssessmentWrapper extends ResponseObject {
 	private List<Asset> assets;
 	private List<Liability> liabilities;
 
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 	/**
 	 * @return the accountNumber
 	 */

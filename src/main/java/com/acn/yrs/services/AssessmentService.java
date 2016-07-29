@@ -16,4 +16,5 @@ public interface AssessmentService {
 	Assessment archiveAssessment(int assessmentId) throws NoResultException;
 	Assessment reactivateAssessment(int assessmentId) throws NoResultException;
 	Assessment saveAssessment(Assessment assessment);
+	Assessment updateAssessment(Assessment assessment);
 }

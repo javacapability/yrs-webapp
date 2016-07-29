@@ -92,7 +92,7 @@ public class AssessmentController extends BaseController{
 
 		}catch(NoResultException e){
 			//e.printStackTrace();
-			return getResponse("Assessment Not Found",tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -113,7 +113,7 @@ public class AssessmentController extends BaseController{
 			return getResponse(new ResponseObject(), tokenId, HttpStatus.OK);
 		}catch(NoResultException e){
 			//e.printStackTrace();
-			return getResponse("Assessment Not Found",tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -136,7 +136,8 @@ public class AssessmentController extends BaseController{
 			return getResponse(new ResponseObject(), tokenId, HttpStatus.OK);
 		}catch(NoResultException e){
 			//e.printStackTrace();
-			return getResponse("Assessment Not Found",tokenId, HttpStatus.NOT_FOUND);
+			//if(assessment==null) return getResponse(ASSESSMENTNOTFOUND,HttpStatus.NOT_ACCEPTABLE);
+			return getResponse(ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -166,7 +167,7 @@ public class AssessmentController extends BaseController{
 			return getResponse(response,tokenId, HttpStatus.OK);
 		}catch(NoResultException e){
 			//e.printStackTrace();
-			return getResponse("No Questions Found",tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(NO_QUESTIONS_FOUND,tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -197,7 +198,7 @@ public class AssessmentController extends BaseController{
 
 			clientInfo = clientInfoService.checkAndSaveClientInfo(clientInfo);
 			if(clientInfo.getErrorCd().equals(HASERROR)){
-				return getResponse(clientInfo.getErrorMsg(),HttpStatus.NOT_ACCEPTABLE);
+				return getResponse(clientInfo.getErrorMsg(),tokenId,HttpStatus.NOT_ACCEPTABLE);
 			}
 
 			assessment.setClientInfo(clientInfo);
@@ -208,13 +209,13 @@ public class AssessmentController extends BaseController{
 
 			response = validateAssessment(assessment);
 			if(response.getErrorCd().equals(HASERROR)){
-				return getResponse(response.getErrorMsg(),HttpStatus.NOT_ACCEPTABLE);
+				return getResponse(response.getErrorMsg(),tokenId, HttpStatus.NOT_ACCEPTABLE);
 			}
 
 			return getResponse(response,tokenId, HttpStatus.OK);
 		}catch(NoResultException e){
 			e.printStackTrace();
-			return getResponse("No Questions Found",tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(NO_QUESTIONS_FOUND,tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -223,6 +224,56 @@ public class AssessmentController extends BaseController{
 		}
 	}
 
+	@RequestMapping(value="/updateAssessment", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> updateAssessment(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody AssessmentWrapper assessmentWrapper) {
+		try{
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+			ResponseObject response = new ResponseObject();
+			Assessment assessment = assessmentService.getAssessment(assessmentWrapper.getId());
+			if(assessment==null) return getResponse(ASSESSMENTNOTFOUND,tokenId,HttpStatus.NOT_ACCEPTABLE);
+			assessment.setAccountNumber(assessmentWrapper.getAccountNumber()==null?assessment.getAccountNumber():assessmentWrapper.getAccountNumber());
+
+
+			ClientInfo clientInfo = assessment.getClientInfo()==null?new ClientInfo():assessment.getClientInfo();
+			clientInfo.setClientName(assessmentWrapper.getClientName()==null?clientInfo.getClientName():assessmentWrapper.getClientName());
+			clientInfo.setBirthday(assessmentWrapper.getBirthday()==null?clientInfo.getBirthday():new Date(assessmentWrapper.getBirthday()));
+			clientInfo.setJobTitleFieldWork(assessmentWrapper.getJobTitleFieldWork()==null?clientInfo.getJobTitleFieldWork():assessmentWrapper.getJobTitleFieldWork());
+			clientInfo.setEduAttainment(assessmentWrapper.getEduAttainment()==null?clientInfo.getEduAttainment():assessmentWrapper.getEduAttainment());
+			clientInfo.setUserInfo(userService.findUserInfoByUserId(userId));
+			clientInfo.setSignature(assessmentWrapper.getSignature()==null?clientInfo.getSignature():assessmentWrapper.getSignature());
+			clientInfo.setPhoto(assessmentWrapper.getPhoto()==null?clientInfo.getPhoto():assessmentWrapper.getPhoto());
+
+			clientInfo = clientInfoService.saveClientInfo(clientInfo);
+
+			if(clientInfo.getErrorCd().equals(HASERROR)){
+				return getResponse(clientInfo.getErrorMsg(),tokenId,HttpStatus.NOT_ACCEPTABLE);
+			}
+
+			assessment.setClientInfo(clientInfo);
+			assessment.setAssets(assessmentWrapper.getAssets());
+			assessment.setLiabilities(assessmentWrapper.getLiabilities());
+			assessment.setSurvey(assessmentWrapper.getSurvey());
+			assessment.setAssessmentStatus(new AssessmentStatus(ASSESSMENTPENDING));
+
+			response = validateAssessment(assessment);
+			if(response.getErrorCd().equals(HASERROR)){
+				return getResponse(response.getErrorMsg(),tokenId,HttpStatus.NOT_ACCEPTABLE);
+			}
+
+			return getResponse(response,tokenId, HttpStatus.OK);
+		}catch(NoResultException e){
+			e.printStackTrace();
+			return getResponse(NO_QUESTIONS_FOUND,tokenId, HttpStatus.NOT_FOUND);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+	}
 	private Assessment validateAssessment(Assessment assessment) {
 		if(assessment==null){
 			assessment = new Assessment();
@@ -230,10 +281,11 @@ public class AssessmentController extends BaseController{
 			assessment.setErrorMsg(ASSESSMENT_ERROR_PAYLOAD_NULL);
 		}else{
 			assessment.setErrorCd(HASNOERROR);
-			assessment = assessmentService.saveAssessment(assessment);
-
-			//save survey
-
+			if(assessment.getId()==0){
+				assessment = assessmentService.saveAssessment(assessment);
+			}else{
+				assessment = assessmentService.updateAssessment(assessment);
+			}
 		}
 		return assessment;
 	}
