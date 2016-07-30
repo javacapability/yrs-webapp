@@ -1,7 +1,5 @@
 package com.acn.yrs.controllers;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +24,21 @@ public class UserInfoController extends BaseController{
 
 	@Autowired
 	LoginService loginService;
-	
+
 	@Autowired
 	UserService userService;
 
 	@Autowired
 	Helper helper;
 
-	@RequestMapping(value="/users", method = RequestMethod.GET, headers = "Accept=application/json")
-	public List<UserInfo> getUsers() {
+	@RequestMapping(value="/users", method = RequestMethod.GET, headers = {"Accept=application/json"})
+	public ResponseEntity<Object> getUsers() {
 
-		return userService.getAllUsers();
+		return getResponse(userService.getAllUsers(),"",HttpStatus.OK);
 	}
 
-	@RequestMapping(value="/login", method = RequestMethod.POST, headers = "Accept=application/json")
+
+	@RequestMapping(value="/login", method = RequestMethod.POST, headers = {"Accept=application/json"})
 	public ResponseEntity<Object> login(@RequestBody UserInfo userInfo){
 
 		LOG.debug("userId" + userInfo.getUserId());
@@ -48,24 +47,24 @@ public class UserInfoController extends BaseController{
 
 	}
 
-	@RequestMapping(value="/loadMain", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value="/loadMain", method = RequestMethod.POST)
 	public ResponseEntity<Object> loadMain(@RequestHeader String userId, @RequestHeader String tokenId){
 
 		return checkUser(userId, tokenId);
 
 	}
-	
+
 	// ************************************************gene
 		/**
 		 * This method is for logging user out in the application
-		 * 
+		 *
 		 * @param UserInfo
 		 * @return
 		 */
 		@RequestMapping(value = "/logout", method = RequestMethod.POST, headers = "Accept=application/json")
 		public ResponseEntity<Object> logout(@RequestHeader String userId,
 				@RequestHeader String tokenId) {
-	       
+
 			LOG.debug("Logging Out User " + userId);
 			ResponseEntity<Object> validity = checkUser(userId,
 					tokenId);
@@ -80,14 +79,14 @@ public class UserInfoController extends BaseController{
 
 		/**
 		 * This method is for admin user to create a user info
-		 * 
+		 *
 		 * @param UserInfo
 		 * @return
 		 */
 		@RequestMapping(value = "/register", method = RequestMethod.POST, headers = "Accept=application/json")
 		public ResponseEntity<Object> create(@RequestBody UserInfo userInfo,
 				@RequestHeader String userId, @RequestHeader String tokenId) {
-	        
+
 			LOG.debug("Register New User");
 			ResponseEntity<Object> validity = checkUser(userId,
 					tokenId);
@@ -97,13 +96,13 @@ public class UserInfoController extends BaseController{
 			} else {
 				return validity;
 			}
-			
+
 
 		}
 
 		/**
 		 * This method is for admin user to update a user info
-		 * 
+		 *
 		 * @param UserInfo
 		 * @return
 		 */
@@ -111,7 +110,7 @@ public class UserInfoController extends BaseController{
 		@RequestMapping(value = "/update", method = RequestMethod.POST, headers = "Accept=application/json")
 		public ResponseEntity<Object> update(@RequestBody UserInfo userInfo,
 				@RequestHeader String userId, @RequestHeader String tokenId) {
-			
+
 			LOG.debug("Update User Details");
 			ResponseEntity<Object> validity = checkUser(userId,
 					tokenId);
@@ -128,7 +127,7 @@ public class UserInfoController extends BaseController{
 		public ResponseEntity<Object> delete(@RequestBody UserInfo userInfo,
 				@RequestHeader String userId, @RequestHeader String tokenId) {
 
-			
+
 			LOG.debug("Delete User Details");
 			ResponseEntity<Object> validity = checkUser(userId,
 					tokenId);

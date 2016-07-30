@@ -75,9 +75,12 @@ public class BaseController extends BaseConstants {
 			((ResponseObject) object).setErrorCd(HASERROR);
 			((ResponseObject) object).setErrorMsg(NORECORDFOUND);
 		}
-		httpHeaders.set("Access-Control-Allow-Origin", "*");
-		httpHeaders.set("Access-Control-Allow-Methods", "POST, GET");
-		httpHeaders.set("Access-Control-Allow-Headers", "x-requested-with");
+
+		//httpHeaders.set("Access-Control-Allow-Origin", "*");
+		//httpHeaders.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");//, PATCH, PUT, DELETE, OPTIONS");
+		//httpHeaders.set("Access-Control-Allow-Headers", "x-requested-with");//Accept, Origin, Content-Type, X-Auth-Token");
+		//httpHeaders.set("Accept", "application/json");
+
 
 		//this will hide fields with protected modifier from the JSON response
 		//can hide unwanted data
