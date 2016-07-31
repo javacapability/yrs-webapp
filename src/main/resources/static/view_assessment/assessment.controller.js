@@ -50,6 +50,10 @@
                     break;
             }
         };
+
+        assessments.formatdate = function(assessDate){
+            return moment(assessDate).format('MMMM D, YYYY');
+        };
     }
     
 }());

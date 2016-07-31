@@ -14,12 +14,13 @@
 
         console.log($stateParams);
 
-        main.currentDate = moment().format('MMMM D, YYYY');        
-        
-        mainUserServices.getCurrentUser("")
-            .then(function (data) {
-                main.currentUser  = data;
-            });
+        main.currentDate = moment().format('MMMM D, YYYY');
+        main.currentUser  = $stateParams.user;
+
+        // mainUserServices.getCurrentUser("")
+        //     .then(function (data) {
+        //         main.currentUser  = data;
+        //     });
         
         $scope.selectedIndex = 0;
 
@@ -35,7 +36,7 @@
                     $state.go('main.assessment_list',$stateParams);
                     break;
                 case 3:
-                    $state.go('main.question_main');
+                    $state.go('main.parameters_main',$stateParams);
                     break;
             }
         });

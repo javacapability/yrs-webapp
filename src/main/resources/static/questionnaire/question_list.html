@@ -12,33 +12,35 @@
             </md-autocomplete>
         </form>
         <br>
-        <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
-            <div flex="10"></div>
-            <div flex="5">#</div>
-            <div flex="55">Question</div>
-            <div flex="20">Answer type</div>
-            <div flex="10"></div>
-        </md-content>
-        <md-divider></md-divider>
-        <md-list-item ng-repeat="currentQuest in questions.questionList" ng-click="''" class="noright" flex>
-            <div flex="10">
-                <md-button class="md-icon-button md-primary" aria-label="">
-                    <i class="material-icons">menu</i>
-                </md-button>
-            </div>
-            <div flex="5">{{ currentQuest.priorityNumber}}</div>
-            <div flex="55">{{ currentQuest.questionTxt}}</div>
-            <div flex="20">{{ questions.getAnswerTypes(currentQuest.answerTypes.id) }}</div>
-            <div flex="10" layout="row">
-                <md-button class="md-icon-button md-primary" aria-label="Clear" ng-click="questions.deleteQuestion(currentQuest.id)">
-                    <i class="material-icons">clear</i>
-                </md-button>
-                <md-button class="md-icon-button md-accent" aria-label="Edit" ng-click="questions.editQuestion(currentQuest.id)">
-                    <i class="material-icons">mode_edit</i>
-                </md-button>
-            </div>
+        <div layout="column" class="md-whiteframe-z1">
+            <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
+                <div flex="10"></div>
+                <div flex="5">#</div>
+                <div flex="55">Question</div>
+                <div flex="20">Answer type</div>
+                <div flex="10"></div>
+            </md-content>
             <md-divider></md-divider>
-        </md-list-item>
+            <md-list-item ng-repeat="currentQuest in questions.questionList" ng-click="''" class="noright" flex>
+                <div flex="10">
+                    <md-button class="md-icon-button md-primary" aria-label="">
+                        <i class="material-icons">menu</i>
+                    </md-button>
+                </div>
+                <div flex="5">{{ currentQuest.priorityNumber}}</div>
+                <div flex="55">{{ currentQuest.questionTxt}}</div>
+                <div flex="20">{{ questions.getAnswerTypes(currentQuest.answerTypes.id) }}</div>
+                <div flex="10" layout="row">
+                    <md-button class="md-icon-button md-primary" aria-label="Clear" ng-click="questions.deleteQuestion(currentQuest.id)">
+                        <i class="material-icons">clear</i>
+                    </md-button>
+                    <md-button class="md-icon-button md-accent" aria-label="Edit" ng-click="questions.editQuestion(currentQuest.id)">
+                        <i class="material-icons">mode_edit</i>
+                    </md-button>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+        </div>
         <br>
         <div layout="row">
             <div flex>&nbsp;</div><div>

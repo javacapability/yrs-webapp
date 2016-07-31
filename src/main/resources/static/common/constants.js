@@ -1,17 +1,13 @@
 angular.module('constants',[])
     .constant('webServices', {
-        //serviceHost: 'http://localhost/yrs-app', //???? server host URL
+        //serviceHost: '$()', //server host URL
         serviceHost: 'http://localhost:8080/yrs',
-        
-        //Update with correct paths
-        loginServicePath: '',
-        userServicePath: '',
-        questionServicePath: '',
-        assessmentServicePath: '',
-        parametersServicePath: '',
-        
+
         //Update with correct service methods ex: loginEndpoint: '/login'
         loginEndpoint: '/login',
+        resetEndpoint: '/reset',
+        loadmainEndpoint: '/loadMain',
+        logoutEndpoint: '/logout',
         
         userListEndpoint: '/users',
         userSaveEndpoint: '/register',
@@ -26,7 +22,7 @@ angular.module('constants',[])
         assessmentListEndpoint: '/getAssessmentList',
         assessmentGetEndpoint: '/getAssessment',
         
-        parametersGetEndpoint: '',
-        parametersSaveEndpoint: ''
+        parametersListEndpoint: '/syspar/all',
+        parametersUpdateEndpoint: '/syspar/update'
         
     });

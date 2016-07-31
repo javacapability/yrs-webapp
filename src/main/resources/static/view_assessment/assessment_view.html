@@ -1,43 +1,83 @@
 <div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
     <div layout="column" style="max-width: 90%; width: 800px">
-        <div layout="row" flex>
-            <div layout="column" flex="70">
-                <md-input-container class="md-block">
-                    <label>Account Name</label>
-                    <input ng-model="assessments.assessmentView.accountNumber" disabled>
-                </md-input-container>
-                <md-input-container class="md-block">
-                    <label>Name of Profiled Client</label>
-                    <input ng-model="assessments.assessmentView.clientInfo.clientName" disabled>
+        <div layout="column"  class="md-whiteframe-z1">
+            <md-content class="md-padding md-hue-1 tabletitle" class="noright" flex>
+                <div flex>View Assessment</div>
+            </md-content>
+            <md-divider></md-divider>
+            <div layout="column" flex class="md-padding">
+                <div layout="row" flex>
+                    <div layout="column" flex="70">
+                        <md-input-container class="md-block forminput">
+                            <label>Account Name</label>
+                            <input ng-model="assessments.assessmentView.accountNumber" disabled>
+                        </md-input-container>
+                        <md-input-container class="md-block forminput">
+                            <label>Name of Profiled Client</label>
+                            <input ng-model="assessments.assessmentView.clientInfo.clientName" disabled>
+                        </md-input-container>
+                    </div>
+                    <div flex="30" class="md-padding">
+                        <div class="md-whiteframe-z1" flex>
+                        {{assessments.assessmentView.clientInfo.photo}}
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" flex>
+                    <md-input-container class="md-block forminput" flex="40">
+                        <label>Birthday</label>
+                        <input ng-model="assessments.formatdate(assessments.assessmentView.clientInfo.birthday)" disabled>
+                    </md-input-container>
+                    <md-input-container class="md-block forminput" flex="60">
+                        <label>Job Title, Field of Work</label>
+                        <input ng-model="assessments.assessmentView.clientInfo.jobTitleFieldWork" disabled>
+                    </md-input-container>
+                </div>
+                <md-input-container class="md-block forminput" flex="60">
+                    <label>Educational Attainment</label>
+                    <input ng-model="assessments.assessmentView.clientInfo.eduAttainment" disabled>
                 </md-input-container>
             </div>
-            <div flex="30">
-                {{assessments.assessmentView.clientInfo.photo}}
+            <md-divider></md-divider>
+            <!--Questionnaire here-->
+            <div ng-if="!assessments.assessmentView.survey" layout="column">
+                Assessment has no answered questionnaire
             </div>
-        </div>
-        <div layout="row" flex>
-            <md-input-container class="md-block" flex="40">
-                <label>Birthday</label>
-                <input ng-model="assessments.assessmentView.clientInfo.birthday" disabled>
-            </md-input-container>
-            <md-input-container class="md-block" flex="60">
-                <label>Job Title, Field of Work</label>
-                <input ng-model="assessments.assessmentView.clientInfo.jobTitleFieldWork" disabled>
-            </md-input-container>
-        </div>
-        <md-input-container class="md-block" flex="60">
-            <label>Educational Attainment</label>
-            <input ng-model="assessments.assessmentView.clientInfo.eduAttainment" disabled>
-        </md-input-container>
-        <md-divider></md-divider>
-        <!--Questionnaire here-->
-        <div ng-repeat="currentSurvey in assessments.assessmentView.survey">
-
+            <div ng-repeat="survey in assessments.assessmentView.survey" class="md-padding" layout="column">
+                <div flex>{{survey.question.priorityNumber}}. {{survey.question.questionTxt}}</div>
+                <br>
+                <div class="md-padding">
+                    <div ng-if="survey.question.answerTypes.id == 1" layout="column">
+                        <md-radio-group ng-model="survey.answer.answerNumber">
+                            <md-radio-button ng-repeat="answer in survey.question.answers"
+                                    ng-value="answer.answerNumber" class="md-primary" disabled>{{answer.answerTxt}}</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div ng-if="survey.question.answerTypes.id == 2" layout="column">
+                        <md-radio-group ng-model="survey.answerTxt">
+                            <md-radio-button value="Yes" class="md-primary" disabled>Yes</md-radio-button>
+                            <md-radio-button value="No" class="md-primary" disabled>No</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div ng-if="questions.editQuestion.answerTypes.id == 3" layout="column">
+                        <md-radio-group ng-model="survey.answerTxt">
+                            <md-radio-button value="True" class="md-primary" disabled>True</md-radio-button>
+                            <md-radio-button value="False" class="md-primary" disabled>False</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div ng-if="questions.editQuestion.answerTypes.id == 4" layout="column">
+                        <md-input-container class="md-block forminput">
+                            <label>Answer</label>
+                            <input ng-model="survey.answerTxt" disabled>
+                        </md-input-container>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+            </div>
         </div>
         <br>
         <div layout="row" layout-align="center center">
             <md-button class="md-raised md-primary" ng-click="assessments.back()">Back to Assessment List</md-button>
         </div>
-        {{assessments.assessmentView}}
     </div>
 </div>

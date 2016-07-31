@@ -21,3 +21,7 @@
 .tabletitle {
     font-weight: bold;
 }
+
+md-input-container.forminput {
+    margin: 0px !important;
+}

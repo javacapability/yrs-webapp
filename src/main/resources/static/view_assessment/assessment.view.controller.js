@@ -14,13 +14,17 @@
 
         assessments.assessmentView = {};
 
-        assessmentServices.getAssessmentList($stateParams.id, $stateParams)
+        assessmentServices.getAssessment($stateParams.id, $stateParams)
             .then(function (data) {
                 assessments.assessmentView = data;
             });
 
         assessments.back = function(){
             $state.go('main.assessment_list',$stateParams);
+        };
+
+        assessments.formatdate = function(date){
+            return moment(date).format('MMMM D, YYYY');
         };
     }   
     

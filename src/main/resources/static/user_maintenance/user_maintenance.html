@@ -17,27 +17,29 @@
             </md-autocomplete>
         </form>
         <br>
-        <md-content layout="row" class="md-padding md-hue-1 tabletitle">
-            <div flex="20">User id</div>
-            <div flex="50">Name</div>
-            <div flex="20">User group</div>
-            <div flex="10"></div>
-        </md-content>
-        <md-divider></md-divider>
-        <md-list-item ng-repeat="user in users.userList" ng-click="''" class="noright" flex>
-            <div flex="20">{{ user.userId}}</div>
-            <div flex="50">{{ user.fullName}}</div>
-            <div flex="20">{{user.userGroup.groupName}}</div>
-            <div flex="10" layout="row">
-                <md-button class="md-icon-button md-primary" aria-label="Clear" ng-click="users.deleteUser(user.userId)">
-                    <i class="material-icons">clear</i>
-                </md-button>
-                <md-button class="md-icon-button md-accent" aria-label="Edit" ng-click="users.editUser(user.userId)">
-                    <i class="material-icons">mode_edit</i>
-                </md-button>
-            </div>
+        <div layout="column" class="md-whiteframe-z1">
+            <md-content layout="row" class="md-padding md-hue-1 tabletitle">
+                <div flex="20">User id</div>
+                <div flex="50">Name</div>
+                <div flex="20">User group</div>
+                <div flex="10"></div>
+            </md-content>
             <md-divider></md-divider>
-        </md-list-item>
+            <md-list-item ng-repeat="user in users.userList" ng-click="''" class="noright" flex>
+                <div flex="20">{{ user.userId}}</div>
+                <div flex="50">{{ user.fullName}}</div>
+                <div flex="20">{{user.userGroup.groupName}}</div>
+                <div flex="10" layout="row">
+                    <md-button class="md-icon-button md-primary" aria-label="Clear" ng-click="users.deleteUser(user.userId)">
+                        <i class="material-icons">clear</i>
+                    </md-button>
+                    <md-button class="md-icon-button md-accent" aria-label="Edit" ng-click="users.editUser(user.userId)">
+                        <i class="material-icons">mode_edit</i>
+                    </md-button>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+        </div>
         <br>
         <div layout="row">
             <div flex>&nbsp;</div><div>

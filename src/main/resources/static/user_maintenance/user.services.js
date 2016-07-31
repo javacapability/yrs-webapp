@@ -6,7 +6,7 @@
     //$q is temporary to test json queries
     function userServices($resource, $q, webServices)
     {
-        var serviceURL = webServices.serviceHost + webServices.userServicePath;
+        var serviceURL = webServices.serviceHost;
         
         var service = {
             getUsers: getUsers,
@@ -19,12 +19,19 @@
         return service;
 
         function getUsers() {
-            var resource = $resource(serviceURL + webServices.userListEndpoint);
+            var resource = $resource(serviceURL + webServices.userListEndpoint, {}, {
+                query: {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    isArray: true
+                }
+            });
             var result = resource.query().$promise;
             var deferred = $q.defer();
             result.then(function (data) {
                 return deferred.resolve(data);
-                
             });
             return deferred.promise;
         }
@@ -43,7 +50,15 @@
         }
         
         function getEditUser(userId){
-            var resource = $resource(serviceURL + webServices.userEditEndpoint);
+            var resource = $resource(serviceURL + webServices.userListEndpoint, {}, {
+                query: {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    isArray: true
+                }
+            });
             var result = resource.query().$promise;
             var deferred = $q.defer();
             result.then(function (data) {

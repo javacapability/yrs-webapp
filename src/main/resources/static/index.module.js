@@ -6,11 +6,14 @@
                 'ngResource',
                 'ui.router',
                 'constants',
+                'ngMessages',
+                'ngAnimate',
                 'mainModule',
                 'loginModule',
                 'userModule',
                 'questionModule',
-                'assessmentModule'
+                'assessmentModule',
+                'parametersModule'
             ]);
 
 }());
