@@ -22,7 +22,7 @@ public class Application {
 
 		//SpringApplication.run(Application.class, args);
 		SpringApplication springApplication = new SpringApplication(Application.class);
-		springApplication.addListeners(new ApplicationPidListener("..\\app.pid"));
+		springApplication.addListeners(new ApplicationPidListener("C:\\Users\\Administrator\\yrs\\app.pid"));
 		springApplication.run(args);
 	}
 
