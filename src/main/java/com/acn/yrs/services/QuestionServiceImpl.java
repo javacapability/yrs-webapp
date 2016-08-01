@@ -92,6 +92,15 @@ public class QuestionServiceImpl extends BaseConstants implements
 	}
 
 	@Override
+	public Question getQuestion(int questionId) {
+		LOG.info("Get Question Service()");
+		Question questionDB = questionsRepository.findOne(questionId);
+
+
+		return questionDB;
+	}
+
+	@Override
 	public void delete(int questionId) {
 		LOG.info("Delete User Service()");
 		Question questionDB = questionsRepository.findOne(questionId);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acn.yrs.models.Question;
+import com.acn.yrs.models.SearchObject;
 import com.acn.yrs.services.QuestionService;
 
 @RestController
@@ -21,8 +22,8 @@ public class QuestionController extends BaseController{
 
 	@Autowired
 	QuestionService questionService;
-    
-	
+
+
 	Logger LOG = LoggerFactory.getLogger(QuestionController.class);
 
 	/*@RequestMapping(value = "/questions", method = RequestMethod.GET)
@@ -32,6 +33,29 @@ public class QuestionController extends BaseController{
 	    Page<Question> questions = questionsRepository.findAllByIsActive(1, pageable);
 	    return new ResponseEntity<>(assembler.toResource(questions), HttpStatus.OK);
 	  }*/
+
+	/**
+     * This method is for admin user to create a question
+     *
+     * @param question
+     * @param userId
+     * @param tokenId
+     * @return
+     */
+	@RequestMapping(value = "/getQuestion", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> getQuestion(@RequestBody SearchObject searchObject,
+			@RequestHeader String userId, @RequestHeader String tokenId) {
+
+		LOG.debug("Get Question");
+		ResponseEntity<Object> validity = checkUser(userId, tokenId);
+		if (validity == null) {
+			Question question = questionService.getQuestion(searchObject.getId());
+			return getResponse(question,tokenId, HttpStatus.OK);
+		} else {
+			return validity;
+		}
+
+	}
 
 	@RequestMapping(value="/getQuestionList", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<Object> getQuestionList(@RequestHeader String userId, @RequestHeader String tokenId) {
@@ -47,9 +71,10 @@ public class QuestionController extends BaseController{
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+			return getResponse("Error", tokenId, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 	}
+
 
 
 	/**
@@ -66,12 +91,12 @@ public class QuestionController extends BaseController{
 	public void setQuestionService(QuestionService questionService) {
 		this.questionService = questionService;
 	}
-    
-	
-	
+
+
+
 	/**
-     * This method is for admin user to create a question 
-     * 
+     * This method is for admin user to create a question
+     *
      * @param question
      * @param userId
      * @param tokenId
@@ -94,7 +119,7 @@ public class QuestionController extends BaseController{
 
 	/**
 	 * This method is for admin user to update a question details
-	 * 
+	 *
 	 * @param questionInfo
 	 * @param userId
 	 * @param tokenId
@@ -115,8 +140,8 @@ public class QuestionController extends BaseController{
 
 	}
     /**
-     *This method is for admin user to delete a question  
-     * 
+     *This method is for admin user to delete a question
+     *
      * @param questionInfo
      * @param userId
      * @param tokenId
