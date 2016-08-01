@@ -6,7 +6,7 @@
     //$q is temporary to test json queries
     function loginServices($resource, $q, webServices)
     {   
-        var serviceURL = webServices.serviceHost + webServices.loginServicePath;
+        var serviceURL = webServices.serviceHost;
         
         var service = {
             login: login
@@ -37,9 +37,10 @@
                         'userId':'',
                         'tokenId':''
                     },
-                    interceptor : {responseError : resourceErrorHandler,
+                    interceptor : {
+                        //responseError : resourceErrorHandler,
                         response: function(response) {
-                        console.log (response.headers());
+                            console.log (response.headers());
                             response.resource.$httpHeaders = response.headers();
                             return response.resource;
                         }
@@ -52,6 +53,7 @@
         function resourceErrorHandler(response) {
             console.log(response);
             console.log('Error logging-in');
+            return response;
         }
     }
 

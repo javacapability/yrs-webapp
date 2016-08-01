@@ -13,7 +13,7 @@
                         }
                     },
                     params: { userId: '' , tokenid: ''}
-                }).state('main.assessment_edit', {views: {'assessment_view': {
+                }).state('main.assessment_view', {views: {'assessment_view': {
                             templateUrl: 'view_assessment/assessment_view.html',
                             controller: 'assessmentViewController',
                             controllerAs: 'assessments'

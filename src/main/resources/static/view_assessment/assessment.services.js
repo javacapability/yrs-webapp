@@ -6,7 +6,7 @@
     //$q is temporary to test json queries
     function assessmentServices($resource, $q, webServices, $http)
     {
-        var serviceURL = webServices.serviceHost + webServices.assessmentServicePath;
+        var serviceURL = webServices.serviceHost;
         
         var service = {
             getAssessmentList: getAssessmentList,
@@ -18,6 +18,7 @@
         function getAssessmentList(listType, params) {
             var search = {};
             search.listType = listType;
+            search.filter = '';
             var resource = $resource(serviceURL + webServices.assessmentListEndpoint, {}, {
                 save: {
                     method: 'POST',

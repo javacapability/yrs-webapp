@@ -19,9 +19,18 @@
             
             loginServices.login(username, password)
                 .then(function (data) {
-                    data.$httpHeaders.userId = data.userId;
-                    console.log (data.$httpHeaders);
-                    $state.go('main', data.$httpHeaders);
+                    if (data.userId) {
+                        console.log('Success');
+                        data.$httpHeaders.userId = data.userId
+                        data.$httpHeaders.user = data;
+                        $state.go('main', data.$httpHeaders);
+                    } else {
+                        console.log('Error logging-in');
+                        $scope.$setValidity("login",false);
+                    }
+                }, function (error) {
+                    console.log('Error logging-in');
+                    $scope.loginForm.$setValidity("login",false);
                 });
             
             //$state.go('main'); //remove this if service is working

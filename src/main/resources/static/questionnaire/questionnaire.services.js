@@ -6,7 +6,7 @@
     //$q is temporary to test json queries
     function questionServices($resource, $q, webServices, $http)
     {
-        var serviceURL = webServices.serviceHost + webServices.questionServicePath;
+        var serviceURL = webServices.serviceHost;
         
         var service = {
             getQuestions: getQuestions,

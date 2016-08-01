@@ -1,16 +1,23 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+    <div layout="column" style="max-width: 90%; width: 800px">
+        <div layout="column" class="md-whiteframe-z1">
+            <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
+                <div flex="60">System Parameters</div>
+                <div flex="40"></div>
+            </md-content>
+            <md-divider></md-divider>
+            <md-list-item ng-repeat="param in parameters.parametersList" class="noright" flex>
+                <div flex="60">{{param.dscp}}</div>
+                <div flex="40">
+                    <md-input-container class="md-block forminput">
+                        <input ng-model="param.val">
+                    </md-input-container>
+                </div>
+            </md-list-item>
+        </div>
+        <br>
+        <div layout="row" layout-align="center center">
+            <md-button class="md-raised md-primary" ng-click="parameters.updateParameters()">Update Parameters</md-button>
+        </div>
+    </div>
+</div>

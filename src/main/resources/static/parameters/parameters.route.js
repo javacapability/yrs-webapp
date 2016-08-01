@@ -1,18 +1,19 @@
 (function () {
 
-    angular.module('mainModule').config(routes);
+    angular.module('parametersModule').config(routes);
 
     routes.$inject = ['$stateProvider', '$httpProvider'];
 
     function routes($stateProvider, $httpProvider) {
         $stateProvider
-            .state('main', {
-                url: '/',
-                templateUrl: 'main_screen/main.html',
-                controller: 'mainController',
-                controllerAs: 'main',
-                params: { userId: '' , tokenid: '', user: {} }
-            });
+                .state('main.parameters_main', {views: {'parameters_view': {
+                            templateUrl: 'parameters/parameters.html',
+                            controller: 'parametersController',
+                            controllerAs: 'parameters'
+                        }
+                    },
+                    params: { userId: '' , tokenid: ''}
+                });
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
         $httpProvider.defaults.useXDomain = true;
         $httpProvider.defaults.withCredentials = true;
