@@ -49,12 +49,15 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 					userInfoDB.setHttpStatus(HttpStatus.OK);
 					return userInfoDB;
 				}
+			}else{
+				LOG.info("UserId not found in Database");
+				return new UserInfo(HttpStatus.FORBIDDEN, HASERROR, USERINFO_NOTFOUND);
 			}
 		}else{
 			LOG.info("UserId not found in Database");
 			return new UserInfo(HttpStatus.FORBIDDEN, HASERROR, USERINFO_NOTFOUND);
 		}
-		return userInfo;
+
 	}
 
 	/**
@@ -84,8 +87,8 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 	public void setHelper(Helper helper) {
 		this.helper = helper;
 	}
-    
-	
+
+
 	// ***********************************************gene
 		@Override
 		public void logout(String userid) {
