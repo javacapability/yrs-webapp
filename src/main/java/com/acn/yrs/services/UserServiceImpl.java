@@ -17,7 +17,7 @@ import com.acn.yrs.utils.Util;
 
 @Service("userService")
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseConstants implements UserService {
 
 	@Autowired
 	UserInfoRepository userInfoRepository;
@@ -54,10 +54,11 @@ public class UserServiceImpl implements UserService {
 				.getUserId().toUpperCase());
 		if (userInfoDB == null) {
 			userInfo.setPswd(Util.encode(userInfo.getPswd()));
-			userInfoRepository.save(userInfo);
 			userInfo.postSaveOrUpdate();
+			userInfoRepository.save(userInfo);
+
 			auditLogService.saveTransaction(userInfo.getAuditLog(),
-					BaseConstants.SAVE_ACTION);
+					SAVE_ACTION, AUDIT_TXN_SUCCESS, TXN_CREATE_USER);
 		}
 		return userInfo;
 	}
@@ -81,11 +82,11 @@ public class UserServiceImpl implements UserService {
 			if (!userInfo.getPswd().equals(Util.decode(userInfoDB.getPswd()))) {
 				userInfoDB.setPswd(Util.encode(userInfo.getPswd()));
 			}
-
-			userInfoRepository.save(userInfoDB);
 			userInfoDB.postSaveOrUpdate();
+			userInfoRepository.save(userInfoDB);
+
 			auditLogService.saveTransaction(userInfoDB.getAuditLog(),
-					BaseConstants.UPDATE_ACTION);
+					UPDATE_ACTION, AUDIT_TXN_SUCCESS, TXN_UPDATE_USER);
 		}
 		return userInfoDB;
 	}
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
 			userInfoRepository.delete(userInfoDB);
 		}
 
-		auditLogService.saveTransaction(userInfoDB.getAuditLog(),BaseConstants.DELETE_ACTION);
+		auditLogService.saveTransaction(userInfoDB.getAuditLog(),DELETE_ACTION, AUDIT_TXN_SUCCESS, TXN_DELETE_USER);
 	}
 
 	@Override

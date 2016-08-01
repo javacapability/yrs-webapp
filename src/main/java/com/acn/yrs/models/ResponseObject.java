@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 
 public class ResponseObject{
 
-	protected String errorCd="0";
-	protected String errorMsg;
+	private String errorCd;
+	private String errorMsg;
 	protected HttpStatus httpStatus;
 
 	protected List<Question> questions;

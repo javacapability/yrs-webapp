@@ -29,13 +29,16 @@ public class AuditLog {
 	private UserInfo userInfo;
 
 	@Column(name = "app")
-	private Integer app;
+	private String app;
+
+	@Column(name = "function")
+	private String function;
 
 	@Column(name = "status")
-	private Integer status;
+	private String status;
 
 	@Column(name = "action")
-	private Integer action;
+	private String action;
 
 	@Column(name = "errorcd")
 	private String errorCd;
@@ -91,45 +94,61 @@ public class AuditLog {
 		this.userInfo = userInfo;
 	}
 
+
+
 	/**
 	 * @return the app
 	 */
-	public Integer getApp() {
+	public String getApp() {
 		return app;
 	}
 
 	/**
 	 * @param app the app to set
 	 */
-	public void setApp(Integer app) {
+	public void setApp(String app) {
 		this.app = app;
+	}
+
+	/**
+	 * @return the function
+	 */
+	public String getFunction() {
+		return function;
+	}
+
+	/**
+	 * @param function the function to set
+	 */
+	public void setFunction(String function) {
+		this.function = function;
 	}
 
 	/**
 	 * @return the status
 	 */
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
 	/**
 	 * @return the action
 	 */
-	public Integer getAction() {
+	public String getAction() {
 		return action;
 	}
 
 	/**
 	 * @param action the action to set
 	 */
-	public void setAction(Integer action) {
+	public void setAction(String action) {
 		this.action = action;
 	}
 

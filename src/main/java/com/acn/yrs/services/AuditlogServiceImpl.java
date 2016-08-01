@@ -18,10 +18,12 @@ public class AuditlogServiceImpl implements AuditLogService {
 	AuditLogsRepository auditLogRepository;
 
 	@Override
-	public void saveTransaction(AuditLog auditLog, int action) {
-        
+	public void saveTransaction(AuditLog auditLog, String action, String status, String function) {
+
+
 		auditLog.setAction(action);
-		auditLog.setStatus(1);
+		auditLog.setStatus(status);
+		auditLog.setFunction(function);
 		auditLog.setDateTime(new Date());
 		auditLogRepository.save(auditLog);
 	}

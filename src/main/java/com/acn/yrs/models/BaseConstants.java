@@ -24,9 +24,21 @@ public class BaseConstants {
 
 	public static final String NO_QUESTIONS_FOUND="No Questions Found";
 
-	public static final int UPDATE_ACTION = 2;
-	public static final int SAVE_ACTION = 1;
-	public static final int DELETE_ACTION = 3;
+	public static final String UPDATE_ACTION = "UPDATE";
+	public static final String SAVE_ACTION = "INSERT";
+	public static final String DELETE_ACTION = "DELETE";
+
+	public static final String AUDIT_TXN_SUCCESS = "Success";
+	public static final String AUDIT_TXN_FAIL = "Failed";
+
+	public static final String TXN_CREATE_QUESTION = "Create New Question";
+	public static final String TXN_UPDATE_QUESTION = "Update Question";
+	public static final String TXN_DELETE_QUESTION = "Delete Question";
+	public static final String TXN_CREATE_USER = "Create New User";
+	public static final String TXN_UPDATE_USER = "Update User";
+	public static final String TXN_DELETE_USER = "Delete User";
+
+
 
 	public BaseConstants() {
 		super();

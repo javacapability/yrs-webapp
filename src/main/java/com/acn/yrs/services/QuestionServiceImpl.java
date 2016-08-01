@@ -56,7 +56,7 @@ public class QuestionServiceImpl extends BaseConstants implements
 			questionsRepository.save(questionInfo);
 			questionInfo.postSaveOrUpdate();
 			auditLogService.saveTransaction(questionInfo.getAuditLog(),
-					BaseConstants.SAVE_ACTION);
+					SAVE_ACTION, AUDIT_TXN_SUCCESS, TXN_CREATE_QUESTION);
 		}
 		return questionInfo;
 	}
@@ -79,12 +79,13 @@ public class QuestionServiceImpl extends BaseConstants implements
 			questionDB.setTrueWeight(questionInfo.getTrueWeight());
 			questionDB.setYesWeight(questionInfo.getYesWeight());
 			questionDB.setAnswers(questionInfo.getAnswers());
+			questionDB.postSaveOrUpdate();
 			questionsRepository.save(questionDB);
 
-			questionDB.postSaveOrUpdate();
+
 
 			auditLogService.saveTransaction(questionDB.getAuditLog(),
-					BaseConstants.UPDATE_ACTION);
+					UPDATE_ACTION, AUDIT_TXN_SUCCESS, TXN_UPDATE_QUESTION);
 		}
 
 		return questionDB;
@@ -98,7 +99,7 @@ public class QuestionServiceImpl extends BaseConstants implements
 		if (questionDB != null) {
 			questionsRepository.delete(questionDB);
 		}
-		auditLogService.saveTransaction(questionDB.getAuditLog(), BaseConstants.DELETE_ACTION);
+		auditLogService.saveTransaction(questionDB.getAuditLog(), DELETE_ACTION, AUDIT_TXN_SUCCESS, TXN_DELETE_QUESTION);
 	}
 
 }

@@ -76,9 +76,10 @@ public class BaseController extends BaseConstants {
 			((ResponseObject) object).setErrorMsg(NORECORDFOUND);
 		}
 
+		//implemented a filter to handle http headers - CorsFilter.java
 		//httpHeaders.set("Access-Control-Allow-Origin", "*");
 		//httpHeaders.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");//, PATCH, PUT, DELETE, OPTIONS");
-		//httpHeaders.set("Access-Control-Allow-Headers", "x-requested-with");//Accept, Origin, Content-Type, X-Auth-Token");
+		//httpHeaders.set("Access-Control-Allow-Headers", "Content-Type, Accept, Access-Control-Allow-Origin, userId, tokenId");
 		//httpHeaders.set("Accept", "application/json");
 
 

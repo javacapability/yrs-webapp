@@ -198,7 +198,7 @@ public class AssessmentController extends BaseController{
 
 			clientInfo = clientInfoService.checkAndSaveClientInfo(clientInfo);
 			if(clientInfo.getErrorCd().equals(HASERROR)){
-				return getResponse(clientInfo.getErrorMsg(),tokenId,HttpStatus.NOT_ACCEPTABLE);
+				return getResponse(clientInfo,tokenId,HttpStatus.NOT_ACCEPTABLE);
 			}
 
 			assessment.setClientInfo(clientInfo);
@@ -209,7 +209,7 @@ public class AssessmentController extends BaseController{
 
 			response = validateAssessment(assessment);
 			if(response.getErrorCd().equals(HASERROR)){
-				return getResponse(response.getErrorMsg(),tokenId, HttpStatus.NOT_ACCEPTABLE);
+				return getResponse(response	,tokenId, HttpStatus.NOT_ACCEPTABLE);
 			}
 
 			return getResponse(response,tokenId, HttpStatus.OK);
@@ -233,7 +233,11 @@ public class AssessmentController extends BaseController{
 			}
 			ResponseObject response = new ResponseObject();
 			Assessment assessment = assessmentService.getAssessment(assessmentWrapper.getId());
-			if(assessment==null) return getResponse(ASSESSMENTNOTFOUND,tokenId,HttpStatus.NOT_ACCEPTABLE);
+			if(assessment==null){
+				response.setErrorCd(HASERROR);;
+				response.setErrorMsg(ASSESSMENTNOTFOUND);
+				return getResponse(response,tokenId,HttpStatus.NOT_ACCEPTABLE);
+			}
 			assessment.setAccountNumber(assessmentWrapper.getAccountNumber()==null?assessment.getAccountNumber():assessmentWrapper.getAccountNumber());
 
 
@@ -249,7 +253,7 @@ public class AssessmentController extends BaseController{
 			clientInfo = clientInfoService.saveClientInfo(clientInfo);
 
 			if(clientInfo.getErrorCd().equals(HASERROR)){
-				return getResponse(clientInfo.getErrorMsg(),tokenId,HttpStatus.NOT_ACCEPTABLE);
+				return getResponse(clientInfo,tokenId,HttpStatus.NOT_ACCEPTABLE);
 			}
 
 			assessment.setClientInfo(clientInfo);
@@ -260,7 +264,7 @@ public class AssessmentController extends BaseController{
 
 			response = validateAssessment(assessment);
 			if(response.getErrorCd().equals(HASERROR)){
-				return getResponse(response.getErrorMsg(),tokenId,HttpStatus.NOT_ACCEPTABLE);
+				return getResponse(response,tokenId,HttpStatus.NOT_ACCEPTABLE);
 			}
 
 			return getResponse(response,tokenId, HttpStatus.OK);
