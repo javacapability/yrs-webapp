@@ -1,22 +1,25 @@
 <div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
     <div layout="column" style="max-width: 90%; width: 800px">
-        <form ng-submit="$event.preventDefault()" flex>
-            <md-autocomplete md-selected-item="users.selectedItem" 
-                             md-search-text-change="users.searchTextChange(ctrl.searchText)" 
-                             md-search-text="users.searchText" 
-                             md-selected-item-change="users.selectedItemChange(item)" 
-                             md-items="item in users.querySearch(users.searchText)" 
-                             md-item-text="item.fullName" md-min-length="0" 
-                             placeholder="User Search" flex>
-                <md-item-template>
-                    <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.fullName}}</span>
-                </md-item-template>
-                <md-not-found>
-                    No results found
-                </md-not-found>
-            </md-autocomplete>
-        </form>
-        <br>
+        <!--<form ng-submit="$event.preventDefault()" flex>-->
+            <!--<md-autocomplete md-selected-item="users.selectedItem" -->
+                             <!--md-search-text-change="users.searchTextChange(ctrl.searchText)" -->
+                             <!--md-search-text="users.searchText" -->
+                             <!--md-selected-item-change="users.selectedItemChange(item)" -->
+                             <!--md-items="item in users.querySearch(users.searchText)" -->
+                             <!--md-item-text="item.fullName" md-min-length="0" -->
+                             <!--placeholder="User Search" flex>-->
+                <!--<md-item-template>-->
+                    <!--<span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.fullName}}</span>-->
+                <!--</md-item-template>-->
+                <!--<md-not-found>-->
+                    <!--No results found-->
+                <!--</md-not-found>-->
+            <!--</md-autocomplete>-->
+        <!--</form>-->
+        <md-input-container class="md-block" flex>
+            <label>Filter User</label>
+            <input ng-model="users.filter">
+        </md-input-container>
         <div layout="column" class="md-whiteframe-z1">
             <md-content layout="row" class="md-padding md-hue-1 tabletitle">
                 <div flex="20">User id</div>
@@ -25,7 +28,7 @@
                 <div flex="10"></div>
             </md-content>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="user in users.userList" ng-click="''" class="noright" flex>
+            <md-list-item ng-repeat="user in users.userList | filter:users.filter" ng-click="''" class="noright" flex>
                 <div flex="20">{{ user.userId}}</div>
                 <div flex="50">{{ user.fullName}}</div>
                 <div flex="20">{{user.userGroup.groupName}}</div>

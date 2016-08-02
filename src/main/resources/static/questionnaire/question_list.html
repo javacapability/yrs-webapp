@@ -1,17 +1,20 @@
 <div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
     <div layout="column" style="max-width: 90%; width: 800px">
-        <form ng-submit="$event.preventDefault()" flex>
-            <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="ctrl.selectedItemChange(item)" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.display" md-min-length="0" 
-                             placeholder="Search Question" flex>
-                <md-item-template>
-                    <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
-                </md-item-template>
-                <md-not-found>
-                    No results found
-                </md-not-found>
-            </md-autocomplete>
-        </form>
-        <br>
+        <!--<form ng-submit="$event.preventDefault()" flex>-->
+            <!--<md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="ctrl.selectedItemChange(item)" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.display" md-min-length="0" -->
+                             <!--placeholder="Search Question" flex>-->
+                <!--<md-item-template>-->
+                    <!--<span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>-->
+                <!--</md-item-template>-->
+                <!--<md-not-found>-->
+                    <!--No results found-->
+                <!--</md-not-found>-->
+            <!--</md-autocomplete>-->
+        <!--</form>-->
+        <md-input-container class="md-block" flex>
+            <label>Filter Question</label>
+            <input ng-model="questions.filter">
+        </md-input-container>
         <div layout="column" class="md-whiteframe-z1">
             <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
                 <div flex="10"></div>
@@ -21,7 +24,7 @@
                 <div flex="10"></div>
             </md-content>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="currentQuest in questions.questionList" ng-click="''" class="noright" flex>
+            <md-list-item ng-repeat="currentQuest in questions.questionList | filter:questions.filter" ng-click="''" class="noright" flex>
                 <div flex="10">
                     <md-button class="md-icon-button md-primary" aria-label="">
                         <i class="material-icons">menu</i>
