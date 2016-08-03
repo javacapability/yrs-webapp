@@ -24,17 +24,34 @@
                         data.$httpHeaders.userId = data.userId
                         data.$httpHeaders.user = data;
                         $state.go('main', data.$httpHeaders);
-                    } else {
-                        console.log('Error logging-in');
-                        $scope.$setValidity("login",false);
                     }
                 }, function (error) {
                     console.log('Error logging-in');
                     $scope.loginForm.$setValidity("login",false);
                 });
             
-            //$state.go('main'); //remove this if service is working
-            
+        }
+
+        login.gotoReset = function(){
+            $state.go('reset', { 'userId': login.username });
+        }
+
+        login.reset = function(){
+            console.log('No service yet');
+            login.back();
+        }
+
+        login.resetNew = function(pswd, pwsd_confirm){
+            if (pswd !== pwsd_confirm) {
+                $scope.loginForm.$setValidity("login", false);
+            } else {
+                console.log('No service yet');
+                login.back();
+            }
+        }
+
+        login.back = function(){
+            $state.go('login');
         }
     }
 

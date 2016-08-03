@@ -3,24 +3,45 @@
     angular.module('mainModule')
         .factory('mainUserServices', mainUserServices);
     
-    function mainUserServices($resource, $q)
+    function mainUserServices($resource, $q, webServices)
     {
+        var serviceURL = webServices.serviceHost;
+
         var service = {
-            getCurrentUser: getCurrentUser
+            changePassword: changePassword,
+            logout: logout
         };
 
         return service;
 
-        function getCurrentUser(user) {
-            var resource = $resource('_test/testUser.json');
-            var result = resource.query().$promise;
-            var deferred = $q.defer();
-            result.then(function (data) {
-                console.log(data[0].fullName);
-                return deferred.resolve(data[0]);
-                
+        function changePassword(user, params){
+            var resource = $resource(serviceURL + webServices.resetEndpoint, {}, {
+                save: {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'userId': params.userId,
+                        'tokenId': params.tokenid
+                    }
+                }
             });
-            return deferred.promise;
+            return resource.save(user).$promise;
+        }
+
+        function logout(params){
+            var resource = $resource(serviceURL + webServices.logoutEndpoint, {}, {
+                save: {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'userId': params.userId,
+                        'tokenId': params.tokenid
+                    }
+                }
+            });
+            return resource.save().$promise;
         }
     }
 

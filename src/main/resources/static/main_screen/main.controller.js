@@ -16,12 +16,38 @@
 
         main.currentDate = moment().format('MMMM D, YYYY');
         main.currentUser  = $stateParams.user;
+        main.showMain = $stateParams.showMain;
 
-        // mainUserServices.getCurrentUser("")
-        //     .then(function (data) {
-        //         main.currentUser  = data;
-        //     });
-        
+        main.changePassword = function(){
+            main.showMain = false;
+        }
+
+        main.back = function(){
+            main.showMain = true;
+        }
+
+        main.updatePassword = function(pswd, pswd_new, pswd_new_confirm){
+            if (pswd_new !== pswd_new_confirm) {
+                $scope.mainForm.$setValidity("login", false);
+            } else {
+                //try to login user first?
+                var user = {};
+                user.userId = $stateParams.user.userId;
+                user.pswd = pswd_new;
+                mainUserServices.changePassword(user, $stateParams)
+                    .then(function () {
+                        main.showMain = true;
+                    });
+            }
+        }
+
+        main.logout = function(){
+            mainUserServices.logout($stateParams)
+                .then(function () {
+                    $state.go('login');
+                });
+        }
+
         $scope.selectedIndex = 0;
 
         $scope.$watch('selectedIndex', function(current, old) {

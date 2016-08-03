@@ -1,0 +1,31 @@
+<div layout="column" layout-align="center center" layout-fill="layout-fill" >
+    <div layout="column" style="max-width: 90%; width: 500px">
+        <div class="md-whiteframe-z2">
+            <form name="mainForm">
+            <md-toolbar>
+                <h2 class="md-toolbar-tools"><span>Update Password</span></h2>
+            </md-toolbar>
+            <md-content layout="column" class="md-padding">
+                <md-input-container>
+                    <label>Current Password</label>
+                    <input type="password" ng-model="main.pswd" required/>
+                </md-input-container>
+                <md-input-container>
+                    <label>New Password</label>
+                    <input type="password" ng-model="main.pswd_new" required/>
+                </md-input-container>
+                <md-input-container>
+                    <label>Re-type New Password</label>
+                    <input type="password" ng-model="main.pswd_new_confirm" required/>
+                </md-input-container>
+                <div layout="row" layout-align="center center" style="padding-top:20px;">
+                    <md-button class="md-raised md-primary"
+                               ng-click="main.updatePassword(main.pswd, main.pswd_new, main.pswd_new_confirm)">Update Password</md-button>
+                    <md-button class="md-raised md-primary"
+                               ng-click="main.back()">Back</md-button>
+                </div>
+            </md-content>
+            </form>
+        </div>
+    </div>
+</div>

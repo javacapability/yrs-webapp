@@ -2,8 +2,7 @@
 
     angular.module('assessmentModule')
         .factory('assessmentServices', assessmentServices);
-    
-    //$q is temporary to test json queries
+
     function assessmentServices($resource, $q, webServices, $http)
     {
         var serviceURL = webServices.serviceHost;
