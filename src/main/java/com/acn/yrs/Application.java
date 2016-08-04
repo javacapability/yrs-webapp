@@ -17,7 +17,7 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguratio
 @EnableAutoConfiguration
 @PropertySource("application.properties")
 public class Application {
-    //test --gene
+    //test
 	public static void main(String[] args) {
 
 		//SpringApplication.run(Application.class, args);
