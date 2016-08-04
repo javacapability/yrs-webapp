@@ -11,9 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "AUDITLOG")
-public class AuditLog {
+public class AuditLog  extends ResponseObject{
 
 
 	@Id
@@ -22,34 +24,44 @@ public class AuditLog {
 	private Integer id;
 
 	@Column(name = "datetime", nullable = false)
+	@Expose
 	private Date dateTime;
 
 	@ManyToOne
 	@JoinColumn(name = "userid")
+	@Expose
 	private UserInfo userInfo;
 
 	@Column(name = "app")
+	@Expose
 	private String app;
 
 	@Column(name = "function")
+	@Expose
 	private String function;
 
 	@Column(name = "status")
+	@Expose
 	private String status;
 
 	@Column(name = "action")
+	@Expose
 	private String action;
 
 	@Column(name = "errorcd")
+	@Expose
 	private String errorCd;
 
 	@Column(name = "reason")
+	@Expose
 	private String reason;
 
 	@Column(name = "oldtxndtls")
+	@Expose
 	private String oldTxnDtls;
 
 	@Column(name = "newtxndtls")
+	@Expose
 	private String newTxnDtls;
 
 	/**

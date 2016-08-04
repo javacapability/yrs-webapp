@@ -33,9 +33,11 @@ public class Asset extends ResponseObject{
 
 	@ManyToOne
 	@JoinColumn(name = "assettype")
+	@Expose
 	private AssetType assetType;
 
 	@Column(name = "assetamount", nullable = false)
+	@Expose
 	private BigDecimal assetamount;
 
 	/**

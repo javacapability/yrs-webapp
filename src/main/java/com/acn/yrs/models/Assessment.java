@@ -77,6 +77,22 @@ public class Assessment extends ResponseObject{
 	@JoinColumn(name = "assessmentid")
 	private List<Questionnaire> survey;
 
+	/*@Override
+	public String toString() {
+
+		   StringBuffer sb = new StringBuffer();
+		    sb.append("Assessment = [ ");
+		    sb.append(" priorityNumber: " +this.priorityNumber);
+		    sb.append(" questionTxt: " +this.questionTxt);
+		    sb.append(" yesWeight: " +this.yesWeight);
+		    sb.append(" noWeight: " +this.noWeight);
+		    sb.append(" trueWeight: " +this.trueWeight);
+		    sb.append(" falseWeight: " +this.falseWeight);
+		    sb.append("]");
+
+		    return sb.toString();
+	}*/
+
 	/**
 	 * @return the id
 	 */
@@ -215,12 +231,6 @@ public class Assessment extends ResponseObject{
 	 */
 	public void setReactivationDate(Date reactivationDate) {
 		this.reactivationDate = reactivationDate;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/**

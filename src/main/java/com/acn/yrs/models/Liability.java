@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "LIABILITIES")
 public class Liability extends ResponseObject{
@@ -19,6 +21,7 @@ public class Liability extends ResponseObject{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
+	@Expose
 	private Integer id;
 
 	@ManyToOne
@@ -27,9 +30,11 @@ public class Liability extends ResponseObject{
 
 	@ManyToOne
 	@JoinColumn(name = "liabilitytype")
+	@Expose
 	private LiabilityType liabilityType;
 
 	@Column(name = "liabilityamount", nullable = false)
+	@Expose
 	private BigDecimal liabilityamount;
 
 	/**

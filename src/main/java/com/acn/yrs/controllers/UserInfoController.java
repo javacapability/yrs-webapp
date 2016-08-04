@@ -69,8 +69,8 @@ public class UserInfoController extends BaseController{
 			ResponseEntity<Object> validity = checkUser(userId,
 					tokenId);
 			if (validity == null) {
-				loginService.logout(userId);
-				return getResponse("User Logout", HttpStatus.OK);
+				UserInfo userInfo = loginService.logout(userId);
+				return getResponse(userInfo, HttpStatus.OK);
 			} else {
 				return validity;
 			}
@@ -112,8 +112,7 @@ public class UserInfoController extends BaseController{
 				@RequestHeader String userId, @RequestHeader String tokenId) {
 
 			LOG.debug("Update User Details");
-			ResponseEntity<Object> validity = checkUser(userId,
-					tokenId);
+			ResponseEntity<Object> validity = checkUser(userId, tokenId);
 			if (validity == null) {
 				userInfo = userService.update(userInfo);
 				return getResponse(userInfo,tokenId, HttpStatus.OK);

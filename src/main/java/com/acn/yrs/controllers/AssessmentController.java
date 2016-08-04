@@ -92,7 +92,7 @@ public class AssessmentController extends BaseController{
 
 		}catch(NoResultException e){
 			//e.printStackTrace();
-			return getResponse(ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(ERR_ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -113,7 +113,7 @@ public class AssessmentController extends BaseController{
 			return getResponse(new ResponseObject(), tokenId, HttpStatus.OK);
 		}catch(NoResultException e){
 			//e.printStackTrace();
-			return getResponse(ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(ERR_ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -137,7 +137,7 @@ public class AssessmentController extends BaseController{
 		}catch(NoResultException e){
 			//e.printStackTrace();
 			//if(assessment==null) return getResponse(ASSESSMENTNOTFOUND,HttpStatus.NOT_ACCEPTABLE);
-			return getResponse(ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(ERR_ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -167,7 +167,7 @@ public class AssessmentController extends BaseController{
 			return getResponse(response,tokenId, HttpStatus.OK);
 		}catch(NoResultException e){
 			//e.printStackTrace();
-			return getResponse(NO_QUESTIONS_FOUND,tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(ERR_NO_QUESTIONS_FOUND,tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -215,7 +215,7 @@ public class AssessmentController extends BaseController{
 			return getResponse(response,tokenId, HttpStatus.OK);
 		}catch(NoResultException e){
 			e.printStackTrace();
-			return getResponse(NO_QUESTIONS_FOUND,tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(ERR_NO_QUESTIONS_FOUND,tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -235,7 +235,7 @@ public class AssessmentController extends BaseController{
 			Assessment assessment = assessmentService.getAssessment(assessmentWrapper.getId());
 			if(assessment==null){
 				response.setErrorCd(HASERROR);;
-				response.setErrorMsg(ASSESSMENTNOTFOUND);
+				response.setErrorMsg(ERR_ASSESSMENTNOTFOUND);
 				return getResponse(response,tokenId,HttpStatus.NOT_ACCEPTABLE);
 			}
 			assessment.setAccountNumber(assessmentWrapper.getAccountNumber()==null?assessment.getAccountNumber():assessmentWrapper.getAccountNumber());
@@ -270,7 +270,7 @@ public class AssessmentController extends BaseController{
 			return getResponse(response,tokenId, HttpStatus.OK);
 		}catch(NoResultException e){
 			e.printStackTrace();
-			return getResponse(NO_QUESTIONS_FOUND,tokenId, HttpStatus.NOT_FOUND);
+			return getResponse(ERR_NO_QUESTIONS_FOUND,tokenId, HttpStatus.NOT_FOUND);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -282,7 +282,7 @@ public class AssessmentController extends BaseController{
 		if(assessment==null){
 			assessment = new Assessment();
 			assessment.setErrorCd(HASERROR);
-			assessment.setErrorMsg(ASSESSMENT_ERROR_PAYLOAD_NULL);
+			assessment.setErrorMsg(ERR_ASSESSMENT_ERROR_PAYLOAD_NULL);
 		}else{
 			assessment.setErrorCd(HASNOERROR);
 			if(assessment.getId()==0){

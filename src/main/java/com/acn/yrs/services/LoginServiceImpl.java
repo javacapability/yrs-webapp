@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.acn.yrs.models.AuditLog;
 import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.UserInfo;
 import com.acn.yrs.repository.UserInfoRepository;
@@ -20,6 +21,23 @@ import com.acn.yrs.utils.Util;
 public class LoginServiceImpl  extends BaseConstants implements LoginService{
 
 	@Autowired
+	AuditLogService auditLogService;
+	/**
+	 * @return the auditLogService
+	 */
+	public AuditLogService getAuditLogService() {
+		return auditLogService;
+	}
+
+	/**
+	 * @param auditLogService the auditLogService to set
+	 */
+	public void setAuditLogService(AuditLogService auditLogService) {
+		this.auditLogService = auditLogService;
+	}
+
+
+	@Autowired
 	UserInfoRepository userInfoRepository;
 	@Autowired
 	Helper helper;
@@ -29,34 +47,43 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 	@Override
 	public UserInfo login(UserInfo userInfo){
 
+
 		LOG.info("Login Service()");
 
+		AuditLog auditLog = auditLogService.saveTransaction(userInfo, UPDATE_ACTION, AUDIT_TXN_SUCCESS, TXN_LOGIN_USER);
 		//defaults
 		UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userInfo.getUserId().toUpperCase());
 		if(userInfo.getPswd()!=null){
 			if(userInfoDB!=null){
 				if(!userInfo.getPswd().equals(Util.decode(userInfoDB.getPswd()))){
 					LOG.info("Invalid Password");
-					//
-					//
-					//userInfoRepository.save(userInfoDB);
-					return new UserInfo(HttpStatus.FORBIDDEN, HASERROR, USERINFO_INVALID);
+					auditLog.setStatus(AUDIT_TXN_FAIL);
+					auditLog.setReason(ERR_USERINFO_INVALID);
+					userInfo = new UserInfo(HttpStatus.FORBIDDEN, HASERROR, ERR_USERINFO_INVALID);
 
 				}else{
 					LOG.info("Login Successful");
 					userInfoDB.setTokenId(Util.getUUid());
 					userInfoDB.setLastLogin(new Date());
 					userInfoDB.setHttpStatus(HttpStatus.OK);
-					return userInfoDB;
+					userInfoDB.setResponseMsg(MSG_USER_LOGGED_IN);
+					userInfo = userInfoDB;
 				}
 			}else{
 				LOG.info("UserId not found in Database");
-				return new UserInfo(HttpStatus.FORBIDDEN, HASERROR, USERINFO_NOTFOUND);
+				auditLog.setStatus(AUDIT_TXN_FAIL);
+				auditLog.setReason(ERR_USERINFO_NOTFOUND);
+				userInfo = new UserInfo(HttpStatus.FORBIDDEN, HASERROR, ERR_USERINFO_NOTFOUND);
 			}
 		}else{
 			LOG.info("UserId not found in Database");
-			return new UserInfo(HttpStatus.FORBIDDEN, HASERROR, USERINFO_NOTFOUND);
+			auditLog.setStatus(AUDIT_TXN_FAIL);
+			auditLog.setReason(ERR_USERINFO_NOTFOUND);
+			userInfo = new UserInfo(HttpStatus.FORBIDDEN, HASERROR, ERR_USERINFO_NOTFOUND);
 		}
+
+		auditLogService.updateTransaction(auditLog, userInfo);
+		return userInfo;
 
 	}
 
@@ -91,17 +118,34 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 
 	// ***********************************************gene
 		@Override
-		public void logout(String userid) {
+		public UserInfo  logout(String userid) {
 			// TODO Auto-generated method stub
 			LOG.info("Logout Service()");
-
-			UserInfo userInfo = userInfoRepository.findUserInfoByUserId(userid);
-			if (userInfo != null) {
-				userInfo.setTokenId(null);
-				userInfoRepository.save(userInfo);
+			AuditLog auditLog = new AuditLog();
+			UserInfo userInfo = new UserInfo();
+			try {
+				userInfo = userInfoRepository.findUserInfoByUserId(userid);
+				auditLog = auditLogService.saveTransaction(userInfo, UPDATE_ACTION, AUDIT_TXN_SUCCESS, TXN_LOGOUT_USER);
+				if (userInfo != null) {
+					userInfo.setTokenId(null);
+					userInfo = userInfoRepository.save(userInfo);
+					userInfo.setResponseMsg(MSG_USER_LOGGED_OUT);
+					auditLog = auditLogService.updateTransaction(auditLog, userInfo);
+				}else{
+					auditLog = auditLogService.updateTransaction(auditLog, userInfo, AUDIT_TXN_FAIL, ERR_USERINFO_NOTFOUND);
+					userInfo = new UserInfo(HttpStatus.FORBIDDEN, HASERROR, ERR_USERINFO_NOTFOUND);
+					//userInfo.setResponseMsg(ERR_USERINFO_NOTFOUND);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				auditLog = auditLogService.updateTransaction(auditLog, userInfo, AUDIT_TXN_FAIL, e.getMessage());
+				userInfo.setErrorCd(HASERROR);
+				//userInfo.setResponseMsg(e.getMessage());
+				e.printStackTrace();
 			}
-
+			return userInfo;
 		}
+
 		// *****************************************************gene
 
 }

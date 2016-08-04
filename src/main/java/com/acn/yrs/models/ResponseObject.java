@@ -4,11 +4,71 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-public class ResponseObject{
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
-	private String errorCd;
+public class ResponseObject extends BaseConstants{
+
+	//default values
+	private String adminId=APP_DEFAULT_USER;
+	private String appOrigin=APP_ORIGIN_MOBILE;
+
+	@Expose
+	private String errorCd = HASNOERROR;
+	@Expose
 	private String errorMsg;
+	@Expose
+	private String responseMsg;
+	/**
+	 * @return the responseMsg
+	 */
+	public String getResponseMsg() {
+		return responseMsg;
+	}
+
+
+	/**
+	 * @param responseMsg the responseMsg to set
+	 */
+	public void setResponseMsg(String responseMsg) {
+		this.responseMsg = responseMsg;
+	}
+
+
 	protected HttpStatus httpStatus;
+
+	/**
+	 * @return the adminId
+	 */
+	public String getAdminId() {
+		return adminId;
+	}
+
+
+	/**
+	 * @param adminId the adminId to set
+	 */
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
+	}
+
+
+	/**
+	 * @return the appOrigin
+	 */
+	public String getAppOrigin() {
+		return appOrigin;
+	}
+
+
+	/**
+	 * @param appOrigin the appOrigin to set
+	 */
+	public void setAppOrigin(String appOrigin) {
+		this.appOrigin = appOrigin;
+	}
+
 
 	protected List<Question> questions;
 	protected Assessment assessment;
@@ -101,9 +161,12 @@ public class ResponseObject{
 	}
 
 
+	public String toString(){
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		return this!=null?gson.toJson(this):"";
+	}
 
-
-
+/*
     //audit Logs
 	protected AuditLog auditLog = new AuditLog();
 
@@ -116,21 +179,21 @@ public class ResponseObject{
 	 }
 
 
-	/**
+	*//**
 	 * @return the auditLog
-	 */
+	 *//*
 	public AuditLog getAuditLog() {
 		return auditLog;
 	}
 
 
-	/**
+	*//**
 	 * @param auditLog the auditLog to set
-	 */
+	 *//*
 	public void setAuditLog(AuditLog auditLog) {
 		this.auditLog = auditLog;
 	}
-
+*/
 
 
 }

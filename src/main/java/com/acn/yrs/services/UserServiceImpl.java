@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.acn.yrs.models.AuditLog;
 import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.UserInfo;
 import com.acn.yrs.repository.UserInfoRepository;
@@ -50,15 +51,24 @@ public class UserServiceImpl extends BaseConstants implements UserService {
 		// defaults
 		LOG.info("Create User Service()");
 
-		UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userInfo
-				.getUserId().toUpperCase());
-		if (userInfoDB == null) {
-			userInfo.setPswd(Util.encode(userInfo.getPswd()));
-			userInfo.postSaveOrUpdate();
-			userInfoRepository.save(userInfo);
+		AuditLog auditLog = auditLogService.saveTransaction(userInfo,SAVE_ACTION, AUDIT_TXN_SUCCESS, TXN_CREATE_USER);
+		try {
 
-			auditLogService.saveTransaction(userInfo.getAuditLog(),
-					SAVE_ACTION, AUDIT_TXN_SUCCESS, TXN_CREATE_USER);
+			UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userInfo.getUserId().toUpperCase());
+			if (userInfoDB == null) {
+				userInfo.setPswd(Util.encode(userInfo.getPswd()));
+				userInfo = userInfoRepository.save(userInfo);
+			}else{
+				auditLog = auditLogService.updateTransaction(auditLog, userInfo,AUDIT_TXN_FAIL, ERR_USER_ID_EXISTS);
+				userInfo.setErrorCd(HASERROR);
+				userInfo.setErrorMsg(ERR_USER_ID_EXISTS);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			userInfo.setErrorCd(HASERROR);
+			userInfo.setErrorMsg(e.getMessage());
+			auditLog = auditLogService.updateTransaction(auditLog, userInfo,AUDIT_TXN_FAIL, e.getMessage());
 		}
 		return userInfo;
 	}
@@ -68,25 +78,35 @@ public class UserServiceImpl extends BaseConstants implements UserService {
 
 		LOG.info("Update User Service()");
 
-		UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userInfo
-				.getUserId().toUpperCase());
-		userInfoDB.preSaveOrUpdate();
-		if (userInfoDB != null) {
-			// set new values from UserInfo entity
-			userInfoDB.setBirthday(userInfo.getBirthday());
-			userInfoDB.setFullName(userInfo.getFullName());
-			userInfoDB.setEmail(userInfo.getEmail());
-			userInfoDB.setUpDt(new Date());
+		UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userInfo.getUserId().toUpperCase());
+		AuditLog auditLog = auditLogService.saveTransaction(userInfoDB,UPDATE_ACTION, AUDIT_TXN_SUCCESS, TXN_UPDATE_USER);
+		try {
+			if (userInfoDB != null) {
+				// set new values from UserInfo entity
+				userInfoDB.setBirthday(userInfo.getBirthday());
+				userInfoDB.setFullName(userInfo.getFullName());
+				userInfoDB.setEmail(userInfo.getEmail());
+				userInfoDB.setUpDt(new Date());
 
-			// encode the new password
-			if (!userInfo.getPswd().equals(Util.decode(userInfoDB.getPswd()))) {
-				userInfoDB.setPswd(Util.encode(userInfo.getPswd()));
+				// encode the new password
+				if (!userInfo.getPswd().equals(Util.decode(userInfoDB.getPswd()))) {
+					userInfoDB.setPswd(Util.encode(userInfo.getPswd()));
+				}
+				userInfoDB = userInfoRepository.save(userInfoDB);
+				auditLog = auditLogService.updateTransaction(auditLog, userInfoDB);
+
+			}else{
+				userInfoDB = userInfo;
+				userInfoDB.setErrorCd(HASERROR);
+				userInfoDB.setErrorCd(ERR_USERINFO_NOTFOUND);
+				auditLog = auditLogService.updateTransaction(auditLog, userInfoDB, AUDIT_TXN_FAIL, ERR_USERINFO_NOTFOUND);
 			}
-			userInfoDB.postSaveOrUpdate();
-			userInfoRepository.save(userInfoDB);
-
-			auditLogService.saveTransaction(userInfoDB.getAuditLog(),
-					UPDATE_ACTION, AUDIT_TXN_SUCCESS, TXN_UPDATE_USER);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			userInfoDB.setErrorCd(HASERROR);
+			userInfoDB.setErrorCd(e.getMessage());
+			auditLog = auditLogService.updateTransaction(auditLog, userInfoDB, AUDIT_TXN_SUCCESS, e.getMessage());
 		}
 		return userInfoDB;
 	}
@@ -97,14 +117,12 @@ public class UserServiceImpl extends BaseConstants implements UserService {
 		LOG.info("Delete User Service()");
 		UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userId);
 
-		userInfoDB.preSaveOrUpdate();
-
-
+		AuditLog auditLog = auditLogService.saveTransaction(userInfoDB,DELETE_ACTION, AUDIT_TXN_SUCCESS, TXN_DELETE_USER);
 		if (userInfoDB != null) {
 			userInfoRepository.delete(userInfoDB);
-		}
+		}else{
 
-		auditLogService.saveTransaction(userInfoDB.getAuditLog(),DELETE_ACTION, AUDIT_TXN_SUCCESS, TXN_DELETE_USER);
+		}
 	}
 
 	@Override

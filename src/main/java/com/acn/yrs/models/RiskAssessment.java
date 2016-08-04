@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "RISKASSESSMENTS")
 public class RiskAssessment extends ResponseObject{
@@ -14,9 +16,11 @@ public class RiskAssessment extends ResponseObject{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
+	@Expose
 	private Integer id;
 
 	@Column(name = "riskassessment")
+	@Expose
 	private String riskAssessment;
 
 	/**

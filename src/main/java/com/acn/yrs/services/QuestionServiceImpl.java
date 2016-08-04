@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.acn.yrs.models.AuditLog;
 import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.Question;
 import com.acn.yrs.repository.QuestionsRepository;
@@ -50,13 +51,21 @@ public class QuestionServiceImpl extends BaseConstants implements
 	public Question create(Question questionInfo) {
 
 		LOG.info("Create Question Service()");
-		Question questionDB = questionsRepository
-				.findByQuestionTxt(questionInfo.getQuestionTxt());
-		if (questionDB == null) {
-			questionsRepository.save(questionInfo);
-			questionInfo.postSaveOrUpdate();
-			auditLogService.saveTransaction(questionInfo.getAuditLog(),
-					SAVE_ACTION, AUDIT_TXN_SUCCESS, TXN_CREATE_QUESTION);
+		AuditLog auditLog = auditLogService.saveTransaction(questionInfo,
+				SAVE_ACTION, AUDIT_TXN_SUCCESS, TXN_CREATE_QUESTION);
+		try{
+			Question questionDB = questionsRepository.findByQuestionTxt(questionInfo.getQuestionTxt());
+			if (questionDB == null) {
+				questionsRepository.save(questionInfo);
+			}else{
+				auditLog.setStatus(AUDIT_TXN_FAIL);
+				auditLog.setReason(ERR_QUESTION_EXISTING);
+				auditLog = auditLogService.updateTransaction(auditLog, questionDB);
+			}
+
+		}catch(Exception e){
+			e.printStackTrace();
+			auditLog = auditLogService.updateTransaction(auditLog, questionInfo, AUDIT_TXN_FAIL, e.getMessage());
 		}
 		return questionInfo;
 	}
@@ -66,26 +75,30 @@ public class QuestionServiceImpl extends BaseConstants implements
 		LOG.info("Update Question Service()");
 		Question questionDB = questionsRepository.findOne(questionInfo.getId());
 
-		questionDB.preSaveOrUpdate();
+		AuditLog auditLog = auditLogService.saveTransaction(questionDB,
+				SAVE_ACTION, AUDIT_TXN_SUCCESS, TXN_CREATE_QUESTION);
 
-		if (questionDB != null) {
+		try{
+			if (questionDB != null) {
 
-			questionDB.setQuestionTxt(questionInfo.getQuestionTxt());
-			questionDB.setAnswerTypes(questionInfo.getAnswerTypes());
-			questionDB.setFalseWeight(questionInfo.getFalseWeight());
-			questionDB.setIsActive(questionInfo.getIsActive());
-			questionDB.setNoWeight(questionInfo.getNoWeight());
-			questionDB.setPriorityNumber(questionInfo.getPriorityNumber());
-			questionDB.setTrueWeight(questionInfo.getTrueWeight());
-			questionDB.setYesWeight(questionInfo.getYesWeight());
-			questionDB.setAnswers(questionInfo.getAnswers());
-			questionDB.postSaveOrUpdate();
-			questionsRepository.save(questionDB);
+				questionDB.setQuestionTxt(questionInfo.getQuestionTxt());
+				questionDB.setAnswerTypes(questionInfo.getAnswerTypes());
+				questionDB.setFalseWeight(questionInfo.getFalseWeight());
+				questionDB.setIsActive(questionInfo.getIsActive());
+				questionDB.setNoWeight(questionInfo.getNoWeight());
+				questionDB.setPriorityNumber(questionInfo.getPriorityNumber());
+				questionDB.setTrueWeight(questionInfo.getTrueWeight());
+				questionDB.setYesWeight(questionInfo.getYesWeight());
+				questionDB.setAnswers(questionInfo.getAnswers());
+				questionsRepository.save(questionDB);
 
-
-
-			auditLogService.saveTransaction(questionDB.getAuditLog(),
-					UPDATE_ACTION, AUDIT_TXN_SUCCESS, TXN_UPDATE_QUESTION);
+				auditLogService.updateTransaction(auditLog,questionDB);
+			}else{
+				auditLog = auditLogService.updateTransaction(auditLog, questionDB, AUDIT_TXN_FAIL, ERR_NO_QUESTIONS_FOUND);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			auditLogService.updateTransaction(auditLog,questionDB, AUDIT_TXN_FAIL, e.getMessage());
 		}
 
 		return questionDB;
@@ -104,11 +117,21 @@ public class QuestionServiceImpl extends BaseConstants implements
 	public void delete(int questionId) {
 		LOG.info("Delete User Service()");
 		Question questionDB = questionsRepository.findOne(questionId);
-		questionDB.preSaveOrUpdate();
-		if (questionDB != null) {
-			questionsRepository.delete(questionDB);
+
+		AuditLog auditLog = auditLogService.saveTransaction(questionDB, DELETE_ACTION, AUDIT_TXN_SUCCESS, TXN_DELETE_QUESTION);
+
+		try {
+			if (questionDB != null) {
+				questionsRepository.delete(questionDB);
+			}else{
+				auditLog = auditLogService.updateTransaction(auditLog, questionDB, AUDIT_TXN_FAIL, ERR_NO_QUESTIONS_FOUND);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			auditLog = auditLogService.updateTransaction(auditLog, questionDB, AUDIT_TXN_FAIL, e.getMessage());
 		}
-		auditLogService.saveTransaction(questionDB.getAuditLog(), DELETE_ACTION, AUDIT_TXN_SUCCESS, TXN_DELETE_QUESTION);
+
 	}
 
 }

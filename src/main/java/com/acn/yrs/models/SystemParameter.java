@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 
 @Entity
 @Table(name = "SYSTEMPARAMETERS")
@@ -15,18 +17,23 @@ public class SystemParameter extends ResponseObject{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
+	@Expose
 	private int id;
 
 	@Column(name = "dscp", nullable = false)
+	@Expose
 	private String dscp;
 
 	@Column(name = "val", nullable = false)
+	@Expose
 	private String val;
 
 	@Column(name = "datatype", nullable = false)
+	@Expose
 	private String datatype;
 
 	@Column(name = "active", nullable = false)
+	@Expose
 	private int active;
 
 	/**

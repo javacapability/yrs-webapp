@@ -65,7 +65,7 @@ public class BaseController extends BaseConstants {
 				status = HttpStatus.NOT_FOUND;
 				((ResponseObject) object).setHttpStatus(status);
 				((ResponseObject) object).setErrorCd(HASERROR);
-				((ResponseObject) object).setErrorMsg(NORECORDFOUND);
+				((ResponseObject) object).setErrorMsg(ERR_NORECORDFOUND);
 			}
 		}
 		if(object==null){
@@ -73,7 +73,7 @@ public class BaseController extends BaseConstants {
 			status = HttpStatus.NOT_FOUND;
 			((ResponseObject) object).setHttpStatus(status);
 			((ResponseObject) object).setErrorCd(HASERROR);
-			((ResponseObject) object).setErrorMsg(NORECORDFOUND);
+			((ResponseObject) object).setErrorMsg(ERR_NORECORDFOUND);
 		}
 
 		//implemented a filter to handle http headers - CorsFilter.java
@@ -83,10 +83,10 @@ public class BaseController extends BaseConstants {
 		//httpHeaders.set("Accept", "application/json");
 
 
-		//this will hide fields with protected modifier from the JSON response
+		//this will hide fields without @Expose annotation from the JSON response
 		//can hide unwanted data
 		//can prevent cyclic dependencies
-		Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.PROTECTED).create();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		object = object!=null?gson.toJson(object):object;
 		return new ResponseEntity<Object>(object, httpHeaders , status);
 	}
@@ -97,13 +97,13 @@ public class BaseController extends BaseConstants {
 		UserInfo userInfo = userInfoRepository.findUserInfoByUserId(userId.toUpperCase());
 
 		if(userInfo==null){
-			return getResponse(new UserInfo(HttpStatus.FORBIDDEN,HASERROR, INVALID_SESSION), HttpStatus.FORBIDDEN);
+			return getResponse(new UserInfo(HttpStatus.FORBIDDEN,HASERROR, ERR_INVALID_SESSION), HttpStatus.FORBIDDEN);
 		}
 		if(userInfo.getTokenId()==null){
-			return getResponse(new UserInfo(HttpStatus.FORBIDDEN,HASERROR, SESSION_EXPIRED), HttpStatus.FORBIDDEN);
+			return getResponse(new UserInfo(HttpStatus.FORBIDDEN,HASERROR, ERR_SESSION_EXPIRED), HttpStatus.FORBIDDEN);
 		}
 		if(!userInfo.getTokenId().equalsIgnoreCase(tokenId)){
-			return getResponse(new UserInfo(HttpStatus.FORBIDDEN,HASERROR, AUTH_FAILED), HttpStatus.FORBIDDEN);
+			return getResponse(new UserInfo(HttpStatus.FORBIDDEN,HASERROR, ERR_AUTH_FAILED), HttpStatus.FORBIDDEN);
 		}
 		//return null if user is valid, session is valid, token is valid
 		return null;

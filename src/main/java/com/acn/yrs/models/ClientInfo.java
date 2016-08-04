@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "CLIENTINFO")
 public class ClientInfo extends ResponseObject{
@@ -24,32 +26,41 @@ public class ClientInfo extends ResponseObject{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
+	@Expose
 	private Integer id;
 
+	@Expose
 	@Column(name = "clientname", nullable = false)
 	private String clientName;
 
 
 	@Column(name = "birthday", nullable = false)
+	@Expose
 	private Date birthday;
 
 	@Column(name = "jobtitlefieldwork", nullable = false)
+	@Expose
 	private String jobTitleFieldWork;
 
 	@Column(name = "eduattainment", nullable = false)
+	@Expose
 	private String eduAttainment;
 
 	@Column(name = "financialpersonality")
+	@Expose
 	private String financialPersonality;
 
 	@ManyToOne
 	@JoinColumn(name = "advisorid")
+	@Expose
 	private UserInfo userInfo;
 
 	@Column(name = "photo")
+	@Expose
 	private String photo;
 
 	@Column(name = "signature")
+	@Expose
 	private String signature;
 
 	/**

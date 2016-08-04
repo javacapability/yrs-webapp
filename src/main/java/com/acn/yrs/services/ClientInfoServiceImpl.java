@@ -27,11 +27,11 @@ public class ClientInfoServiceImpl extends BaseConstants implements ClientInfoSe
 		ClientInfo clientInfoDB = clientInfosRepository.findClientByClientNameAndBirthday(clientInfo.getClientName(), clientInfo.getBirthday());
 		if(clientInfoDB!=null){
 			clientInfoDB.setErrorCd(HASERROR);
-			clientInfoDB.setErrorMsg(CLIENT_INFO_EXISTS);
+			clientInfoDB.setErrorMsg(ERR_CLIENT_INFO_EXISTS);
 		}else{
 			if(Util.getAge(clientInfo.getBirthday())<18){
 				clientInfoDB.setErrorCd(HASERROR);
-				clientInfoDB.setErrorMsg(CLIENT_INFO_UNDERAGE);
+				clientInfoDB.setErrorMsg(ERR_CLIENT_INFO_UNDERAGE);
 			}
 			clientInfoDB = clientInfosRepository.save(clientInfo);
 			clientInfoDB.setErrorCd(HASNOERROR);

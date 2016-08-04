@@ -37,7 +37,7 @@ public class Answer extends ResponseObject{
 	@Column(name = "weight", nullable = false)
 	private Integer weight;
 
-	@Override
+	/*@Override
 	public String toString() {
 		   StringBuffer sb = new StringBuffer();
 		    sb.append("Answer = [ ");
@@ -47,7 +47,7 @@ public class Answer extends ResponseObject{
 		    sb.append(" weight: " +this.weight);
 		    sb.append("]");
 		    return sb.toString();
-	}
+	}*/
 
 	/**
 	 * @return the id
@@ -118,6 +118,7 @@ public class Answer extends ResponseObject{
 	public void setAnswerTxt(String answerTxt) {
 		this.answerTxt = answerTxt;
 	}
+
 
 
 }

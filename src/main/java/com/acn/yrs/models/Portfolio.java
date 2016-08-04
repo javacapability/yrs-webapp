@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "PORTFOLIO")
 public class Portfolio extends ResponseObject{
@@ -18,6 +20,7 @@ public class Portfolio extends ResponseObject{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
+	@Expose
 	private Integer id;
 
 	@ManyToOne
@@ -25,18 +28,23 @@ public class Portfolio extends ResponseObject{
 	private Assessment assessment;
 
 	@Column(name = "portfolioname", nullable = false)
+	@Expose
 	private String portfolioName;
 
 	@Column(name = "currency", nullable = false)
+	@Expose
 	private String currency;
 
 	@Column(name = "portfolioamount", nullable = false)
+	@Expose
 	private BigDecimal portfolioAmount;
 
 	@Column(name = "investmenthorizon", nullable = false)
+	@Expose
 	private Integer investmentHorizon;
 
 	@Column(name = "selectedrisktolerance", nullable = false)
+	@Expose
 	private String selectedRiskTolerance;
 
 	/**

@@ -10,13 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import org.springframework.core.style.ToStringCreator;
 import org.springframework.http.HttpStatus;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.google.gson.annotations.Expose;
 
 @Entity
 @Table(name = "USERINFO")
@@ -43,33 +41,39 @@ public class UserInfo extends ResponseObject{
 	private Integer id;
 
 	@Column(name = "userid", nullable = false)
+	@Expose
 	private String userId;
 
 	@Column(name = "nm", nullable = false)
+	@Expose
 	private String fullName;
 
 	@ManyToOne
 	@JoinColumn(name = "usergrpid")
+	@Expose
 	private UserGroup userGroup;
 
 	@Column(name = "pswd")
-	protected String pswd;
+	private String pswd;
 
 	@Column(name = "tokenid")
-	protected String tokenId;
+	private String tokenId;
 
 	@Column(name = "email")
+	@Expose
 	private String email;
 
 	@Column(name = "updt")
+	@Expose
 	private Date upDt;
 
 	@Column(name = "birthday")
+	@Expose
 	private Date birthday;
 
 	@Column(name = "lastlogin")
+	@Expose
 	private Date lastLogin;
-
 
 
 
@@ -223,18 +227,4 @@ public class UserInfo extends ResponseObject{
 	public void setUserGroup(UserGroup userGroup) {
 		this.userGroup = userGroup;
 	}
-
-
-	public String toString(){
-
-	    StringBuffer sb = new StringBuffer();
-	    sb.append("UserInfo = [ ");
-	    sb.append(" email: " +this.email);
-	    sb.append(" birthday: " +this.birthday);
-	    sb.append(" fullName: " +this.fullName);
-	    sb.append("]");
-	    
-	    return sb.toString();
-	}
-
 }

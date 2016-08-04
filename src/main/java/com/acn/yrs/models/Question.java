@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 
 @Entity
 @Table(name = "QUESTIONS")
@@ -23,12 +25,15 @@ public class Question extends ResponseObject{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
+	@Expose
 	private Integer id;
 
 	@Column(name = "prioritynumber", nullable = false)
+	@Expose
 	private Integer priorityNumber;
 
 	@Column(name = "questiontxt", nullable = false)
+	@Expose
 	private String questionTxt;
 
 	@Column(name = "isactive", nullable = false)
@@ -36,23 +41,29 @@ public class Question extends ResponseObject{
 
 	@ManyToOne
 	@JoinColumn(name = "answertypeid")
+	@Expose
 	private AnswerType answerTypes;
 
 	@Column(name = "yesweight", nullable = false)
+	@Expose
 	private Integer yesWeight;
 
 	@Column(name = "noweight", nullable = false)
+	@Expose
 	private Integer noWeight;
 
 	@Column(name = "trueweight", nullable = false)
+	@Expose
 	private Integer trueWeight;
 
 	@Column(name = "falseweight", nullable = false)
+	@Expose
 	private Integer falseWeight;
 
     //modified this part
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "questionid")
+	@Expose
 	private List<Answer> answers;
 
 	/**
@@ -194,11 +205,11 @@ public class Question extends ResponseObject{
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
-    
 
-	@Override
+
+	/*@Override
 	public String toString() {
-		
+
 		   StringBuffer sb = new StringBuffer();
 		    sb.append("Question = [ ");
 		    sb.append(" priorityNumber: " +this.priorityNumber);
@@ -208,8 +219,8 @@ public class Question extends ResponseObject{
 		    sb.append(" trueWeight: " +this.trueWeight);
 		    sb.append(" falseWeight: " +this.falseWeight);
 		    sb.append("]");
-		    
+
 		    return sb.toString();
-	}
+	}*/
 
 }
