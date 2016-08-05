@@ -50,7 +50,7 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 
 		LOG.info("Login Service()");
 
-		AuditLog auditLog = auditLogService.saveTransaction(userInfo, UPDATE_ACTION, AUDIT_TXN_SUCCESS, TXN_LOGIN_USER);
+		AuditLog auditLog = auditLogService.saveTransaction(userInfo, SYSTEM_ACCESS_ACTION, AUDIT_TXN_SUCCESS, TXN_LOGIN_USER);
 		//defaults
 		UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userInfo.getUserId().toUpperCase());
 		if(userInfo.getPswd()!=null){
@@ -118,17 +118,17 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 
 	// ***********************************************gene
 		@Override
-		public UserInfo  logout(String userid) {
-			// TODO Auto-generated method stub
+		public UserInfo  logout(UserInfo userInfo) {
+
 			LOG.info("Logout Service()");
 			AuditLog auditLog = new AuditLog();
-			UserInfo userInfo = new UserInfo();
+			UserInfo userInfoDB = new UserInfo();
 			try {
-				userInfo = userInfoRepository.findUserInfoByUserId(userid);
-				auditLog = auditLogService.saveTransaction(userInfo, UPDATE_ACTION, AUDIT_TXN_SUCCESS, TXN_LOGOUT_USER);
-				if (userInfo != null) {
-					userInfo.setTokenId(null);
-					userInfo = userInfoRepository.save(userInfo);
+				userInfoDB = userInfoRepository.findUserInfoByUserId(userInfo.getUserId());
+				auditLog = auditLogService.saveTransaction(userInfoDB, SYSTEM_ACCESS_ACTION, AUDIT_TXN_SUCCESS, TXN_LOGOUT_USER);
+				if (userInfoDB != null) {
+					userInfoDB.setTokenId(null);
+					userInfo = userInfoRepository.save(userInfoDB);
 					userInfo.setResponseMsg(MSG_USER_LOGGED_OUT);
 					auditLog = auditLogService.updateTransaction(auditLog, userInfo);
 				}else{
@@ -137,9 +137,9 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 					//userInfo.setResponseMsg(ERR_USERINFO_NOTFOUND);
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				auditLog = auditLogService.updateTransaction(auditLog, userInfo, AUDIT_TXN_FAIL, e.getMessage());
 				userInfo.setErrorCd(HASERROR);
+				userInfo.setErrorMsg(e.getMessage());
 				//userInfo.setResponseMsg(e.getMessage());
 				e.printStackTrace();
 			}

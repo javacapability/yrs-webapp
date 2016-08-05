@@ -42,6 +42,19 @@ public class UserInfoController extends BaseController{
 	public ResponseEntity<Object> login(@RequestBody UserInfo userInfo){
 
 		LOG.debug("userId" + userInfo.getUserId());
+		userInfo.setAdminId(userInfo.getUserId());
+		userInfo.setAppOrigin(APP_ORIGIN_MOBILE);
+		userInfo = loginService.login(userInfo);
+		return getResponse(userInfo, userInfo.getTokenId(), userInfo.getHttpStatus());
+
+	}
+
+	@RequestMapping(value="/loginWeb", method = RequestMethod.POST, headers = {"Accept=application/json"})
+	public ResponseEntity<Object> loginWeb(@RequestBody UserInfo userInfo){
+
+		LOG.debug("userId" + userInfo.getUserId());
+		userInfo.setAdminId(userInfo.getUserId());
+		userInfo.setAppOrigin(APP_ORIGIN_WEB);
 		userInfo = loginService.login(userInfo);
 		return getResponse(userInfo, userInfo.getTokenId(), userInfo.getHttpStatus());
 
@@ -62,14 +75,17 @@ public class UserInfoController extends BaseController{
 		 * @return
 		 */
 		@RequestMapping(value = "/logout", method = RequestMethod.POST, headers = "Accept=application/json")
-		public ResponseEntity<Object> logout(@RequestHeader String userId,
-				@RequestHeader String tokenId) {
+		public ResponseEntity<Object> logout(@RequestHeader String userId, @RequestHeader String tokenId) {
+
+			UserInfo userInfoLogout = new UserInfo();
+			userInfoLogout.setUserId(userId);
+			userInfoLogout.setAppOrigin(APP_ORIGIN_MOBILE);
+			userInfoLogout.setAdminId(userId);
 
 			LOG.debug("Logging Out User " + userId);
-			ResponseEntity<Object> validity = checkUser(userId,
-					tokenId);
+			ResponseEntity<Object> validity = checkUser(userId, tokenId);
 			if (validity == null) {
-				UserInfo userInfo = loginService.logout(userId);
+				UserInfo userInfo = loginService.logout(userInfoLogout);
 				return getResponse(userInfo, HttpStatus.OK);
 			} else {
 				return validity;
@@ -77,6 +93,25 @@ public class UserInfoController extends BaseController{
 
 		}
 
+
+		@RequestMapping(value = "/logoutWeb", method = RequestMethod.POST, headers = "Accept=application/json")
+		public ResponseEntity<Object> logoutWeb(@RequestHeader String userId, @RequestHeader String tokenId) {
+
+			UserInfo userInfoLogout = new UserInfo();
+			userInfoLogout.setUserId(userId);
+			userInfoLogout.setAppOrigin(APP_ORIGIN_WEB);
+			userInfoLogout.setAdminId(userId);
+
+			LOG.debug("Logging Out User " + userId);
+			ResponseEntity<Object> validity = checkUser(userId, tokenId);
+			if (validity == null) {
+				UserInfo userInfo = loginService.logout(userInfoLogout);
+				return getResponse(userInfo, HttpStatus.OK);
+			} else {
+				return validity;
+			}
+
+		}
 		/**
 		 * This method is for admin user to create a user info
 		 *
@@ -84,12 +119,10 @@ public class UserInfoController extends BaseController{
 		 * @return
 		 */
 		@RequestMapping(value = "/register", method = RequestMethod.POST, headers = "Accept=application/json")
-		public ResponseEntity<Object> create(@RequestBody UserInfo userInfo,
-				@RequestHeader String userId, @RequestHeader String tokenId) {
+		public ResponseEntity<Object> create(@RequestBody UserInfo userInfo, @RequestHeader String userId, @RequestHeader String tokenId) {
 
 			LOG.debug("Register New User");
-			ResponseEntity<Object> validity = checkUser(userId,
-					tokenId);
+			ResponseEntity<Object> validity = checkUser(userId, tokenId);
 			if (validity == null) {
 				userInfo = userService.create(userInfo);
 				return getResponse(userInfo, tokenId, HttpStatus.OK);

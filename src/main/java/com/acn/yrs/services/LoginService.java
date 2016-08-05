@@ -6,5 +6,5 @@ public interface LoginService {
 
 	public UserInfo login(UserInfo userInfo);
 
-	public UserInfo logout(String userid);
+	public UserInfo logout(UserInfo userInfo);
 }

@@ -31,6 +31,7 @@ public class BaseConstants {
 	public static final String UPDATE_ACTION = "UPDATE";
 	public static final String SAVE_ACTION = "INSERT";
 	public static final String DELETE_ACTION = "DELETE";
+	public static final String SYSTEM_ACCESS_ACTION = "SYSTEM ACCESS";
 	public static final String AUDIT_TXN_SUCCESS = "Success";
 	public static final String AUDIT_TXN_FAIL = "Failed";
 	public static final String APP_ORIGIN_MOBILE = "Mobile App";
