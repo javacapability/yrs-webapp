@@ -11,6 +11,18 @@
                 templateUrl: 'login/login.html',
                 controller: 'loginController',
                 controllerAs: 'login'
+            }).state('reset', {
+                url: '/reset',
+                templateUrl: 'login/reset.html',
+                controller: 'loginController',
+                controllerAs: 'login',
+                params: { userId: '' }
+            }).state('reset_new', {
+                url: '/reset',
+                templateUrl: 'login/reset_new.html',
+                controller: 'loginController',
+                controllerAs: 'login',
+                params: { userId: '' }
             });
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
         $httpProvider.defaults.useXDomain = true;

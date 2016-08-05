@@ -2,8 +2,7 @@
 
     angular.module('userModule')
         .factory('userServices', userServices);
-    
-    //$q is temporary to test json queries
+
     function userServices($resource, $q, webServices)
     {
         var serviceURL = webServices.serviceHost;

@@ -11,7 +11,7 @@
                 templateUrl: 'main_screen/main.html',
                 controller: 'mainController',
                 controllerAs: 'main',
-                params: { userId: '' , tokenid: '', user: {} }
+                params: { userId: '' , tokenid: '', showMain : true, user: {} }
             });
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
         $httpProvider.defaults.useXDomain = true;

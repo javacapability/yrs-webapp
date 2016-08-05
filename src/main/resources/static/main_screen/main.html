@@ -8,10 +8,13 @@
                     <span>Welcome: <strong>{{main.currentUser.fullName}}</strong></span>,&nbsp;
                     <span>Today is {{main.currentDate}}</span></div>
                 <div flex></div>
-                <div><md-button class="md-primary" ng-href="">Change Password</md-button><md-button class="md-primary" ng-href="">Log-off</md-button></div>
+                <div>
+                    <md-button ng-click="main.changePassword()" ng-href="">Change Password</md-button>
+                    <md-button ng-click="main.logout()" ng-href="">Log-off</md-button>
+                </div>
             </md-toolbar>
             <md-divider></md-divider>
-            <md-tabs md-dynamic-height md-border-bottom style="min-height: 500px" md-selected="selectedIndex">
+            <md-tabs md-dynamic-height md-border-bottom style="min-height: 500px" md-selected="selectedIndex" ng-show="main.showMain">
                 <md-tab label="User Maintenance">
                     <md-content class="md-padding">
                         <div ui-view="user_view"></div>
@@ -33,6 +36,10 @@
                     </md-content>
                 </md-tab>
             </md-tabs>
+            <div style="min-height: 500px" ng-show="!main.showMain">
+                <br>
+                <div style="min-height: 500px" ng-include="'main_screen/main_chgpswd.html'"></div>
+            </div>
         </div>
     </div>
 </div>

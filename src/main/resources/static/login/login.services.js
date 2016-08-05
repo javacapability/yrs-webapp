@@ -9,22 +9,12 @@
         var serviceURL = webServices.serviceHost;
         
         var service = {
-            login: login
+            login: login,
+            reset: reset,
+            resetNew: resetNew
         };
 
         return service;
-
-//        function getCurrentUser(user) {
-//            var resource = $resource('/login');
-//            var result = resource.query().$promise;
-//            var deferred = $q.defer();
-//            result.then(function (data) {
-//                console.log(data[0].username);
-//                return deferred.resolve(data[0]);
-//                
-//            });
-//            return deferred.promise;
-//        }
         
          function login(user, pswd) {
             console.log(serviceURL + webServices.loginEndpoint);
@@ -49,7 +39,15 @@
             });
             return resource.save({userId: user, pswd: pswd}).$promise;
         }
-        
+
+        function reset(user, email, birthday) {
+            console.log('TODO');
+        }
+
+        function resetNew(user, pswd) {
+            console.log('TODO');
+        }
+
         function resourceErrorHandler(response) {
             console.log(response);
             console.log('Error logging-in');
