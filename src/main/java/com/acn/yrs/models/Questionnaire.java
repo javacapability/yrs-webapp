@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name="QUESTIONNAIRE")
 public class Questionnaire extends ResponseObject{
@@ -20,6 +22,7 @@ public class Questionnaire extends ResponseObject{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
+	@Expose
 	private int id;
 
 
@@ -28,14 +31,17 @@ public class Questionnaire extends ResponseObject{
 
 	@ManyToOne
 	@JoinColumn(name = "questionid")
+	@Expose
 	private Question question;
 
 	@ManyToOne
 	@JoinColumn(name = "answerid", nullable=true)
+	@Expose
 	private Answer answer;
 
 
 	@Column(name = "answertxt")
+	@Expose
 	private String answerTxt;
 
 	/**

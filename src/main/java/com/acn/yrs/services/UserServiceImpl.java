@@ -57,6 +57,7 @@ public class UserServiceImpl extends BaseConstants implements UserService {
 			UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userInfo.getUserId().toUpperCase());
 			if (userInfoDB == null) {
 				userInfo.setPswd(Util.encode(userInfo.getPswd()));
+				userInfo.setErrorCd(HASNOERROR);
 				userInfo = userInfoRepository.save(userInfo);
 			}else{
 				auditLog = auditLogService.updateTransaction(auditLog, userInfo,AUDIT_TXN_FAIL, ERR_USER_ID_EXISTS);
