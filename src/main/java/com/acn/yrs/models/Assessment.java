@@ -18,6 +18,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name="ASSESSMENT")
 public class Assessment extends ResponseObject{
@@ -25,56 +27,71 @@ public class Assessment extends ResponseObject{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
+	@Expose
 	private int id;
 
 	@OneToOne
 	@JoinColumn(name = "clientid")
+	@Expose
 	private ClientInfo clientInfo;
 
 	@Column(name = "accountnumber")
+	@Expose
 	private String accountNumber;
 
 	@ManyToOne
 	@JoinColumn(name = "assessmentstatus")
+	@Expose
 	private AssessmentStatus assessmentStatus;
 
 	@Column(name = "totalassets")
+	@Expose
 	private BigDecimal totalAssets;
 
 	@Column(name = "totalliabilities")
+	@Expose
 	private BigDecimal totalLiabilities;
 
 	@Column(name = "losstolerance")
+	@Expose
 	private BigDecimal lossTolerance;
 
 	@Column(name = "financialcondition")
+	@Expose
 	private String financialCondition;
 
 	@Column(name = "assessmentdate")
+	@Expose
 	private Date assessmentDate;
 
 	@Column(name = "lastmodificationdate")
+	@Expose
 	private Date lastModificationDate;
 
 	@Column(name = "archiveddate")
+	@Expose
 	private Date archivedDate;
 
 	@Column(name = "reactivationdate")
+	@Expose
 	private Date reactivationDate;
 
 	//modified this part
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "assessmentid")
+	@Expose
 	private List<Asset> assets;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "assessmentid")
+	@Expose
 	private List<Liability> liabilities;
 
 	//@OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL)
 	//@Transient
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "assessmentid")
+	@Expose
 	private List<Questionnaire> survey;
 
 	/*@Override

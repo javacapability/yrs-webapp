@@ -67,6 +67,7 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 					userInfoDB.setLastLogin(new Date());
 					userInfoDB.setHttpStatus(HttpStatus.OK);
 					userInfoDB.setResponseMsg(MSG_USER_LOGGED_IN);
+					userInfo.setErrorCd(HASNOERROR);
 					userInfo = userInfoDB;
 				}
 			}else{
@@ -130,6 +131,7 @@ public class LoginServiceImpl  extends BaseConstants implements LoginService{
 					userInfoDB.setTokenId(null);
 					userInfo = userInfoRepository.save(userInfoDB);
 					userInfo.setResponseMsg(MSG_USER_LOGGED_OUT);
+					userInfo.setErrorCd(HASNOERROR);
 					auditLog = auditLogService.updateTransaction(auditLog, userInfo);
 				}else{
 					auditLog = auditLogService.updateTransaction(auditLog, userInfo, AUDIT_TXN_FAIL, ERR_USERINFO_NOTFOUND);

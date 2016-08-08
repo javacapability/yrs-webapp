@@ -15,7 +15,7 @@ public class ResponseObject extends BaseConstants{
 	private String appOrigin=APP_ORIGIN_MOBILE;
 
 	@Expose
-	private String errorCd = HASNOERROR;
+	private String errorCd;
 	@Expose
 	private String errorMsg;
 	@Expose
