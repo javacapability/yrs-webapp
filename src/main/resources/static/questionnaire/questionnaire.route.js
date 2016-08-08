@@ -12,14 +12,16 @@
                             controllerAs: 'questions'
                         }
                     },
-                    params: { userId: '' , tokenid: ''}
+                    params: { userId: '' , tokenid: ''},
+                    parent: 'main'
                 }).state('main.question_edit', {views: {'question_view': {
                             templateUrl: 'questionnaire/question_edit.html',
                             controller: 'questionEditController',
                             controllerAs: 'questions'
                         }
                     },
-                    params: { userId: '' , tokenid: '', editMode: '' , id: ''}
+                    params: { userId: '' , tokenid: '', editMode: '' , id: '', priority: ''},
+                    parent: 'main'
                 });
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
         $httpProvider.defaults.useXDomain = true;

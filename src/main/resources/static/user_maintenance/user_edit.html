@@ -1,8 +1,10 @@
-<!DOCTYPE html>
 <div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
-    <div layout="column" style="max-width: 90%; width: 800px">
-        <div><h2>{{users.editModeTitle}} User</h2></div>
-        <div>
+    <div layout="column" style="max-width: 90%; width: 800px" class="md-whiteframe-z1">
+        <md-toolbar class="md-padding md-hue-3 tabletitle" class="noright" flex>
+            <div flex>{{users.editModeTitle}} User</div>
+        </md-toolbar>
+        <md-divider></md-divider>
+        <div class="md-padding">
             <form>
                 <div layout="column">
                     <md-input-container class="md-block">
@@ -32,9 +34,9 @@
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>User Group</label>
-                        <md-select ng-model="users.editUser.userGroup.groupName" ng-disabled="users.editMode === 'edit'">
-                            <md-option ng-repeat="group in users.userGroups" value="{{group}}">
-                                {{group}}
+                        <md-select ng-model="users.editUser.userGroup.id" ng-disabled="users.editMode === 'edit'">
+                            <md-option ng-repeat="group in users.userGroups" value="{{group.value}}">
+                                {{group.groupName}}
                             </md-option>
                         </md-select>
                     </md-input-container>

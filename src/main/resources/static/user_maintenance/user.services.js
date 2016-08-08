@@ -35,13 +35,15 @@
             return deferred.promise;
         }
         
-        function saveUser(newUser){
+        function saveUser(newUser, params){
             var resource = $resource(serviceURL + webServices.userSaveEndpoint, {}, {
                 save: {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'userId': params.userId,
+                        'tokenId': params.tokenid
                     }
                 }
             });
@@ -68,31 +70,41 @@
             return deferred.promise;
         }
         
-        function updateUser(updateUser){
+        function updateUser(updateUser, params){
             var resource = $resource(serviceURL + webServices.userEditEndpoint, {}, {
                 save: {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'userId': params.userId,
+                        'tokenId': params.tokenid
                     }
                 }
             });
             return resource.save(updateUser).$promise;
         }
         
-        function deleteUser(userIdDelete){
+        function deleteUser(userIdDelete, params){
             var resource = $resource(serviceURL + webServices.userDeleteEndpoint, {}, {
-                delete: {
-                    method: 'DELETE',
+                save: {
+                    method: 'POST',
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'userId': params.userId,
+                        'tokenId': params.tokenid
                     }
                 }
             });
-            var user = {userId : userIdDelete}
-            return resource.delete(user).$promise;
+            var user = {userId : userIdDelete};
+            return resource.save(user).$promise;
+        }
+
+        function updateUserGroupForUpdate(updateUser){
+            var groupID = updateUser.userGroup.id;
+            updateUser.answerTypes = serviceURL + '/userGroup/' + groupID;
+            return updateUser;
         }
     }
 

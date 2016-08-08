@@ -19,7 +19,7 @@
             {value: 4, name: 'Freetext'}];
 
         var defaultQuestion = {
-            'priorityNumber':null,
+            'priorityNumber':$stateParams.priority,
             'questionTxt':'',
             'answerTypes':{'id':1},
             'yesWeight':0,
@@ -46,6 +46,11 @@
         }
         
         questions.back = function(){
+            questionServices.getQuestions($stateParams)
+                .then(function (data) {
+                    questions.questionList = data;
+                    questions.lastNo = questions.questionList.length + 1;
+                });
             $state.go('main.question_main',$stateParams);
         };
         

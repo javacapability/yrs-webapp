@@ -13,16 +13,19 @@
         var questions = this;
         
         questions.questionList = [];
+        questions.lastNo = 1;
         
         questionServices.getQuestions($stateParams)
             .then(function (data) {
                 questions.questionList = data;
+                questions.lastNo = questions.questionList.length + 1;
             });
             
         questions.newQuestion = function(){
             console.log('New Question');
             var params = $stateParams;
             params.editMode = 'new';
+            params.priority = questions.lastNo;
             $state.go('main.question_edit', params);
         };
         
@@ -38,7 +41,14 @@
             questionServices.deleteQuestion(question, $stateParams)
                 .then(function () {
                 });
-            $state.go('main.question_main', $stateParams);
+
+            for (i = 0; i < questions.questionList.length; i++){
+                if (questionList[i].id === question.id){
+                    questionList.splice(i,1);
+                    questions.lastNo = questions.questionList.length + 1;
+                    break;
+                }
+            }
         };
         
         questions.getAnswerTypes = function(answerTypes){

@@ -13,7 +13,8 @@ angular.module('constants',[])
         userSaveEndpoint: '/register',
         userEditEndpoint: '/update',
         userDeleteEndpoint: '/delete',
-        
+
+        questionEndpoint: '/getQuestion',
         questionListEndpoint: '/getQuestionList',
         questionSaveEndpoint: '/question/create',
         questionEditEndpoint: '/question/update',

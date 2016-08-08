@@ -1,10 +1,10 @@
 <div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
     <div layout="column" style="max-width: 90%; width: 800px">
         <div layout="column" class="md-whiteframe-z1">
-            <md-content layout="row" class="md-padding md-hue-1 tabletitle" class="noright" flex>
+            <md-toolbar layout="row" class="md-padding md-hue-3 tabletitle" class="noright" flex>
                 <div flex="60">System Parameters</div>
                 <div flex="40"></div>
-            </md-content>
+            </md-toolbar>
             <md-divider></md-divider>
             <md-list-item ng-repeat="param in parameters.parametersList" class="noright" flex>
                 <div flex="60">{{param.dscp}}</div>
