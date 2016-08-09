@@ -5,11 +5,13 @@
                 '$scope',
                 '$state',
                 '$stateParams',
+                '$timeout',
+                '$mdDialog',
                 'questionServices',
                 questionEditController
             ]);
             
-    function questionEditController($scope, $state, $stateParams, questionServices) {
+    function questionEditController($scope, $state, $stateParams, $timeout, $mdDialog, questionServices) {
         var questions = this;
         
         questions.answerTypes = [
@@ -51,7 +53,10 @@
                     questions.questionList = data;
                     questions.lastNo = questions.questionList.length + 1;
                 });
-            $state.go('main.question_main',$stateParams);
+            $timeout(function () {
+                $state.go('main.question_main',$stateParams);
+            }, 200);
+
         };
         
         questions.reset = function(){
@@ -69,13 +74,23 @@
             questionServices.updateQuestion(questions.editQuestion, $stateParams)
                 .then(function () {
                 });
+            questions.back();
         };
 
         questions.delete = function(){
-            questionServices.deleteQuestion(questions.editQuestion.id, $stateParams)
-                .then(function () {
-                });
-            questions.back();
+            var confirm = $mdDialog.confirm()
+                .title('Warning')
+                .textContent('Are you sure you want to delete the Question?')
+                .ariaLabel('Are you sure you want to delete the Question?')
+                .ok('Yes')
+                .cancel('No');
+            $mdDialog.show(confirm).then(function() {
+                questionServices.deleteQuestion(questions.editQuestion.id, $stateParams)
+                    .then(function () {
+                        questions.back();
+                    });
+            }, function() {
+            });
         };
 
 

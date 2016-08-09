@@ -5,11 +5,13 @@
                 '$scope',
                 '$state',
                 '$stateParams',
+                '$timeout',
+                '$mdDialog',
                 'userServices',
                 userController
             ]);
             
-    function userController($scope, $state, $stateParams, userServices) {
+    function userController($scope, $state, $stateParams, $timeout, $mdDialog, userServices) {
         var users = this;
         
         users.userList = [];
@@ -35,10 +37,23 @@
         };
         
         users.deleteUser = function(user){
-            userServices.deleteUser(user, $stateParams)
-                .then(function () {
-                });
-            $state.go('main.user_main',$stateParams);
+            var confirm = $mdDialog.confirm()
+                .title('Warning')
+                .textContent('Are you sure you want to delete the User?')
+                .ariaLabel('Are you sure you want to delete the User?')
+                .ok('Yes')
+                .cancel('No');
+            $mdDialog.show(confirm).then(function() {
+                userServices.deleteUser(user, $stateParams)
+                    .then(function () {
+                        $timeout(function () {
+                            $state.reload('main.user_main');
+                        }, 200);
+                    });
+            }, function() {
+            });
+
+
         };
         
     }

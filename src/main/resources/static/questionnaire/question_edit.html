@@ -17,11 +17,11 @@
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Question</label>
-                        <textarea ng-model="questions.editQuestion.questionTxt" md-maxlength="300" rows="3"></textarea>
+                        <textarea ng-model="questions.editQuestion.questionTxt" md-maxlength="300" rows="3" required></textarea>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Question Group</label>
-                        <md-select ng-model="questions.editQuestion.answerTypes.id">
+                        <md-select ng-model="questions.editQuestion.answerTypes.id" required>
                             <md-option ng-repeat="type in questions.answerTypes" value="{{type.value}}">
                                 {{type.name}}
                             </md-option>
@@ -39,7 +39,7 @@
                             <div flex="10">{{answer.answerNumber}}</div>
                             <div flex="65">
                                 <md-input-container class="md-block">
-                                    <input ng-model="answer.answerTxt">
+                                    <input ng-model="answer.answerTxt" required>
                                 </md-input-container>
                             </div>
                             <div flex="20">

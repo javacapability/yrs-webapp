@@ -5,11 +5,13 @@
                 '$scope',
                 '$state',
                 '$stateParams',
+                '$timeout',
+                '$mdDialog',
                 'questionServices',
                 questionController
             ]);
             
-    function questionController($scope, $state, $stateParams, questionServices) {
+    function questionController($scope, $state, $stateParams, $timeout, $mdDialog, questionServices) {
         var questions = this;
         
         questions.questionList = [];
@@ -38,17 +40,22 @@
         };
         
         questions.deleteQuestion = function(question){
-            questionServices.deleteQuestion(question, $stateParams)
-                .then(function () {
-                });
+            var confirm = $mdDialog.confirm()
+                .title('Warning')
+                .textContent('Are you sure you want to delete the Question?')
+                .ariaLabel('Are you sure you want to delete the Question?')
+                .ok('Yes')
+                .cancel('No');
+            $mdDialog.show(confirm).then(function() {
+                questionServices.deleteQuestion(question, $stateParams)
+                    .then(function () {
+                        $timeout(function () {
+                            $state.reload('main.question_main');
+                        }, 200);
+                    });
+            }, function() {
+            });
 
-            for (i = 0; i < questions.questionList.length; i++){
-                if (questionList[i].id === question.id){
-                    questionList.splice(i,1);
-                    questions.lastNo = questions.questionList.length + 1;
-                    break;
-                }
-            }
         };
         
         questions.getAnswerTypes = function(answerTypes){
