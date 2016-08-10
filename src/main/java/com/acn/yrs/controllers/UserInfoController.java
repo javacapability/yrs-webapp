@@ -1,5 +1,9 @@
 package com.acn.yrs.controllers;
 
+import java.util.List;
+
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.acn.yrs.models.Assessment;
+import com.acn.yrs.models.Questionnaire;
+import com.acn.yrs.models.SearchObject;
 import com.acn.yrs.models.UserInfo;
 import com.acn.yrs.services.LoginService;
 import com.acn.yrs.services.UserService;
@@ -37,7 +44,42 @@ public class UserInfoController extends BaseController{
 		return getResponse(userService.getAllUsers(),"",HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/getUserList", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> getUserList(@RequestBody SearchObject searchObject, @RequestHeader String userId, @RequestHeader String tokenId) {
 
+		LOG.debug("get User List with filter");
+		ResponseEntity<Object> validity = checkUser(userId, tokenId);
+		String filterString = "%" + searchObject.getFilter() + "%";
+		if (validity == null) {
+			List<UserInfo> userInfoList = userService.getAllUsersWithFilter(filterString, filterString, filterString);
+			return getResponse(userInfoList, tokenId, HttpStatus.OK);
+		} else {
+			return validity;
+		}
+	}
+
+	@RequestMapping(value="/getUserInfo", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> getUserInfo(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
+		try {
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+			int userUUID = searchObject.getId();
+			LOG.info("assessmentId: " + userUUID);
+
+			UserInfo userInfo = userService.findUserInfoById(userUUID);
+			return getResponse(userInfo, tokenId, HttpStatus.OK);
+
+		}catch(NoResultException e){
+			//e.printStackTrace();
+			return getResponse(ERR_ASSESSMENTNOTFOUND,tokenId, HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+	}
 	@RequestMapping(value="/login", method = RequestMethod.POST, headers = {"Accept=application/json"})
 	public ResponseEntity<Object> login(@RequestBody UserInfo userInfo){
 
@@ -173,5 +215,7 @@ public class UserInfoController extends BaseController{
 		}
 
 		// ************************************************gene
+
+
 
 }

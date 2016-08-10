@@ -15,4 +15,12 @@ public interface UserInfoRepository extends PagingAndSortingRepository<UserInfo,
 	public UserInfo findUserInfoByUserId(String userId);
 
 	public Integer getIdByUserId(String userId);
+
+	//ArrayList<Assessment> findAssessmentByAssessmentStatusAndClientInfoUserInfoUserIdIgnoreCaseAndClientInfoClientNameIgnoreCaseLike(
+	//AssessmentStatus assessmentStatus, String userId, String searchFilter);
+
+	public List<UserInfo> findUserInfoByUserIdIgnoreCaseLikeOrFullNameIgnoreCaseLikeOrUserGroupGroupNameIgnoreCaseLikeAndUserIdIgnoreCaseNot(String userId,
+			String fullName, String groupName, String selfUserId);
+	public List<UserInfo> findUserInfoByUserIdIgnoreCaseLikeOrFullNameIgnoreCaseLikeOrUserGroupGroupNameIgnoreCaseLike(String userId,
+			String fullName, String groupName);
 }

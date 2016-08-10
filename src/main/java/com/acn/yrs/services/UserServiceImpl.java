@@ -56,6 +56,7 @@ public class UserServiceImpl extends BaseConstants implements UserService {
 
 			UserInfo userInfoDB = userInfoRepository.findUserInfoByUserId(userInfo.getUserId().toUpperCase());
 			if (userInfoDB == null) {
+				userInfo.setUserId(userInfo.getUserId().toUpperCase());
 				userInfo.setPswd(Util.encode(userInfo.getPswd()));
 				userInfo.setErrorCd(HASNOERROR);
 				userInfo = userInfoRepository.save(userInfo);
@@ -133,6 +134,20 @@ public class UserServiceImpl extends BaseConstants implements UserService {
 	}
 
 	@Override
+	public List<UserInfo> getAllUsersWithFilter(String userId, String fullName, String groupName) {
+		// TODO Auto-generated method stub
+		return userInfoRepository.findUserInfoByUserIdIgnoreCaseLikeOrFullNameIgnoreCaseLikeOrUserGroupGroupNameIgnoreCaseLike(userId, fullName, groupName);
+
+	}
+
+	@Override
+	public List<UserInfo> getAllUsersExceptSelf(String userId, String fullName, String groupName, String adminUserId) {
+		// TODO Auto-generated method stub
+		return userInfoRepository.findUserInfoByUserIdIgnoreCaseLikeOrFullNameIgnoreCaseLikeOrUserGroupGroupNameIgnoreCaseLikeAndUserIdIgnoreCaseNot(userId, fullName, groupName, adminUserId);
+
+	}
+
+	@Override
 	public Integer getIdbyUserId(String userId){
 		return userInfoRepository.getIdByUserId(userId);
 	}
@@ -140,6 +155,11 @@ public class UserServiceImpl extends BaseConstants implements UserService {
 	@Override
 	public UserInfo findUserInfoByUserId(String userId){
 		return userInfoRepository.findUserInfoByUserId(userId);
+	}
+
+	@Override
+	public UserInfo findUserInfoById(int userUUID) {
+		return userInfoRepository.findOne(userUUID);
 	}
 }
 
