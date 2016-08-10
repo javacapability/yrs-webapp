@@ -4,11 +4,14 @@
             .controller('userController', [
                 '$scope',
                 '$state',
+                '$stateParams',
+                '$timeout',
+                '$mdDialog',
                 'userServices',
                 userController
             ]);
             
-    function userController($scope, $state, userServices) {
+    function userController($scope, $state, $stateParams, $timeout, $mdDialog, userServices) {
         var users = this;
         
         users.userList = [];
@@ -20,24 +23,37 @@
             
         users.newUser = function(){
             console.log('New User');
-            var params = {};
+            var params = $stateParams;
             params.editMode = 'new';
             $state.go('main.user_edit', params);
         };
         
         users.editUser = function(user){
             console.log('Edit user ' + user);
-            var params = {};
+            var params = $stateParams;
             params.editMode = 'edit';
             params.userId = user;
             $state.go('main.user_edit', params);
         };
         
         users.deleteUser = function(user){
-            userServices.deleteUser(user)
-                .then(function () {
-                });
-            $state.go('main.user_main');
+            var confirm = $mdDialog.confirm()
+                .title('Warning')
+                .textContent('Are you sure you want to delete the User?')
+                .ariaLabel('Are you sure you want to delete the User?')
+                .ok('Yes')
+                .cancel('No');
+            $mdDialog.show(confirm).then(function() {
+                userServices.deleteUser(user, $stateParams)
+                    .then(function () {
+                        $timeout(function () {
+                            $state.reload('main.user_main');
+                        }, 200);
+                    });
+            }, function() {
+            });
+
+
         };
         
     }

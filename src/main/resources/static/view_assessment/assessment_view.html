@@ -1,9 +1,9 @@
 <div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
     <div layout="column" style="max-width: 90%; width: 800px">
-        <div layout="column"  class="md-whiteframe-z1">
-            <md-content class="md-padding md-hue-1 tabletitle" class="noright" flex>
+        <div layout="column" class="md-whiteframe-z1">
+            <md-toolbar class="md-padding md-hue-3 tabletitle" class="noright" flex>
                 <div flex>View Assessment</div>
-            </md-content>
+            </md-toolbar>
             <md-divider></md-divider>
             <div layout="column" flex class="md-padding">
                 <div layout="row" flex>
@@ -19,7 +19,7 @@
                     </div>
                     <div flex="30" class="md-padding">
                         <div class="md-whiteframe-z1" flex>
-                        {{assessments.assessmentView.clientInfo.photo}}
+                        <!--{{assessments.assessmentView.clientInfo.photo}}-->
                         </div>
                     </div>
                 </div>
@@ -40,8 +40,8 @@
             </div>
             <md-divider></md-divider>
             <!--Questionnaire here-->
-            <div ng-if="!assessments.assessmentView.survey" layout="column">
-                Assessment has no answered questionnaire
+            <div ng-if="!assessments.assessmentView.survey" class="md-padding" layout="column">
+                Assessment has no questionnaire
             </div>
             <div ng-repeat="survey in assessments.assessmentView.survey" class="md-padding" layout="column">
                 <div flex>{{survey.question.priorityNumber}}. {{survey.question.questionTxt}}</div>

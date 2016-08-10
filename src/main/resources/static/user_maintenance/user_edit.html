@@ -1,21 +1,23 @@
-<!DOCTYPE html>
 <div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
-    <div layout="column" style="max-width: 90%; width: 800px">
-        <div><h2>{{users.editModeTitle}} User</h2></div>
-        <div>
+    <div layout="column" style="max-width: 90%; width: 800px" class="md-whiteframe-z1">
+        <md-toolbar class="md-padding md-hue-3 tabletitle" class="noright" flex>
+            <div flex>{{users.editModeTitle}} User</div>
+        </md-toolbar>
+        <md-divider></md-divider>
+        <div class="md-padding">
             <form>
                 <div layout="column">
                     <md-input-container class="md-block">
                         <label>User ID</label>
-                        <input ng-model="users.editUser.userId" ng-disabled="users.editMode === 'edit'">
+                        <input ng-model="users.editUser.userId" ng-disabled="users.editMode === 'edit'" ng-required="users.editMode !== 'edit'">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Name</label>
-                        <input ng-model="users.editUser.fullName">
+                        <input ng-model="users.editUser.fullName" required>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Email</label>
-                        <input ng-model="users.editUser.email">
+                        <input ng-model="users.editUser.email" required>
                     </md-input-container>
                     <div layout="row">
                     <md-datepicker class="md-block"
@@ -24,17 +26,17 @@
                     </div>
                     <md-input-container class="md-block">
                         <label>Password</label>
-                        <input type="password" ng-model="user.editUser.pswd"/>
+                        <input type="password" ng-model="user.editUser.pswd" required/>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Re-type Password</label>
-                        <input type="password" ng-model="user.confirmPswd"/>
+                        <input type="password" ng-model="user.confirmPswd" required/>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>User Group</label>
-                        <md-select ng-model="users.editUser.userGroup.groupName" ng-disabled="users.editMode === 'edit'">
-                            <md-option ng-repeat="group in users.userGroups" value="{{group}}">
-                                {{group}}
+                        <md-select ng-model="users.editUser.userGroup.id" ng-disabled="users.editMode === 'edit'" ng-required="users.editMode !== 'edit'">
+                            <md-option ng-repeat="group in users.userGroups" value="{{group.value}}">
+                                {{group.groupName}}
                             </md-option>
                         </md-select>
                     </md-input-container>

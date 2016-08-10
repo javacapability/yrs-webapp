@@ -19,17 +19,19 @@
 
         assessments.assessmentList = [];
 
-        $scope.$watch('assessments.filterType', function() {
-            assessmentServices.getAssessmentList(assessments.filterType, $stateParams)
+        assessments.getAssessmentList = function(filterType){
+            assessmentServices.getAssessmentList(filterType, $stateParams)
                 .then(function (data) {
                     assessments.assessmentList = data;
+                }, function (error) {
+                    assessments.assessmentList = [];
                 });
-        });
+        };
 
-        assessmentServices.getAssessmentList(assessments.filterType, $stateParams)
-            .then(function (data) {
-                assessments.assessmentList = data;
-            });
+        assessments.getAssessmentList(assessments.filterType);
+        $scope.$watch('assessments.filterType', function() {
+            assessments.getAssessmentList(assessments.filterType);
+        });
 
         assessments.viewAssessment = function(assessmentid){
             var params = $stateParams;

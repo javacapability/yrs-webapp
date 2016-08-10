@@ -26,6 +26,9 @@
                         'userId': params.userId,
                         'tokenId': params.tokenid
                     },
+                    interceptor : {
+                        responseError: function(response) {}
+                    },
                     isArray: true
                 }
             });

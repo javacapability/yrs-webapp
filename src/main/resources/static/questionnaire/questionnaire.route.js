@@ -19,7 +19,7 @@
                             controllerAs: 'questions'
                         }
                     },
-                    params: { userId: '' , tokenid: '', editMode: '' , id: ''}
+                    params: { userId: '' , tokenid: '', editMode: '' , id: '', priority: ''}
                 });
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
         $httpProvider.defaults.useXDomain = true;

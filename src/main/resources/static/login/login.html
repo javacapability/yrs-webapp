@@ -1,14 +1,16 @@
 <div layout="column" layout-align="center center" layout-fill="layout-fill" >
     <div layout="column" style="max-width: 90%; width: 500px">
-        <div layout="row" class="mainTitle"><h1>IRPS</h1><h2>Backend</h2></div>
+        <md-content layout="row" class="mainTitle">
+            <div><h1>IRPS</h1></div><div style="position: relative"><h2>Backend</h2></div>
+        </md-content>
         <div class="md-whiteframe-z2">
             <form name="loginForm">
             <md-toolbar>
                 <h2 class="md-toolbar-tools"><span>Login</span></h2>
             </md-toolbar>
-            <md-toolbar layout="row" class="md-hue-3" ng-show="loginForm.$error.login">
-                <div class="md-toolbar-tools">
-                    <span>Error logging in</span>
+            <md-toolbar layout="row" class="md-warn" ng-show="loginForm.$error.login">
+                <div ng-click="loginForm.$error.login = false" class="md-toolbar-tools">
+                    Error logging in
                 </div>
             </md-toolbar>
             <md-content layout="column" class="md-padding">
@@ -22,8 +24,8 @@
                 </md-input-container>
                 <div layout="row" layout-align="center center" style="padding-top:20px;">
                     <md-button class="md-raised md-primary" ng-click="login.loginUser(login.username, login.password)">Login</md-button>
-                    <div flex="flex"></div>
-                    <md-button ng-click="login.gotoReset()" md-no-ink="md-no-ink">Forgot Password</md-button>
+                    <!--<div flex="flex"></div>-->
+                    <!--<md-button ng-click="login.gotoReset()" md-no-ink="md-no-ink">Forgot Password</md-button>-->
                 </div>
             </md-content>
             </form>

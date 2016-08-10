@@ -2,6 +2,9 @@
     vertical-align: auto;
     text-align: left;
     width: 100%;
+    min-height: 70px;
+    max-height: 70px;
+    overflow: visible;
 }
 
 .mainTitle h1 {
@@ -16,10 +19,13 @@
     font-weight: lighter;
     color: gainsboro;
     margin: 0px;
+    position: absolute;
+    bottom: 0px;
 }
 
 .tabletitle {
     font-weight: bold;
+    font-size: medium;
 }
 
 md-input-container.forminput {

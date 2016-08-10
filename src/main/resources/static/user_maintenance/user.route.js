@@ -11,14 +11,15 @@
                             controller: 'userController',
                             controllerAs: 'users'
                         }
-                    }
+                    },
+                    params: { userId: '' , tokenid: ''}
                 }).state('main.user_edit', {views: {'user_view': {
                             templateUrl: 'user_maintenance/user_edit.html',
                             controller: 'userEditController',
                             controllerAs: 'users'
                         }
                     },
-                    params: { editMode: '' , userId: ''}
+                    params: { userId: '' , tokenid: '', editMode: '' , userId: ''}
                 });
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
         $httpProvider.defaults.useXDomain = true;

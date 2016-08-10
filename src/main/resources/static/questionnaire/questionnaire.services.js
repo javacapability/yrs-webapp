@@ -3,7 +3,7 @@
     angular.module('questionModule')
         .factory('questionServices', questionServices);
 
-    function questionServices($resource, $q, webServices, $http)
+    function questionServices($resource, $q, webServices)
     {
         var serviceURL = webServices.serviceHost;
         
@@ -53,25 +53,26 @@
             });
             return resource.save(newQuestion).$promise;
         }
-        
-        function getEditQuestion(questionId, params){
-            var resource = $resource(serviceURL + webServices.questionListEndpoint, {}, {
-                query: {
-                    method: 'GET',
+
+        function getEditQuestion(questionId, params) {
+            var search = {};
+            search.id = questionId;
+            var resource = $resource(serviceURL + webServices.questionEndpoint, {}, {
+                save: {
+                    method: 'POST',
                     headers: {
                         'Accept': 'application/json',
                         'userId': params.userId,
                         'tokenId': params.tokenid
                     },
-                    isArray: true
+                    isArray: false
                 }
             });
-            var result = resource.query().$promise;
+            var result = resource.save(search).$promise;
             var deferred = $q.defer();
             result.then(function (data) {
-                console.log('For editing - ' + questionId)
-                data = _.filter(data, { 'id': questionId });
-                return deferred.resolve(data[0]);
+                return deferred.resolve(data);
+
             });
             return deferred.promise;
         }
