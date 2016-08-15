@@ -21,16 +21,16 @@
                     </md-input-container>
                     <div layout="row">
                     <md-datepicker class="md-block"
-                        ng-model="users.editUser.birthday" md-placeholder="Enter Birthday">
+                        ng-model="users.editUser.birthday" md-placeholder="Enter Birthday" required>
                     </md-datepicker>
                     </div>
                     <md-input-container class="md-block">
                         <label>Password</label>
-                        <input type="password" ng-model="user.editUser.pswd" required/>
+                        <input type="password" ng-model="users.editUser.pswd" required/>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Re-type Password</label>
-                        <input type="password" ng-model="user.confirmPswd" required/>
+                        <input type="password" ng-model="users.confirmPswd" required/>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>User Group</label>

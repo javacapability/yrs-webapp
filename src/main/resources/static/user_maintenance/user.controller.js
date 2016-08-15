@@ -16,7 +16,7 @@
         
         users.userList = [];
         
-        userServices.getUsers()
+        userServices.getUsers($stateParams)
             .then(function (data) {
                 users.userList = data;
             });
@@ -28,11 +28,11 @@
             $state.go('main.user_edit', params);
         };
         
-        users.editUser = function(user){
-            console.log('Edit user ' + user);
+        users.editUser = function(id){
+            console.log('Edit user ' + id);
             var params = $stateParams;
             params.editMode = 'edit';
-            params.userId = user;
+            params.id = id;
             $state.go('main.user_edit', params);
         };
         
