@@ -20,33 +20,52 @@
 
         main.changePassword = function(){
             main.showMain = false;
-        }
+        };
 
         main.back = function(){
             main.showMain = true;
-        }
+        };
 
         main.updatePassword = function(pswd, pswd_new, pswd_new_confirm){
-            if (pswd_new !== pswd_new_confirm) {
-                $scope.mainForm.$setValidity("login", false);
-            } else {
-                //try to login user first?
-                var user = {};
-                user.userId = $stateParams.user.userId;
-                user.pswd = pswd_new;
-                mainUserServices.changePassword(user, $stateParams)
-                    .then(function () {
-                        main.showMain = true;
-                    });
-            }
-        }
+            mainUserServices.validatelogin(main.currentUser.userId, pswd)
+                .then(function (data) {
+                    if (data.userId) {
+                        $stateParams.userId = data.userId;
+                        $stateParams.tokenid = data.$httpHeaders.tokenid;
+                        $stateParams.user = data;
+                        if (pswd_new !== pswd_new_confirm) {
+                            $scope.mainForm.$setValidity("login", false);
+                        } else {
+                            var user = {};
+                            user.userId = $stateParams.user.userId;
+                            user.pswd = pswd_new;
+                            mainUserServices.changePassword(user, $stateParams)
+                                .then(function () {
+                                    mainUserServices.validatelogin(main.currentUser.userId, pswd_new)
+                                        .then(function (data) {
+                                            if (data.userId) {
+                                                $stateParams.userId = data.userId;
+                                                $stateParams.tokenid = data.$httpHeaders.tokenid;
+                                                $stateParams.user = data;
+                                                main.showMain = true;
+                                            }
+                                        }, function() {
+                                            $scope.mainForm.$setValidity("login", false);
+                                        })
+                                });
+                        }
+                    }
+                }, function() {
+                    $scope.mainForm.$setValidity("login", false);
+                });
+        };
 
         main.logout = function(){
             mainUserServices.logout($stateParams)
                 .then(function () {
                     $state.go('login');
                 });
-        }
+        };
 
         $scope.selectedIndex = 0;
 

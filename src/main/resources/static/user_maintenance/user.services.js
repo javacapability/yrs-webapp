@@ -17,17 +17,21 @@
 
         return service;
 
-        function getUsers() {
+        function getUsers(params) {
+            var search = {};
+            search.filter = '';
             var resource = $resource(serviceURL + webServices.userListEndpoint, {}, {
-                query: {
-                    method: 'GET',
+                save: {
+                    method: 'POST',
                     headers: {
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'userId': params.userId,
+                        'tokenId': params.tokenid
                     },
                     isArray: true
                 }
             });
-            var result = resource.query().$promise;
+            var result = resource.save(search).$promise;
             var deferred = $q.defer();
             result.then(function (data) {
                 return deferred.resolve(data);
@@ -36,6 +40,9 @@
         }
         
         function saveUser(newUser, params){
+            newUser.birthday = String(moment(newUser.birthday).format('YYYY-MM-DD'));
+            newUser.upDt = '';
+            newUser.lastLogin = '';
             var resource = $resource(serviceURL + webServices.userSaveEndpoint, {}, {
                 save: {
                     method: 'POST',
@@ -49,28 +56,33 @@
             });
             return resource.save(newUser).$promise;
         }
-        
-        function getEditUser(userId){
-            var resource = $resource(serviceURL + webServices.userListEndpoint, {}, {
-                query: {
-                    method: 'GET',
+
+        function getEditUser(userId, params){
+            var search = {};
+            search.id = userId;
+            var resource = $resource(serviceURL + webServices.userEndpoint, {}, {
+                save: {
+                    method: 'POST',
                     headers: {
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'userId': params.userId,
+                        'tokenId': params.tokenid
                     },
-                    isArray: true
+                    isArray: false
                 }
             });
-            var result = resource.query().$promise;
+            var result = resource.save(search).$promise;
             var deferred = $q.defer();
             result.then(function (data) {
-                console.log('For editing - ' + userId)
-                data = _.filter(data, { 'userId': userId });
-                return deferred.resolve(data[0]);
+                return deferred.resolve(data);
             });
             return deferred.promise;
         }
-        
+
         function updateUser(updateUser, params){
+            updateUser.birthday = String(moment(updateUser.birthday).format('YYYY-MM-DD'));
+            updateUser.upDt = '';
+            updateUser.lastLogin = '';
             var resource = $resource(serviceURL + webServices.userEditEndpoint, {}, {
                 save: {
                     method: 'POST',

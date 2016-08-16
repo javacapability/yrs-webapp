@@ -20,15 +20,16 @@
         
         console.log('test - ' + $stateParams.editMode);
         users.editMode = $stateParams.editMode;
-        
+        users.confirmPswd = '';
         users.editUser = {};
         
         if (users.editMode === 'edit'){
-            var userId = $stateParams.userId;
+            var userId = $stateParams.id;
             users.editModeTitle = 'Edit';
-            userServices.getEditUser(userId)
+            userServices.getEditUser(userId, $stateParams)
                 .then(function (data) {
                     users.editUser = data;
+                    users.editUser.birthday = new Date(moment(users.editUser.birthday).format('YYYY-MM-DD'));
                 });
         } else {
             users.editModeTitle = 'Create new';
@@ -45,17 +46,21 @@
         };
         
         users.save = function(){
-            userServices.saveUser(users.editUser, $stateParams)
-                .then(function () {
-                });
-            users.back();
+            if (users.editUser.pswd === users.confirmPswd) {
+                userServices.saveUser(users.editUser, $stateParams)
+                    .then(function () {
+                    });
+                users.back();
+            }
         };
         
         users.update = function(){
-            userServices.updateUser(users.editUser, $stateParams)
-                .then(function () {
-                });
-            users.back();
+            if (users.editUser.pswd === users.confirmPswd) {
+                userServices.updateUser(users.editUser, $stateParams)
+                    .then(function () {
+                    });
+                users.back();
+            }
         };
         
         users.delete = function(){

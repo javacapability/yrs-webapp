@@ -4,12 +4,13 @@ angular.module('constants',[])
         serviceHost: 'http://localhost:8080/yrs',
 
         //Update with correct service methods ex: loginEndpoint: '/login'
-        loginEndpoint: '/login',
+        loginEndpoint: '/loginWeb',
         resetEndpoint: '/reset',
         loadmainEndpoint: '/loadMain',
-        logoutEndpoint: '/logout',
-        
-        userListEndpoint: '/users',
+        logoutEndpoint: '/logoutWeb',
+
+        userEndpoint: '/getUserInfo',
+        userListEndpoint: '/getUserList',
         userSaveEndpoint: '/register',
         userEditEndpoint: '/update',
         userDeleteEndpoint: '/delete',

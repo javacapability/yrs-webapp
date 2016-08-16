@@ -19,7 +19,7 @@
                             controllerAs: 'users'
                         }
                     },
-                    params: { userId: '' , tokenid: '', editMode: '' , userId: ''}
+                    params: { userId: '' , tokenid: '', editMode: '' , id: ''}
                 });
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
         $httpProvider.defaults.useXDomain = true;

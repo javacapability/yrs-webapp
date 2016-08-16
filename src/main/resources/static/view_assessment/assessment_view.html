@@ -17,9 +17,12 @@
                             <input ng-model="assessments.assessmentView.clientInfo.clientName" disabled>
                         </md-input-container>
                     </div>
-                    <div flex="30" class="md-padding">
-                        <div class="md-whiteframe-z1" flex>
+                    <div flex="30" class="md-padding" layout-align="center center" layout-fill="layout-fill" >
+                        <div class="md-whiteframe-z2" style="height: 120px; width: 120px; margin: 0 auto;">
                         <!--{{assessments.assessmentView.clientInfo.photo}}-->
+                            <img style="height: 120px; width: 120px;" ng-if="assessments.assessmentView.clientInfo.photo" data-ng-src="data:image/png;base64,{{assessments.assessmentView.clientInfo.photo}}"
+                                 data-err-src="images/BlankPhoto.png">
+                            <img style="height: 120px; width: 120px;" ng-if="!assessments.assessmentView.clientInfo.photo" src="images/BlankPhoto.png">
                         </div>
                     </div>
                 </div>
@@ -40,11 +43,11 @@
             </div>
             <md-divider></md-divider>
             <!--Questionnaire here-->
-            <div ng-if="!assessments.assessmentView.survey" class="md-padding" layout="column">
+            <div ng-if="!assessments.assessmentView.survey || assessments.assessmentView.survey.length === 0" class="md-padding" layout="column">
                 Assessment has no questionnaire
             </div>
             <div ng-repeat="survey in assessments.assessmentView.survey" class="md-padding" layout="column">
-                <div flex>{{survey.question.priorityNumber}}. {{survey.question.questionTxt}}</div>
+                <div flex>{{($index+1)}}.) {{survey.question.questionTxt}}</div>
                 <br>
                 <div class="md-padding">
                     <div ng-if="survey.question.answerTypes.id == 1" layout="column">

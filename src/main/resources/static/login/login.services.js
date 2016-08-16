@@ -16,7 +16,7 @@
 
         return service;
         
-         function login(user, pswd) {
+        function login(user, pswd) {
             console.log(serviceURL + webServices.loginEndpoint);
             var resource = $resource(serviceURL + webServices.loginEndpoint, {}, {
                 save: {
