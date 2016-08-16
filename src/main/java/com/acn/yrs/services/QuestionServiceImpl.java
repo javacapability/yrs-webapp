@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.acn.yrs.models.AuditLog;
-import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.Question;
 import com.acn.yrs.repository.QuestionsRepository;
+import com.acn.yrs.utils.BaseConstants;
 
 @Service("questionService")
 @Transactional

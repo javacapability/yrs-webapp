@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.Questionnaire;
 import com.acn.yrs.repository.QuestionnairesRepository;
+import com.acn.yrs.utils.BaseConstants;
 
 @Service("questionnaireService")
 @Transactional

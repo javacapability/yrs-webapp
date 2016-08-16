@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.acn.yrs.models.AuditLog;
-import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.UserInfo;
 import com.acn.yrs.repository.UserInfoRepository;
+import com.acn.yrs.utils.BaseConstants;
 import com.acn.yrs.utils.Helper;
 import com.acn.yrs.utils.Util;
 

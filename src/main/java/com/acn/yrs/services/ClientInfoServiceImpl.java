@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.ClientInfo;
 import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.repository.ClientInfosRepository;
+import com.acn.yrs.utils.BaseConstants;
 import com.acn.yrs.utils.Util;
 
 @Service("clientInfoService")

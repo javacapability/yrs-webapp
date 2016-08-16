@@ -1,4 +1,4 @@
-package com.acn.yrs.models;
+package com.acn.yrs.utils;
 
 import org.springframework.http.HttpStatus;
 

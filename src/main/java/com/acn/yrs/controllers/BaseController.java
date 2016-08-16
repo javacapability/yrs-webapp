@@ -10,32 +10,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.models.UserInfo;
 import com.acn.yrs.repository.UserInfoRepository;
+import com.acn.yrs.services.UserService;
+import com.acn.yrs.utils.BaseConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 @RestController
 public class BaseController extends BaseConstants {
 
+
 	@Autowired
-	UserInfoRepository userInfoRepository;
-
+	UserService userService;
 	/**
-	 * @return the userInfoRepository
+	 * @return the userService
 	 */
-	public UserInfoRepository getUserInfoRepository() {
-		return userInfoRepository;
+	public UserService getUserService() {
+		return userService;
 	}
 
 	/**
-	 * @param userInfoRepository the userInfoRepository to set
+	 * @param userService the userService to set
 	 */
-	public void setUserInfoRepository(UserInfoRepository userInfoRepository) {
-		this.userInfoRepository = userInfoRepository;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
+
 
 
 
@@ -94,7 +96,7 @@ public class BaseController extends BaseConstants {
 
 	public ResponseEntity<Object> checkUser(String userId, String tokenId){
 
-		UserInfo userInfo = userInfoRepository.findUserInfoByUserId(userId.toUpperCase());
+		UserInfo userInfo = userService.findUserInfoByUserId(userId.toUpperCase());
 
 		if(userInfo==null){
 			return getResponse(new UserInfo(HttpStatus.FORBIDDEN,HASERROR, ERR_INVALID_SESSION), HttpStatus.FORBIDDEN);

@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.acn.yrs.models.Assessment;
 import com.acn.yrs.models.AssessmentStatus;
 import com.acn.yrs.models.Asset;
-import com.acn.yrs.models.BaseConstants;
 import com.acn.yrs.models.Liability;
 import com.acn.yrs.repository.AssessmentRepository;
 import com.acn.yrs.repository.AssessmentStatusRepository;
+import com.acn.yrs.utils.BaseConstants;
 
 @Service("assessmentService")
 @Transactional
