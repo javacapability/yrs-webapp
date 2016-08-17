@@ -5,11 +5,12 @@
                 '$scope',
                 '$state',
                 '$stateParams',
+                '$mdToast',
                 'assessmentServices',
                 assessmentViewController
             ]);
             
-    function assessmentViewController($scope, $state, $stateParams, assessmentServices) {
+    function assessmentViewController($scope, $state, $stateParams, $mdToast, assessmentServices) {
         var assessments = this;
 
         assessments.assessmentView = {};
@@ -17,6 +18,13 @@
         assessmentServices.getAssessment($stateParams.id, $stateParams)
             .then(function (data) {
                 assessments.assessmentView = data;
+            }, function (error) {
+                $mdToast.show($mdToast.simple()
+                    .textContent('Failed retrieving the assessment')
+                    .position('top right' )
+                    .parent('#mainBody')
+                    .hideDelay(4000)
+                );
             });
 
         assessments.back = function(){

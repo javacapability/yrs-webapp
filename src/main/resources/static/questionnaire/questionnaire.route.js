@@ -12,7 +12,7 @@
                             controllerAs: 'questions'
                         }
                     },
-                    params: { userId: '' , tokenid: ''}
+                    params: { userId: '' , tokenid: '', status: ''}
                 }).state('main.question_edit', {views: {'question_view': {
                             templateUrl: 'questionnaire/question_edit.html',
                             controller: 'questionEditController',

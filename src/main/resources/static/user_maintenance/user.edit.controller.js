@@ -7,11 +7,12 @@
                 '$stateParams',
                 '$timeout',
                 '$mdDialog',
+                '$mdToast',
                 'userServices',
                 userEditController
             ]);
             
-    function userEditController($scope, $state, $stateParams, $timeout, $mdDialog, userServices) {
+    function userEditController($scope, $state, $stateParams, $timeout, $mdDialog, $mdToast, userServices) {
         var users = this;
         
         users.userGroups = [
@@ -21,7 +22,8 @@
         console.log('test - ' + $stateParams.editMode);
         users.editMode = $stateParams.editMode;
         users.confirmPswd = '';
-        users.editUser = {};
+        users.defaultUser = {userGroup: { id : 1 }};
+        users.editUser = users.defaultUser;
         
         if (users.editMode === 'edit'){
             var userId = $stateParams.id;
@@ -42,15 +44,30 @@
         };
         
         users.reset = function(){
-            users.editUser = {};
+            users.editUser = users.defaultUser;
         };
         
         users.save = function(){
             if (users.editUser.pswd === users.confirmPswd) {
                 userServices.saveUser(users.editUser, $stateParams)
                     .then(function () {
+                        $stateParams.status = '0';
+                        users.back();
+                    }, function (error) {
+                        $mdToast.show($mdToast.simple()
+                            .textContent('Failed saving the user')
+                            .position('top right' )
+                            .parent('#mainBody')
+                            .hideDelay(4000)
+                        );
                     });
-                users.back();
+            } else {
+                $mdToast.show($mdToast.simple()
+                    .textContent('Failed saving the user: Entered passwords should be the same')
+                    .position('top right' )
+                    .parent('#mainBody')
+                    .hideDelay(4000)
+                );
             }
         };
         
@@ -58,8 +75,23 @@
             if (users.editUser.pswd === users.confirmPswd) {
                 userServices.updateUser(users.editUser, $stateParams)
                     .then(function () {
+                        $stateParams.status = '1';
+                        users.back();
+                    }, function (error) {
+                        $mdToast.show($mdToast.simple()
+                            .textContent('Failed updating the user')
+                            .position('top right' )
+                            .parent('#mainBody')
+                            .hideDelay(4000)
+                        );
                     });
-                users.back();
+            } else {
+                $mdToast.show($mdToast.simple()
+                    .textContent('Failed saving the user: Entered passwords should be the same')
+                    .position('top right' )
+                    .parent('#mainBody')
+                    .hideDelay(4000)
+                );
             }
         };
         
@@ -73,8 +105,16 @@
             $mdDialog.show(confirm).then(function() {
                 userServices.deleteUser(users.editUser.userId, $stateParams)
                     .then(function () {
+                        $stateParams.status = '2';
+                        users.back();
+                    }, function (error) {
+                        $mdToast.show($mdToast.simple()
+                            .textContent('Failed saving the user')
+                            .position('top right' )
+                            .parent('#mainBody')
+                            .hideDelay(4000)
+                        );
                     });
-                users.back();
             }, function() {
             });
 

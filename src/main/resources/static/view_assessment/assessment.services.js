@@ -52,16 +52,15 @@
                         'userId': params.userId,
                         'tokenId': params.tokenid
                     },
-                    isArray: false
+                    isArray: false,
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
+                    }
                 }
             });
-            var result = resource.save(search).$promise;
-            var deferred = $q.defer();
-            result.then(function (data) {
-                return deferred.resolve(data);
-
-            });
-            return deferred.promise;
+            return resource.save(search).$promise;
         }
     }
 

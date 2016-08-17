@@ -1,4 +1,4 @@
-<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding" id="mainBody">
     <div layout="column" style="max-width: 90%; width: 800px">
         <div layout="column" class="md-whiteframe-z1">
             <md-toolbar layout="row" class="md-padding md-hue-3 tabletitle" class="noright" flex>
@@ -6,14 +6,18 @@
                 <div flex="40"></div>
             </md-toolbar>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="param in parameters.parametersList" class="noright" flex>
-                <div flex="60">{{param.dscp}}</div>
-                <div flex="40">
-                    <md-input-container class="md-block forminput">
-                        <input ng-model="param.val">
-                    </md-input-container>
+            <div style="height: 400px; overflow-y: auto">
+                <div layout="column">
+                    <md-list-item ng-repeat="param in parameters.parametersList" class="noright" flex>
+                        <div flex="60">{{param.dscp}}</div>
+                        <div flex="40">
+                            <md-input-container class="md-block forminput">
+                                <input ng-model="param.val">
+                            </md-input-container>
+                        </div>
+                    </md-list-item>
                 </div>
-            </md-list-item>
+            </div>
         </div>
         <br>
         <div layout="row" layout-align="center center">

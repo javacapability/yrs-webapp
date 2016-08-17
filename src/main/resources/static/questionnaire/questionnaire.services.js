@@ -26,16 +26,15 @@
                         'userId': params.userId,
                         'tokenId': params.tokenid
                     },
-                    isArray: true
+                    isArray: true,
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
+                    }
                 }
             });
-            var result = resource.query().$promise;
-            var deferred = $q.defer();
-            result.then(function (data) {
-                return deferred.resolve(data);
-                
-            });
-            return deferred.promise;
+            return resource.query().$promise;
         }
         
         function saveQuestion(newQuestion, params){
@@ -48,6 +47,11 @@
                         'Content-Type': 'application/json',
                         'userId': params.userId,
                         'tokenId': params.tokenid
+                    },
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
                     }
                 }
             });
@@ -65,16 +69,15 @@
                         'userId': params.userId,
                         'tokenId': params.tokenid
                     },
-                    isArray: false
+                    isArray: false,
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
+                    }
                 }
             });
-            var result = resource.save(search).$promise;
-            var deferred = $q.defer();
-            result.then(function (data) {
-                return deferred.resolve(data);
-
-            });
-            return deferred.promise;
+            return resource.save(search).$promise;
         }
         
         function updateQuestion(updateQuestion, params){
@@ -87,6 +90,11 @@
                         'Content-Type': 'application/json',
                         'userId': params.userId,
                         'tokenId': params.tokenid
+                    },
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
                     }
                 }
             });
@@ -109,6 +117,11 @@
                         'Content-Type': 'application/json',
                         'userId': params.userId,
                         'tokenId': params.tokenid
+                    },
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
                     }
                 }
             });

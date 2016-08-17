@@ -28,15 +28,15 @@
                         'userId': params.userId,
                         'tokenId': params.tokenid
                     },
-                    isArray: true
+                    isArray: true,
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
+                    }
                 }
             });
-            var result = resource.save(search).$promise;
-            var deferred = $q.defer();
-            result.then(function (data) {
-                return deferred.resolve(data);
-            });
-            return deferred.promise;
+            return resource.save(search).$promise;
         }
         
         function saveUser(newUser, params){
@@ -51,6 +51,11 @@
                         'Content-Type': 'application/json',
                         'userId': params.userId,
                         'tokenId': params.tokenid
+                    },
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
                     }
                 }
             });
@@ -68,15 +73,15 @@
                         'userId': params.userId,
                         'tokenId': params.tokenid
                     },
-                    isArray: false
+                    isArray: false,
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
+                    }
                 }
             });
-            var result = resource.save(search).$promise;
-            var deferred = $q.defer();
-            result.then(function (data) {
-                return deferred.resolve(data);
-            });
-            return deferred.promise;
+            return resource.save(search).$promise;
         }
 
         function updateUser(updateUser, params){
@@ -91,6 +96,11 @@
                         'Content-Type': 'application/json',
                         'userId': params.userId,
                         'tokenId': params.tokenid
+                    },
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
                     }
                 }
             });
@@ -98,6 +108,7 @@
         }
         
         function deleteUser(userIdDelete, params){
+            var user = {userId : userIdDelete};
             var resource = $resource(serviceURL + webServices.userDeleteEndpoint, {}, {
                 save: {
                     method: 'POST',
@@ -106,10 +117,14 @@
                         'Content-Type': 'application/json',
                         'userId': params.userId,
                         'tokenId': params.tokenid
+                    },
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
                     }
                 }
             });
-            var user = {userId : userIdDelete};
             return resource.save(user).$promise;
         }
 

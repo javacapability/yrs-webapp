@@ -24,16 +24,15 @@
                         'userId': params.userId,
                         'tokenId': params.tokenid
                     },
-                    isArray: true
+                    isArray: true,
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
+                    }
                 }
             });
-            var result = resource.query().$promise;
-            var deferred = $q.defer();
-            result.then(function (data) {
-                return deferred.resolve(data);
-                
-            });
-            return deferred.promise;
+            return resource.query().$promise;
         }
 
         function updateParameters(sysParameters, params){
@@ -48,6 +47,11 @@
                         'Content-Type': 'application/json',
                         'userId': params.userId,
                         'tokenId': params.tokenid
+                    },
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
                     }
                 }
             });

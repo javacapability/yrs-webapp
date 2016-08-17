@@ -7,13 +7,21 @@
                 '$stateParams',
                 '$timeout',
                 '$mdDialog',
+                '$mdToast',
                 'questionServices',
                 questionEditController
             ]);
             
-    function questionEditController($scope, $state, $stateParams, $timeout, $mdDialog, questionServices) {
+    function questionEditController($scope, $state, $stateParams, $timeout, $mdDialog, $mdToast, questionServices) {
         var questions = this;
-        
+
+        questions.allowothers = false;
+        questions.others = {
+            'answerNumber':1,
+            'answerTxt':'Others',
+            'weight':0
+        };
+
         questions.answerTypes = [
             {value: 1, name: 'Multiple Choice'},
             {value: 2, name: 'Yes or No'},
@@ -42,6 +50,26 @@
             questionServices.getEditQuestion(questionId, $stateParams)
                 .then(function (data) {
                     questions.editQuestion = data;
+                    if (questions.editQuestion.answers
+                        && questions.editQuestion.answers.length > 0){
+                        var ansLen = questions.editQuestion.answers.length;
+                        for (var i = 0; i < ansLen; i++){
+                            if (questions.editQuestion.answers[i].answerTxt === 'Others'){
+                                questions.others = questions.editQuestion.answers[i];
+                                questions.allowothers = true;
+                                questions.editQuestion.answers.splice(i, 1);
+                                break;
+                            }
+                        }
+                        console.log(questions.editQuestion.answers);
+                    }
+                }, function (error) {
+                    $mdToast.show($mdToast.simple()
+                        .textContent('Error retrieving question')
+                        .position('top right' )
+                        .parent('#mainBody')
+                        .hideDelay(4000)
+                    );
                 });
         } else {
             questions.editModeTitle = 'Create new';
@@ -61,20 +89,49 @@
         
         questions.reset = function(){
             questions.editQuestion = defaultQuestion;
+            questions.allowothers = false;
+        };
+
+        questions.updateOtherAnswer = function(){
+            if (questions.allowothers === true){
+                questions.others.answerNumber = questions.editQuestion.answers.length + 1;
+                questions.editQuestion.answers.push(questions.others);
+            }
+            console.log(questions.editQuestion.answers);
         };
         
         questions.save = function(){
+            questions.updateOtherAnswer();
             questionServices.saveQuestion(questions.editQuestion, $stateParams)
                 .then(function () {
+                    $stateParams.status = '0';
+                    questions.back();
+                }, function (error) {
+                    $mdToast.show($mdToast.simple()
+                        .textContent('Failed saving the question')
+                        .position('top right' )
+                        .parent('#mainBody')
+                        .hideDelay(4000)
+                    );
                 });
-            questions.back();
+
         };
-        
+
         questions.update = function(){
+            questions.updateOtherAnswer();
             questionServices.updateQuestion(questions.editQuestion, $stateParams)
                 .then(function () {
+                    $stateParams.status = '1';
+                    questions.back();
+                }, function (error) {
+                    $mdToast.show($mdToast.simple()
+                        .textContent('Failed updating the question')
+                        .position('top right' )
+                        .parent('#mainBody')
+                        .hideDelay(4000)
+                    );
                 });
-            questions.back();
+
         };
 
         questions.delete = function(){
@@ -87,12 +144,19 @@
             $mdDialog.show(confirm).then(function() {
                 questionServices.deleteQuestion(questions.editQuestion.id, $stateParams)
                     .then(function () {
+                        $stateParams.status = '2';
                         questions.back();
+                    }, function (error) {
+                        $mdToast.show($mdToast.simple()
+                            .textContent('Failed deleting the question')
+                            .position('top right' )
+                            .parent('#mainBody')
+                            .hideDelay(4000)
+                        );
                     });
             }, function() {
             });
         };
-
 
         questions.addNewAnswer = function(){
             var answers = questions.editQuestion.answers;
@@ -101,11 +165,13 @@
             newAnswer.answerTxt = '';
             newAnswer.weight = 0;
             questions.editQuestion.answers.push(newAnswer);
+            console.log(questions.editQuestion.answers);
         }
 
         questions.delAnswer = function(){
             questions.editQuestion.answers
                 .splice(questions.editQuestion.answers.length - 1 ,1);
+            console.log(questions.editQuestion.answers);
         }
     }   
     
