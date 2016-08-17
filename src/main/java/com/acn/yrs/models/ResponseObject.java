@@ -70,7 +70,7 @@ public class ResponseObject extends BaseConstants{
 		this.appOrigin = appOrigin;
 	}
 
-
+	@Expose
 	protected List<Question> questions;
 	protected Assessment assessment;
 
