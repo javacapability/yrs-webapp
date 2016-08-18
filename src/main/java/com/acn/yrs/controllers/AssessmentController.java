@@ -21,6 +21,7 @@ import com.acn.yrs.models.Assessment;
 import com.acn.yrs.models.AssessmentStatus;
 import com.acn.yrs.models.AssessmentWrapper;
 import com.acn.yrs.models.ClientInfo;
+import com.acn.yrs.models.PortfolioWrapper;
 import com.acn.yrs.models.Question;
 import com.acn.yrs.models.Questionnaire;
 import com.acn.yrs.models.ResponseObject;
@@ -293,4 +294,26 @@ public class AssessmentController extends BaseController{
 		}
 		return assessment;
 	}
+
+	@RequestMapping(value="/saveInvestmentGoals", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> saveInvestmentGoals(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody PortfolioWrapper portfolioWrapper) {
+		try{
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+
+			portfolioWrapper.setAppOrigin(APP_ORIGIN_MOBILE);
+			portfolioWrapper.setAdminId(userId);
+			portfolioWrapper.setHttpStatus(HttpStatus.OK);
+			portfolioWrapper.setErrorCd(HASNOERROR);
+
+			return getResponse(portfolioWrapper,tokenId, HttpStatus.OK);
+		}catch(Exception e){
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+	}
+
 }
