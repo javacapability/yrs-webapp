@@ -25,6 +25,11 @@
                         'Content-Type': 'application/json',
                         'userId': params.userId,
                         'tokenId': params.tokenid
+                    },
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
                     }
                 }
             });
@@ -43,7 +48,6 @@
                         'tokenId':''
                     },
                     interceptor : {
-                        //responseError : resourceErrorHandler,
                         response: function(response) {
                             console.log (response.headers());
                             response.resource.$httpHeaders = response.headers();
@@ -82,13 +86,7 @@
                     isArray: true
                 }
             });
-            var result = resource.query().$promise;
-            var deferred = $q.defer();
-            result.then(function (data) {
-                return deferred.resolve(data);
-
-            });
-            return deferred.promise;
+            return resource.query().$promise;
         }
     }
 

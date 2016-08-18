@@ -1,33 +1,41 @@
-<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding" id="mainBody">
     <div layout="column" style="max-width: 90%; width: 800px">
         <div layout="row">
             <md-input-container class="md-block" flex>
                 <label>Search User</label>
+                <md-icon md-svg-src="images/ic_search_24px.svg"></md-icon>
                 <input ng-model="users.filter">
             </md-input-container>
         </div>
         <div layout="column" class="md-whiteframe-z1">
             <md-toolbar layout="row" class="md-padding md-hue-3 tabletitle" class="noright" flex>
                 <div flex="20">User id</div>
-                <div flex="50">Name</div>
+                <div flex="45">Name</div>
                 <div flex="20">User group</div>
-                <div flex="10"></div>
+                <div flex="15"></div>
             </md-toolbar>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="user in users.userList | filter:users.filter" ng-click="''" class="noright" flex>
-                <div flex="20">{{ user.userId}}</div>
-                <div flex="50">{{ user.fullName}}</div>
-                <div flex="20">{{user.userGroup.groupName}}</div>
-                <div flex="10" layout="row">
-                    <md-button class="md-icon-button md-primary" aria-label="Clear" ng-click="users.deleteUser(user.userId)">
-                        <i class="material-icons">clear</i>
-                    </md-button>
-                    <md-button class="md-icon-button md-accent" aria-label="Edit" ng-click="users.editUser(user.id)">
-                        <i class="material-icons">mode_edit</i>
-                    </md-button>
+            <div style="height: 400px; overflow-y: auto">
+                <div layout="column">
+                    <md-list-item ng-repeat="user in users.userList | filter:users.filter as results" class="noright listpadding" flex>
+                        <div flex="20">{{ user.userId}}</div>
+                        <div flex="45" class="hideOverflow">{{ user.fullName}}</div>
+                        <div flex="20">{{user.userGroup.groupName}}</div>
+                        <div flex="15" layout="row">
+                            <md-button class="md-icon-button md-primary" aria-label="Clear" ng-click="users.deleteUser(user.userId)">
+                                <md-icon md-svg-src="images/ic_clear_24px.svg"></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button md-accent" aria-label="Edit" ng-click="users.editUser(user.id)">
+                                <md-icon md-svg-src="images/ic_edit_24px.svg"></md-icon>
+                            </md-button>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                    <div ng-if="!users.userList || users.userList.length === 0 || results.length === 0" class="md-padding" layout="column">
+                        No Users found
+                    </div>
                 </div>
-                <md-divider></md-divider>
-            </md-list-item>
+            </div>
         </div>
         <br>
         <div layout="row">

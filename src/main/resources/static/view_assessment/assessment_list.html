@@ -1,4 +1,4 @@
-<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding" id="mainBody">
     <div layout="column" style="max-width: 90%; width: 800px">
         <form layout="row" ng-submit="$event.preventDefault()" flex>
             <div layout="row" flex="20">
@@ -16,6 +16,7 @@
             <div flex="75">
                 <md-input-container class="md-block" flex>
                     <label>Search Assessment</label>
+                    <md-icon md-svg-src="images/ic_search_24px.svg"></md-icon>
                     <input ng-model="assessments.filter">
                 </md-input-container>
             </div>
@@ -28,17 +29,24 @@
                 <div flex="10">View</div>
             </md-toolbar>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="assessment in assessments.assessmentList | filter:assessments.filter" ng-click="''" class="noright" flex>
-                <div flex="20">{{ assessments.formatdate(assessment.assessmentDate) }}</div>
-                <div flex="40">{{ assessment.clientInfo.clientName}}</div>
-                <div flex="30">{{ assessments.getAssessmentStatus(assessment.assessmentStatus.id) }}</div>
-                <div flex="10" layout="row">
-                    <md-button class="md-icon-button md-accent" aria-label="View" ng-click="assessments.viewAssessment(assessment.id)">
-                        <i class="material-icons">forward</i>
-                    </md-button>
+            <div style="height: 400px; overflow-y: auto">
+                <div layout="column">
+                    <md-list-item ng-repeat="assessment in assessments.assessmentList | filter:assessments.filter as results" class="noright listpadding" flex>
+                        <div flex="20">{{ assessments.formatdate(assessment.assessmentDate) }}</div>
+                        <div flex="40" class="hideOverflow">{{ assessment.clientInfo.clientName}}</div>
+                        <div flex="30">{{ assessments.getAssessmentStatus(assessment.assessmentStatus.id) }}</div>
+                        <div flex="10" layout="row">
+                            <md-button class="md-icon-button md-accent" aria-label="View" ng-click="assessments.viewAssessment(assessment.id)">
+                                <md-icon md-svg-src="images/ic_forward_24px.svg"></md-icon>
+                            </md-button>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                    <div ng-if="!assessments.assessmentList || assessments.assessmentList.length === 0 || results.length === 0" class="md-padding" layout="column">
+                        No Assessments found
+                    </div>
                 </div>
-                <md-divider></md-divider>
-            </md-list-item>
+            </div>
         </div>
         <br>
         <div>&nbsp;</div>

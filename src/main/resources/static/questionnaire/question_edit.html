@@ -1,4 +1,4 @@
-<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding" id="mainBody">
     <div layout="column" style="max-width: 90%; width: 800px" class="md-whiteframe-z1">
         <md-toolbar class="md-padding md-hue-3 tabletitle" class="noright" flex>
             <div flex>{{questions.editModeTitle}} Question</div>
@@ -30,14 +30,13 @@
                     <div ng-if="questions.editQuestion.answerTypes.id == 1" layout="column" class="md-whiteframe-z1 md-padding">
                         <md-toolbar layout="row" class="md-padding md-hue-3 tabletitle" class="noright" flex>
                             <div flex="10">#</div>
-                            <div flex="65">Answer</div>
+                            <div flex="70">Answer</div>
                             <div flex="20">Weight</div>
-                            <div flex="5">&nbsp;</div>
                         </md-toolbar>
                         <md-divider></md-divider>
                         <md-list-item ng-click="''" ng-repeat="answer in questions.editQuestion.answers" class="noright" flex>
                             <div flex="10">{{answer.answerNumber}}</div>
-                            <div flex="65">
+                            <div flex="70">
                                 <md-input-container class="md-block">
                                     <input ng-model="answer.answerTxt" required>
                                 </md-input-container>
@@ -47,17 +46,14 @@
                                     <input ng-model="answer.weight">
                                 </md-input-container>
                             </div>
-                            <div flex="5">
-                                <span ng-if="$last">
-                                    <md-button class="md-icon-button md-primary md-whiteframe-z1" aria-label="Delete" ng-click="questions.delAnswer()">
-                                        <i class="material-icons">remove</i>
-                                    </md-button>
-                                </span>
-                            </div>
                         </md-list-item>
                         <div>
                             <md-button class="md-icon-button md-primary md-whiteframe-z1" aria-label="Add" ng-click="questions.addNewAnswer()">
-                                <i class="material-icons">add</i>
+                                <md-icon md-svg-src="images/ic_add_24px.svg"></md-icon>
+                            </md-button>
+                            <md-button ng-show="questions.editQuestion.answers.length > 0"
+                                    class="md-icon-button md-primary md-whiteframe-z1" aria-label="Delete" ng-click="questions.delAnswer()">
+                                <md-icon md-svg-src="images/ic_remove_24px.svg"></md-icon>
                             </md-button>
                         </div>
                     </div>
@@ -141,6 +137,22 @@
                             <div flex="90">
                                 <md-input-container class="md-block">
                                     <input value="n/a" disabled>
+                                </md-input-container>
+                            </div>
+                        </md-list-item>
+                    </div>
+                    <br>
+                    <div layout="column" class="md-whiteframe-z1 md-padding">
+                        <md-list-item class="noright" flex>
+                            <div flex="10">
+                                <md-checkbox ng-model="questions.allowothers" aria-label="Allow others answer"></md-checkbox>
+                            </div>
+                            <div flex="70">
+                                Allow 'Others' answer
+                            </div>
+                            <div flex="20">
+                                <md-input-container class="md-block">
+                                    <input ng-model="questions.others.weight">
                                 </md-input-container>
                             </div>
                         </md-list-item>

@@ -15,9 +15,9 @@
 }
 
 .mainTitle h2 {
-    font-size: 40px;
+    font-size: 26px;
     font-weight: lighter;
-    color: gainsboro;
+    color: darkgrey;
     margin: 0px;
     position: absolute;
     bottom: 0px;
@@ -30,4 +30,17 @@
 
 md-input-container.forminput {
     margin: 0px !important;
+}
+
+div.hideOverflow {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap
+}
+
+md-list-item.listpadding {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 16px;
+    padding-right: 16px;
 }

@@ -1,8 +1,9 @@
-<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding">
+<div layout="column" layout-align="center center" layout-fill="layout-fill" class="md-padding" id="mainBody">
     <div layout="column" style="max-width: 90%; width: 800px">
         <div layout="row">
             <md-input-container class="md-block" flex>
                 <label>Search Question</label>
+                <md-icon md-svg-src="images/ic_search_24px.svg"></md-icon>
                 <input ng-model="questions.filter">
             </md-input-container>
         </div>
@@ -10,30 +11,37 @@
             <md-toolbar layout="row" class="md-padding md-hue-3 tabletitle" class="noright" flex>
                 <div flex="10"></div>
                 <div flex="5">#</div>
-                <div flex="55">Question</div>
+                <div flex="50">Question</div>
                 <div flex="20">Answer type</div>
-                <div flex="10"></div>
+                <div flex="15"></div>
             </md-toolbar>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="currentQuest in questions.questionList | filter:questions.filter | orderBy:'priorityNumber'" ng-click="''" class="noright" flex>
-                <div flex="10">
-                    <md-button class="md-icon-button md-primary" aria-label="">
-                        <i class="material-icons">menu</i>
-                    </md-button>
+            <div style="height: 400px; overflow-y: auto">
+                <div layout="column">
+                <md-list-item ng-repeat="currentQuest in questions.questionList | filter:questions.filter | orderBy:'priorityNumber' as results" class="noright listpadding" flex>
+                    <div flex="10">
+                        <md-button class="md-icon-button md-primary" aria-label="">
+                            <md-icon md-svg-src="images/ic_menu_24px.svg"></md-icon>
+                        </md-button>
+                    </div>
+                    <div flex="5">{{currentQuest.priorityNumber}}</div>
+                    <div flex="50" class="hideOverflow">{{currentQuest.questionTxt}}</div>
+                    <div flex="20">{{questions.getAnswerTypes(currentQuest.answerTypes.id)}}</div>
+                    <div flex="15" layout="row">
+                        <md-button class="md-icon-button md-primary" aria-label="Clear" ng-click="questions.deleteQuestion(currentQuest.id)">
+                            <md-icon md-svg-src="images/ic_clear_24px.svg"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button md-accent" aria-label="Edit" ng-click="questions.editQuestion(currentQuest.id)">
+                            <md-icon md-svg-src="images/ic_edit_24px.svg"></md-icon>
+                        </md-button>
+                    </div>
+                    <md-divider></md-divider>
+                </md-list-item>
+                <div ng-if="!questions.questionList || questions.questionList.length === 0 || results.length === 0" class="md-padding" layout="column">
+                    No Questions found
                 </div>
-                <div flex="5">{{currentQuest.priorityNumber}}</div>
-                <div flex="55">{{currentQuest.questionTxt}}</div>
-                <div flex="20">{{questions.getAnswerTypes(currentQuest.answerTypes.id)}}</div>
-                <div flex="10" layout="row">
-                    <md-button class="md-icon-button md-primary" aria-label="Clear" ng-click="questions.deleteQuestion(currentQuest.id)">
-                        <i class="material-icons">clear</i>
-                    </md-button>
-                    <md-button class="md-icon-button md-accent" aria-label="Edit" ng-click="questions.editQuestion(currentQuest.id)">
-                        <i class="material-icons">mode_edit</i>
-                    </md-button>
                 </div>
-                <md-divider></md-divider>
-            </md-list-item>
+            </div>
         </div>
         <br>
         <div layout="row">

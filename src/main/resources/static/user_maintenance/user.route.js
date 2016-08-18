@@ -12,7 +12,7 @@
                             controllerAs: 'users'
                         }
                     },
-                    params: { userId: '' , tokenid: ''}
+                    params: { userId: '' , tokenid: '', status: ''}
                 }).state('main.user_edit', {views: {'user_view': {
                             templateUrl: 'user_maintenance/user_edit.html',
                             controller: 'userEditController',

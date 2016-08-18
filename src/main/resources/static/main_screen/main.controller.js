@@ -5,11 +5,13 @@
                 '$scope',
                 '$state',
                 '$stateParams',
+                '$mdDialog',
+                '$mdToast',
                 'mainUserServices',
                 mainController
             ]);
             
-    function mainController($scope, $state, $stateParams, mainUserServices) {
+    function mainController($scope, $state, $stateParams, $mdDialog, $mdToast, mainUserServices) {
         var main = this;
 
         console.log($stateParams);
@@ -19,6 +21,9 @@
         main.showMain = $stateParams.showMain;
 
         main.changePassword = function(){
+            main.pswd = '';
+            main.pswd_new = '';
+            main.pswd_new_confirm = '';
             main.showMain = false;
         };
 
@@ -27,15 +32,13 @@
         };
 
         main.updatePassword = function(pswd, pswd_new, pswd_new_confirm){
-            mainUserServices.validatelogin(main.currentUser.userId, pswd)
-                .then(function (data) {
-                    if (data.userId) {
-                        $stateParams.userId = data.userId;
-                        $stateParams.tokenid = data.$httpHeaders.tokenid;
-                        $stateParams.user = data;
-                        if (pswd_new !== pswd_new_confirm) {
-                            $scope.mainForm.$setValidity("login", false);
-                        } else {
+            if (pswd_new === pswd_new_confirm) {
+                mainUserServices.validatelogin(main.currentUser.userId, pswd)
+                    .then(function (data) {
+                        if (data.userId) {
+                            $stateParams.userId = data.userId;
+                            $stateParams.tokenid = data.$httpHeaders.tokenid;
+                            $stateParams.user = data;
                             var user = {};
                             user.userId = $stateParams.user.userId;
                             user.pswd = pswd_new;
@@ -49,22 +52,55 @@
                                                 $stateParams.user = data;
                                                 main.showMain = true;
                                             }
-                                        }, function() {
-                                            $scope.mainForm.$setValidity("login", false);
+                                        }, function (error) {
+                                            $mdToast.show($mdToast.simple()
+                                                .textContent('Relogging-on of user failed, please try to log-off and log-in again')
+                                                .position('top right')
+                                                .parent('#mainPass')
+                                                .hideDelay(4000)
+                                            );
                                         })
+                                }, function (error) {
+                                    $mdToast.show($mdToast.simple()
+                                        .textContent('Password change failed, please try again')
+                                        .position('top right')
+                                        .parent('#mainPass')
+                                        .hideDelay(4000)
+                                    );
                                 });
+
                         }
-                    }
-                }, function() {
-                    $scope.mainForm.$setValidity("login", false);
-                });
+                    }, function (error) {
+                        $mdToast.show($mdToast.simple()
+                            .textContent('Password change failed: Please check if current password is correct')
+                            .position('top right')
+                            .parent('#mainPass')
+                            .hideDelay(4000)
+                        );
+                    });
+            } else {
+                $mdToast.show($mdToast.simple()
+                    .textContent('Password change failed: Please check re-typed new password')
+                    .position('top right')
+                    .parent('#mainPass')
+                    .hideDelay(4000)
+                );
+            }
         };
 
         main.logout = function(){
-            mainUserServices.logout($stateParams)
-                .then(function () {
-                    $state.go('login');
-                });
+            var confirm = $mdDialog.confirm()
+                .title('Warning')
+                .textContent('Are you sure you want to log-off?')
+                .ariaLabel('Are you sure you want to log-off?')
+                .ok('Yes')
+                .cancel('No');
+            $mdDialog.show(confirm).then(function() {
+                mainUserServices.logout($stateParams)
+                    .then(function () {
+                    });
+                $state.go('login');
+            },function(){});
         };
 
         $scope.selectedIndex = 0;

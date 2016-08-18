@@ -4,11 +4,12 @@
             .controller('loginController', [
                 '$scope',
                 '$state',
+                '$mdToast',
                 'loginServices',
                 loginController
             ]);
             
-    function loginController($scope, $state, loginServices) {
+    function loginController($scope, $state, $mdToast, loginServices) {
         var login = this;
         
         login.username = "";
@@ -27,7 +28,13 @@
                     }
                 }, function (error) {
                     console.log('Error logging-in');
-                    $scope.loginForm.$setValidity("login",false);
+                    $mdToast.show($mdToast.simple()
+                        .textContent('Error Logging-in, please check your username or password')
+                        .position('top right' )
+                        .parent('#mainTitle')
+                        .hideDelay(4000)
+                    );
+                    //$scope.loginForm.$setValidity("login",false);
                 });
             
         }

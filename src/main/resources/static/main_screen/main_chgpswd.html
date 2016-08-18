@@ -1,11 +1,12 @@
-<div layout="column" layout-align="center center" layout-fill="layout-fill" >
+<div layout="column" layout-align="center center" layout-fill="layout-fill">
     <div layout="column" style="max-width: 90%; width: 500px">
         <div class="md-whiteframe-z2">
             <form name="mainForm">
-            <md-toolbar class="md-padding md-hue-3 tabletitle">
+            <md-toolbar layout="row" class="md-padding md-hue-3 tabletitle" class="noright" >
                 <div>Update Password</div>
             </md-toolbar>
             <md-content layout="column" class="md-padding">
+                <br>
                 <md-input-container>
                     <label>Current Password</label>
                     <input type="password" ng-model="main.pswd" required/>
