@@ -110,6 +110,14 @@ public class Assessment extends ResponseObject{
 		    return sb.toString();
 	}*/
 
+	public Assessment(int assessmentId) {
+		this.id = assessmentId;
+	}
+
+	public Assessment() {
+
+	}
+
 	/**
 	 * @return the id
 	 */

@@ -23,6 +23,8 @@ public class BaseConstants {
 	public static final String ERR_NO_QUESTIONS_FOUND="No Questions Found";
 	public static final String ERR_QUESTION_EXISTING="Question is already existing";
 
+	public static final String ERR_PORTFOLIO_EMPTY="Investment Portfolio is empty";
+
 	public static final int ASSESSMENTPENDING = 1;
 	public static final int ASSESSMENTRECOGIVEN = 2;
 	public static final int ASSESSMENTARCHIVED = 3;
@@ -52,6 +54,9 @@ public class BaseConstants {
 	//response messages
 	public static final String MSG_USER_LOGGED_OUT="User has been logged out";
 	public static final String MSG_USER_LOGGED_IN="Login Successful";
+	public static final String MSG_PORTFOLIO_SAVED="Investment goals have been successfuly saved!";
+	public static final String MSG_PORTFOLIO_UPDATED="Investment goals have been successfuly updated!";
+	public static final String MSG_PORTFOLIO_DELETED="Investment goal have been deleted!";
 
 	public BaseConstants() {
 		super();

@@ -21,6 +21,7 @@ import com.acn.yrs.models.Assessment;
 import com.acn.yrs.models.AssessmentStatus;
 import com.acn.yrs.models.AssessmentWrapper;
 import com.acn.yrs.models.ClientInfo;
+import com.acn.yrs.models.Portfolio;
 import com.acn.yrs.models.PortfolioWrapper;
 import com.acn.yrs.models.Question;
 import com.acn.yrs.models.Questionnaire;
@@ -28,6 +29,7 @@ import com.acn.yrs.models.ResponseObject;
 import com.acn.yrs.models.SearchObject;
 import com.acn.yrs.services.AssessmentService;
 import com.acn.yrs.services.ClientInfoService;
+import com.acn.yrs.services.PortfolioService;
 import com.acn.yrs.services.QuestionService;
 import com.acn.yrs.services.QuestionnaireService;
 import com.acn.yrs.services.UserService;
@@ -47,6 +49,8 @@ public class AssessmentController extends BaseController{
 	ClientInfoService clientInfoService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	PortfolioService portfoliosService;
 
 	@RequestMapping(value="/getAssessmentList", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<Object> getAssessmentList(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
@@ -303,12 +307,17 @@ public class AssessmentController extends BaseController{
 				return obj;
 			}
 
+
 			portfolioWrapper.setAppOrigin(APP_ORIGIN_MOBILE);
 			portfolioWrapper.setAdminId(userId);
 			portfolioWrapper.setHttpStatus(HttpStatus.OK);
 			portfolioWrapper.setErrorCd(HASNOERROR);
+			portfolioWrapper.setResponseMsg(MSG_PORTFOLIO_SAVED);
+
+			portfolioWrapper = portfoliosService.saveAssessmentPortfolio(portfolioWrapper);
 
 			return getResponse(portfolioWrapper,tokenId, HttpStatus.OK);
+
 		}catch(Exception e){
 			e.printStackTrace();
 			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
@@ -316,4 +325,72 @@ public class AssessmentController extends BaseController{
 
 	}
 
+	@RequestMapping(value="/updateInvestmentGoals", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> updateInvestmentGoals(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody PortfolioWrapper portfolioWrapper) {
+		try{
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+
+			portfolioWrapper.setAppOrigin(APP_ORIGIN_MOBILE);
+			portfolioWrapper.setAdminId(userId);
+			portfolioWrapper.setHttpStatus(HttpStatus.OK);
+			portfolioWrapper.setErrorCd(HASNOERROR);
+			portfolioWrapper.setResponseMsg(MSG_PORTFOLIO_UPDATED);
+
+			portfolioWrapper = portfoliosService.saveAssessmentPortfolio(portfolioWrapper);
+
+			return getResponse(portfolioWrapper,tokenId, HttpStatus.OK);
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+	}
+	@RequestMapping(value="/getInvestmentGoals", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> getInvestmentGoals(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
+		try{
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+
+			Integer assessmentId = searchObject.getId();
+
+			List<Portfolio> portfolioList = portfoliosService.findPortfolioByAssessmentId(assessmentId);
+
+			return getResponse(portfolioList,tokenId, HttpStatus.OK);
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+	}
+
+	@RequestMapping(value="/deleteInvestmentGoal", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Object> deleteInvestmentGoal(@RequestHeader String userId, @RequestHeader String tokenId, @RequestBody SearchObject searchObject) {
+		try{
+			ResponseEntity<Object> obj = checkUser(userId, tokenId);
+			if(obj!=null){
+				return obj;
+			}
+
+			Integer id = searchObject.getId();
+
+			Portfolio portfolio = portfoliosService.deleteAssessmentPortfolio(id);
+			portfolio.setHttpStatus(HttpStatus.OK);
+			portfolio.setErrorCd(HASNOERROR);
+			portfolio.setResponseMsg(MSG_PORTFOLIO_DELETED);
+
+			return getResponse(portfolio,tokenId, HttpStatus.OK);
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return getResponse("Error", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+	}
 }
