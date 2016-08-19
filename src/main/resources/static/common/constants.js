@@ -1,7 +1,7 @@
 angular.module('constants',[])
     .constant('webServices', {
         //serviceHost: '$()', //server host URL
-        serviceHost: 'http://localhost:8080/yrs',
+        serviceHost: '/yrs',
 
         //Update with correct service methods ex: loginEndpoint: '/login'
         loginEndpoint: '/loginWeb',
