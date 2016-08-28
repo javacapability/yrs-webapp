@@ -11,7 +11,8 @@
         var service = {
             login: login,
             reset: reset,
-            resetNew: resetNew
+            resetNew: resetNew,
+            validateToken: validateToken
         };
 
         return service;
@@ -38,6 +39,26 @@
                 }
             });
             return resource.save({userId: user, pswd: pswd}).$promise;
+        }
+
+        function validateToken(params){
+            var resource = $resource(serviceURL + webServices.loadmainEndpoint, {}, {
+                save: {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'userId': params.userId,
+                        'tokenId': params.tokenid
+                    },
+                    isArray: true,
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
+                    }
+                }
+            });
+            return resource.save().$promise;
         }
 
         function reset(user, email, birthday) {

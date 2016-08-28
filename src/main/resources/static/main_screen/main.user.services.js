@@ -11,7 +11,8 @@
             changePassword: changePassword,
             logout: logout,
             validatelogin: validatelogin,
-            getParams: getParams
+            getParams: getParams,
+            validateToken: validateToken
         };
 
         return service;
@@ -87,6 +88,26 @@
                 }
             });
             return resource.query().$promise;
+        }
+
+        function validateToken(params){
+            var resource = $resource(serviceURL + webServices.loadmainEndpoint, {}, {
+                save: {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'userId': params.userId,
+                        'tokenId': params.tokenid
+                    },
+                    isArray: true,
+                    interceptor : {
+                        response: function(response) {
+                            return response.resource;
+                        }
+                    }
+                }
+            });
+            return resource.save().$promise;
         }
     }
 
