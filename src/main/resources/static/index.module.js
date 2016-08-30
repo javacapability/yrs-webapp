@@ -8,6 +8,7 @@
                 'constants',
                 'ngMessages',
                 'ngAnimate',
+                'ngCookies',
                 'mainModule',
                 'loginModule',
                 'userModule',

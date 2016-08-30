@@ -7,11 +7,12 @@
                 '$stateParams',
                 '$mdDialog',
                 '$mdToast',
+                '$cookies',
                 'mainUserServices',
                 mainController
             ]);
             
-    function mainController($scope, $state, $stateParams, $mdDialog, $mdToast, mainUserServices) {
+    function mainController($scope, $state, $stateParams, $mdDialog, $mdToast, $cookies, mainUserServices) {
         var main = this;
 
         console.log($stateParams);
@@ -19,6 +20,26 @@
         main.currentDate = moment().format('MMMM D, YYYY');
         main.currentUser  = $stateParams.user;
         main.showMain = $stateParams.showMain;
+
+        var sessionUser = $cookies.get('userId');
+        var sessionToken = $cookies.get('tokenid');
+        if (sessionUser !== undefined && sessionUser !== ''
+                && sessionToken !== undefined && sessionToken !== ''){
+            var tokenParam = {};
+            tokenParam.userId = sessionUser;
+            tokenParam.tokenid = sessionToken;
+            mainUserServices.validateToken(tokenParam)
+                .then(function (data) {
+                    $stateParams.userId = sessionUser;
+                    $stateParams.tokenid = sessionToken;
+                    $state.go('main.user_main',$stateParams);
+                }, function(error) {
+                    console.log('session invalid');
+                    $state.go('login');
+                });
+        } else {
+            $state.go('login');
+        }
 
         main.changePassword = function(){
             main.pswd = '';
@@ -98,8 +119,11 @@
             $mdDialog.show(confirm).then(function() {
                 mainUserServices.logout($stateParams)
                     .then(function () {
+                        $cookies.remove('userId');
+                        $cookies.remove('tokenid');
+                        $state.go('login');
                     });
-                $state.go('login');
+
             },function(){});
         };
 

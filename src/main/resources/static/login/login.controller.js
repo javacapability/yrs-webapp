@@ -5,16 +5,31 @@
                 '$scope',
                 '$state',
                 '$mdToast',
+                '$cookies',
                 'loginServices',
                 loginController
             ]);
             
-    function loginController($scope, $state, $mdToast, loginServices) {
+    function loginController($scope, $state, $mdToast, $cookies, loginServices) {
         var login = this;
         
         login.username = "";
         login.password = "";
-        
+
+        var sessionUser = $cookies.get('userId');
+        var sessionToken = $cookies.get('tokenid');
+
+        if (sessionUser !== undefined && sessionUser !== ''
+            && sessionToken !== undefined && sessionToken !== ''){
+            var tokenParam = {};
+            tokenParam.userId = sessionUser;
+            tokenParam.tokenid = sessionToken;
+            loginServices.validateToken(tokenParam)
+                .then(function (data) {
+                    $state.go('main', tokenParam);
+                });
+        }
+
         login.loginUser = function(username, password){
             console.log('Logging in as ' + username);
             
@@ -24,6 +39,8 @@
                         console.log('Success');
                         data.$httpHeaders.userId = data.userId
                         data.$httpHeaders.user = data;
+                        $cookies.put('userId', data.$httpHeaders.userId);
+                        $cookies.put('tokenid', data.$httpHeaders.tokenid);
                         $state.go('main', data.$httpHeaders);
                     }
                 }, function (error) {
